@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+		"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+		"http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="default" extends="tiles-default">
+		<action name="ShowLecturerList" 
+			class="de.nordakademie.timetableservice.action.ShowLecturerListAction">
+			<result type="tiles">LecturerList</result>
+		</action>
+		<action name="ShowLecturer"
+			class="de.nordakademie.timetableservice.action.ShowLecturerAction">
+			<result type="tiles">EditLecturer</result>	
+		</action>
+		<action name="SaveLecturer"
+			class="de.nordakademie.timetableservice.action.SaveLecturerAction">
+			<result type="chain">ShowLecturerList</result>
+			<result name="input" type="tiles">EditLecturer</result>	
+		</action>
+	</package>
+</struts>
