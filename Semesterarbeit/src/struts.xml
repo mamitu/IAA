@@ -61,7 +61,7 @@
 			<result type="tiles">EventList</result>
 		</action>
 		<action name="ShowEvent"
-			class="de.nordakademie.timetableservice.action.Sevent.howEventAction">
+			class="de.nordakademie.timetableservice.action.event.ShowEventAction">
 			<result type="tiles">EditEvent</result>	
 		</action>
 		<action name="SaveEvent"
