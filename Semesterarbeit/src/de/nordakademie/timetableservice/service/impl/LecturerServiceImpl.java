@@ -1,5 +1,7 @@
 package de.nordakademie.timetableservice.service.impl;
 
+import java.util.List;
+
 import de.nordakademie.timetableservice.dao.LecturerDAO;
 import de.nordakademie.timetableservice.model.Lecturer;
 import de.nordakademie.timetableservice.service.LecturerService;
@@ -20,6 +22,11 @@ public class LecturerServiceImpl implements LecturerService {
 
 	public void setLecturerDAO(LecturerDAO lecturerDAO) {
 		this.lecturerDAO = lecturerDAO;
+	}
+
+	@Override
+	public List<Lecturer> loadAll() {
+		return this.lecturerDAO.loadAll();
 	}
 
 }

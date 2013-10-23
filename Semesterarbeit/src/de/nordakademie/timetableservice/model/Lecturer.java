@@ -19,6 +19,7 @@ public class Lecturer {
 	@Column(name = "last_name", length = 50, nullable = false)
 	private String lastName;
 
+	@Column(nullable = false)
 	private int breakTime;
 
 	public Long getId() {

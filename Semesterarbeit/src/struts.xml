@@ -7,17 +7,62 @@
 <struts>
 	<package name="default" extends="tiles-default">
 		<action name="ShowLecturerList" 
-			class="de.nordakademie.timetableservice.action.ShowLecturerListAction">
+			class="de.nordakademie.timetableservice.action.lecturer.ShowLecturerListAction">
 			<result type="tiles">LecturerList</result>
 		</action>
 		<action name="ShowLecturer"
-			class="de.nordakademie.timetableservice.action.ShowLecturerAction">
+			class="de.nordakademie.timetableservice.action.lecturer.ShowLecturerAction">
 			<result type="tiles">EditLecturer</result>	
 		</action>
 		<action name="SaveLecturer"
-			class="de.nordakademie.timetableservice.action.SaveLecturerAction">
+			class="de.nordakademie.timetableservice.action.lecturer.SaveLecturerAction">
 			<result type="chain">ShowLecturerList</result>
 			<result name="input" type="tiles">EditLecturer</result>	
 		</action>
+		
+		
+		<action name="ShowCenturyList" 
+			class="de.nordakademie.timetableservice.action.century.ShowCenturyListAction">
+			<result type="tiles">CenturyList</result>
+		</action>
+		<action name="ShowCentury"
+			class="de.nordakademie.timetableservice.action.century.ShowCenturyAction">
+			<result type="tiles">EditCentury</result>	
+		</action>
+		<action name="SaveCentury"
+			class="de.nordakademie.timetableservice.action.century.SaveCenturyAction">
+			<result type="chain">ShowCenturyList</result>
+			<result name="input" type="tiles">EditCentury</result>	
+		</action>
+		
+		<action name="ShowRoomList" 
+			class="de.nordakademie.timetableservice.action.room.ShowRoomListAction">
+			<result type="tiles">RoomList</result>
+		</action>
+		<action name="ShowRoom"
+			class="de.nordakademie.timetableservice.action.room.ShowRoomAction">
+			<result type="tiles">EditRoom</result>	
+		</action>
+		<action name="SaveRoom"
+			class="de.nordakademie.timetableservice.action.room.SaveRoomAction">
+			<result type="chain">ShowRoomList</result>
+			<result name="input" type="tiles">EditRoom</result>	
+		</action>
+		
+		<action name="ShowEventList" 
+			class="de.nordakademie.timetableservice.action.ShowEventListAction">
+			<result type="tiles">EventList</result>
+		</action>
+		<action name="ShowEvent"
+			class="de.nordakademie.timetableservice.action.ShowEventAction">
+			<result type="tiles">EditEvent</result>	
+		</action>
+		<action name="SaveEvent"
+			class="de.nordakademie.timetableservice.action.SaveEventAction">
+			<result type="chain">ShowEventList</result>
+			<result name="input" type="tiles">EditEvent</result>	
+		</action>
+		
+		
 	</package>
 </struts>

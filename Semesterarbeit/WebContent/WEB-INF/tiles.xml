@@ -11,4 +11,28 @@
 	<definition name="EditLecturer" extends="template">
 		<put-attribute name="content" value="/editLecturer.jsp"/>
 	</definition>
+	<definition name="LecturerList" extends="template">
+		<put-attribute name="content" value="/lecturerList.jsp"/>
+	</definition>
+	
+		<definition name="EditCentury" extends="template">
+		<put-attribute name="content" value="/editCentury.jsp"/>
+	</definition>
+	<definition name="CenturyList" extends="template">
+		<put-attribute name="content" value="/centuryList.jsp"/>
+	</definition>
+	
+		<definition name="EditRoom" extends="template">
+		<put-attribute name="content" value="/editRoom.jsp"/>
+	</definition>
+	<definition name="RoomList" extends="template">
+		<put-attribute name="content" value="/roomList.jsp"/>
+	</definition>
+	
+		<definition name="EditEvent" extends="template">
+		<put-attribute name="content" value="/editEvent.jsp"/>
+	</definition>
+	<definition name="EventList" extends="template">
+		<put-attribute name="content" value="/eventList.jsp"/>
+	</definition>
 </tiles-definitions>

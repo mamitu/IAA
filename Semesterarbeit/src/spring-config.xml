@@ -45,14 +45,32 @@
         <aop:advisor advice-ref="txAdvice" pointcut-ref="serviceMethods"/>
     </aop:config>
 
-	<!-- Lecturer DAO -->
+	<!-- DAOs -->
 	<bean id="lecturerDAO" class="de.nordakademie.timetableservice.dao.LecturerDAO">
 		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
+		<bean id="centuryDAO" class="de.nordakademie.timetableservice.dao.CenturyDAO">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+			<bean id="roomDAO" class="de.nordakademie.timetableservice.dao.RoomDAO">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+			<bean id="eventDAO" class="de.nordakademie.timetableservice.dao.EventDAO">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
 	
-	<!-- Lecturer service -->
-	<bean id="lecturerService" class="de.nordakademie.timetableservice.service.LecturerService">
+	<!-- Services -->
+	<bean id="lecturerService" class="de.nordakademie.timetableservice.service.impl.LecturerServiceImpl">
 		<property name="lecturerDAO" ref="lecturerDAO"/>
+	</bean>
+	<bean id="centuryService" class="de.nordakademie.timetableservice.service.impl.CenturyServiceImpl">
+		<property name="centuryDAO" ref="centuryDAO"/>
+	</bean>
+	<bean id="roomService" class="de.nordakademie.timetableservice.service.impl.RoomServiceImpl">
+		<property name="roomDAO" ref="roomDAO"/>
+	</bean>
+	<bean id="eventService" class="de.nordakademie.timetableservice.service.impl.EventServiceImpl">
+		<property name="eventDAO" ref="eventDAO"/>
 	</bean>
 
 </beans>

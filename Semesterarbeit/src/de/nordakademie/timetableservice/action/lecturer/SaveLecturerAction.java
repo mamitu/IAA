@@ -1,15 +1,14 @@
-package de.nordakademie.timetableservice.action;
+package de.nordakademie.timetableservice.action.lecturer;
 
 import com.opensymphony.xwork2.ActionSupport;
 
 import de.nordakademie.timetableservice.model.Lecturer;
 import de.nordakademie.timetableservice.service.LecturerService;
 
-public class ShowLecturerAction extends ActionSupport {
+public class SaveLecturerAction extends ActionSupport {
 
-	private LecturerService lecturerService;
 	private Lecturer lecturer;
-	private Long id;
+	private LecturerService lecturerService;
 
 	public Lecturer getLecturer() {
 		return lecturer;
@@ -19,26 +18,13 @@ public class ShowLecturerAction extends ActionSupport {
 		this.lecturer = lecturer;
 	}
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
 	public void setLecturerService(LecturerService lecturerService) {
 		this.lecturerService = lecturerService;
 	}
 
 	@Override
 	public String execute() throws Exception {
-		if (id != null) {
-			lecturer = lecturerService.load(id);
-		} else {
-			lecturer = new Lecturer();
-		}
-		return SUCCESS;
+		lecturerService.saveLecturer(lecturer);
+		return super.execute();
 	}
-
 }
