@@ -19,7 +19,7 @@ import javax.persistence.ManyToMany;
 public abstract class Event {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long id;
 
 	@Column(name = "start_date", nullable = false)

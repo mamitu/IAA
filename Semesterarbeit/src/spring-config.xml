@@ -58,6 +58,9 @@
 			<bean id="eventDAO" class="de.nordakademie.timetableservice.dao.EventDAO">
 		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
+			<bean id="examDAO" class="de.nordakademie.timetableservice.dao.ExamDAO">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
 	
 	<!-- Services -->
 	<bean id="lecturerService" class="de.nordakademie.timetableservice.service.impl.LecturerServiceImpl">
@@ -71,6 +74,9 @@
 	</bean>
 	<bean id="eventService" class="de.nordakademie.timetableservice.service.impl.EventServiceImpl">
 		<property name="eventDAO" ref="eventDAO"/>
+	</bean>
+	<bean id="examService" class="de.nordakademie.timetableservice.service.impl.ExamServiceImpl">
+		<property name="examDAO" ref="examDAO"/>
 	</bean>
 
 </beans>

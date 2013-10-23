@@ -36,8 +36,8 @@
 		<put-attribute name="content" value="/roomList.jsp"/>
 	</definition>
 	
-		<definition name="EditEvent" extends="template">
-		<put-attribute name="content" value="/editEvent.jsp"/>
+		<definition name="EditExam" extends="template">
+		<put-attribute name="content" value="/editExam.jsp"/>
 	</definition>
 	<definition name="EventList" extends="template">
 		<put-attribute name="content" value="/eventList.jsp"/>

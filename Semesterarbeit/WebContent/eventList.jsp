@@ -2,7 +2,10 @@
     pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="/struts-tags" prefix="s" %>
 
-<s:form action="ShowEvent">
+<s:form>
+<s:submit key="label.button.registerExam" action="ShowExam"/>
+<s:submit key="label.button.registerLecture" action="ShowLecture"/>
+<s:submit key="label.button.registerSeminar" action="ShowSeminar"/>
 	<table>
 		<tr>
 			<th> <s:text name="label.event.name"/> </th>
@@ -36,5 +39,4 @@
 			</tr>
 		</s:iterator>
 	</table>
-	<s:submit value="Register"/>
 </s:form>

@@ -60,14 +60,14 @@
 			class="de.nordakademie.timetableservice.action.event.ShowEventListAction">
 			<result type="tiles">EventList</result>
 		</action>
-		<action name="ShowEvent"
-			class="de.nordakademie.timetableservice.action.event.ShowEventAction">
-			<result type="tiles">EditEvent</result>	
+		<action name="ShowExam"
+			class="de.nordakademie.timetableservice.action.event.ShowExamAction">
+			<result type="tiles">EditExam</result>	
 		</action>
-		<action name="SaveEvent"
-			class="de.nordakademie.timetableservice.action.event.SaveEventAction">
+		<action name="SaveExam"
+			class="de.nordakademie.timetableservice.action.event.SaveExamAction">
 			<result type="chain">ShowEventList</result>
-			<result name="input" type="tiles">EditEvent</result>	
+			<result name="input" type="tiles">EditExam</result>	
 		</action>
 		
 		
