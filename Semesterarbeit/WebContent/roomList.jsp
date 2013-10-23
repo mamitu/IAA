@@ -18,7 +18,7 @@
 				<s:url id="detailURL" action="ShowRoom">
 					<s:param name="roomId" value="id"/>
 				</s:url>
-				<td><s:a href="%{detailURL}"><s:text name="label.detail"/></s:a></td>
+				<td><s:a href="%{detailURL}"><s:text name="label.list.detail"/></s:a></td>
 			</tr>
 		</s:iterator>
 	</table>

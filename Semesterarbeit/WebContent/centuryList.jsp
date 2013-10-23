@@ -18,7 +18,7 @@
 				<s:url id="detailURL" action="ShowCentury">
 					<s:param name="centuryId" value="id"/>
 				</s:url>
-				<td><s:a href="%{detailURL}"><s:text name="label.detail"/></s:a></td>
+				<td><s:a href="%{detailURL}"><s:text name="label.list.detail"/></s:a></td>
 			</tr>
 		</s:iterator>
 	</table>

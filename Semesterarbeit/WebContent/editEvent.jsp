@@ -2,6 +2,7 @@
     pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="/struts-tags" prefix="s" %>
 
+
 <s:form action="SaveCentury">
 	<s:hidden name="century.id"/>
 	<s:textfield name="century.name" key="label.century.name"/>

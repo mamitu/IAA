@@ -6,6 +6,13 @@
 
 <struts>
 	<package name="default" extends="tiles-default">
+	
+	<action name="Overview" 
+			class="de.nordakademie.timetableservice.action.OverviewAction">
+			<result type="tiles">Overview</result>
+		</action>
+	
+	
 		<action name="ShowLecturerList" 
 			class="de.nordakademie.timetableservice.action.lecturer.ShowLecturerListAction">
 			<result type="tiles">LecturerList</result>
@@ -50,15 +57,15 @@
 		</action>
 		
 		<action name="ShowEventList" 
-			class="de.nordakademie.timetableservice.action.ShowEventListAction">
+			class="de.nordakademie.timetableservice.action.event.ShowEventListAction">
 			<result type="tiles">EventList</result>
 		</action>
 		<action name="ShowEvent"
-			class="de.nordakademie.timetableservice.action.ShowEventAction">
+			class="de.nordakademie.timetableservice.action.Sevent.howEventAction">
 			<result type="tiles">EditEvent</result>	
 		</action>
 		<action name="SaveEvent"
-			class="de.nordakademie.timetableservice.action.SaveEventAction">
+			class="de.nordakademie.timetableservice.action.event.SaveEventAction">
 			<result type="chain">ShowEventList</result>
 			<result name="input" type="tiles">EditEvent</result>	
 		</action>

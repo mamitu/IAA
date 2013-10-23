@@ -9,9 +9,10 @@
 </head>
 <body>
 
-<s:a action="ShowLecturerList"><s:text name="label.editLecturers"/></s:a>
-<s:a action="ShowCenturyList"><s:text name="label.editCenturies"/></s:a>
-<s:a action="ShowRoomList"><s:text name="label.editRooms"/></s:a>
-<s:a action="ShowEventList"><s:text name="label.editEvents"/></s:a>
+<s:a action="Overview"><s:text name="label.menu.overview"/></s:a>
+<s:a action="ShowLecturerList"><s:text name="label.menu.editLecturers"/></s:a>
+<s:a action="ShowCenturyList"><s:text name="label.menu.editCenturies"/></s:a>
+<s:a action="ShowRoomList"><s:text name="label.menu.editRooms"/></s:a>
+<s:a action="ShowEventList"><s:text name="label.menu.editEvents"/></s:a>
 	</body>
 </html>
