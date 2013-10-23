@@ -93,6 +93,7 @@ public abstract class Event {
 		this.rooms = rooms;
 	}
 
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Room> rooms;
 
 }
