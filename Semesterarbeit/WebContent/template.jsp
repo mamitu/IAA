@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
-<title> <s:text name="tilte"/>
+<title> <s:text name="title"/>
 </title>
 </head>
 <body>

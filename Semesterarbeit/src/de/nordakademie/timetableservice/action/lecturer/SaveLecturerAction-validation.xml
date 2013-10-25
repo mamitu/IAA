@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+ <!DOCTYPE validators PUBLIC
+         "-//Apache Struts//XWork Validator 1.0.3//EN"
+           "http://struts.apache.org/dtds/xwork-validator-1.0.3.dtd">
+
+<validators>
+
+	<field name="lecturer.firstName">
+		<field-validator type="requiredstring">
+			<message key="label.required.firstName" />
+		</field-validator>
+		<field-validator type="regex">
+			<param name="expression"><![CDATA[^[-A-Za-z]+$]]></param>
+			<message key="label.error.name" />
+		</field-validator>
+	</field>
+
+	<field name="lecturer.lastName">
+		<field-validator type="requiredstring">
+			<message key="label.required.lastName" />
+		</field-validator>
+		<field-validator type="regex">
+			<param name="expression"><![CDATA[^[-A-Za-z]+$]]></param>
+			<message key="label.error.name" />
+		</field-validator>
+	</field>
+
+
+	<field name="lecturer.breakTime">
+		<field-validator type="int">
+			<param name="min">0</param>
+			<message key="label.required.breakTime" />
+		</field-validator>
+	</field>
+
+
+<!-- 	<field name="lecturer.breakTime"> -->
+<!-- 	<field-validator type="regex"> -->
+<!-- 	<param name="expression"><![CDATA[^[\d]+$]]></param> -->
+<!-- 	<message key="label.required.breakTime" /> -->
+<!-- 	</field-validator> -->
+<!-- 	</field> -->
+
+
+</validators>
+

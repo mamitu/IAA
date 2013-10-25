@@ -3,6 +3,7 @@
 <%@ taglib uri="/struts-tags" prefix="s" %>
 
 <s:form action="SaveLecturer">
+	<s:fielderror/>
 	<s:hidden name="lecturer.id"/>
 	<s:textfield name="lecturer.firstName" key="label.lecturer.firstName"/>
 	<s:textfield name="lecturer.lastName" key="label.lecturer.lastName"/>
