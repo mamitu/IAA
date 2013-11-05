@@ -1,9 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="/struts-tags" prefix="s" %>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %> 
 
-<s:form>
+<s:form  acceptcharset="utf-8">
 	<s:hidden name="event.id"/>
 	<s:textfield name="event.name" key="label.event.name"/>
 	<s:radio name="event.eventType" list="%{@de.nordakademie.timetableservice.model.EventType@values()}" key="label.event.eventType" />

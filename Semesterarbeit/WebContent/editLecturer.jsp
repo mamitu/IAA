@@ -1,8 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="/struts-tags" prefix="s" %>
 
-<s:form action="SaveLecturer">
+<s:form action="SaveLecturer" acceptcharset="utf-8">
 	<s:fielderror/>
 	<s:hidden name="lecturer.id"/>
 	<s:textfield name="lecturer.firstName" key="label.lecturer.firstName"/>
