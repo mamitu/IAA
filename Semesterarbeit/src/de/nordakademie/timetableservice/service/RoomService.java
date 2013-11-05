@@ -1,7 +1,8 @@
 package de.nordakademie.timetableservice.service;
 
-import java.util.List;
+import java.util.Set;
 
+import de.nordakademie.timetableservice.model.Event;
 import de.nordakademie.timetableservice.model.Room;
 
 public interface RoomService {
@@ -10,6 +11,8 @@ public interface RoomService {
 
 	public Room load(Long id);
 
-	public List<Room> loadAll();
+	public Set<Room> loadAll();
+
+	public Set<Room> findRoomsByEvent(Event event);
 
 }

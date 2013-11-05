@@ -3,9 +3,7 @@
 <%@ taglib uri="/struts-tags" prefix="s" %>
 
 <s:form>
-<s:submit key="label.button.registerExam" action="ShowExam"/>
-<s:submit key="label.button.registerLecture" action="ShowLecture"/>
-<s:submit key="label.button.registerSeminar" action="ShowSeminar"/>
+<s:submit key="label.button.registerEvent" action="ShowEvent"/>
 	<table>
 		<tr>
 			<th> <s:text name="label.event.name"/> </th>
@@ -17,24 +15,22 @@
 			<th>&nbsp;</th>
 			<th>&nbsp;</th>
 		</tr>
-		<s:iterator value="events">
+		<s:iterator value="events" var="event">
 			<tr>
-				<td><s:property value="name"/></td>
+				<td><s:property value="#event.name"/></td>
 				<td><s:property value="startDate"/></td>
 				<td><s:property value="endDate"/></td>
-				<s:iterator value="events.rooms">
-				  <tr><s:property value="name"/></tr>
+				<td>				
+				
+				<s:iterator value="#event.lecturers" var="lecturer">
+				  	<s:property value="#lecturer.name"/>
 				</s:iterator>
-				<s:iterator value="events.lecturers">
-				  <tr><s:property value="name"/></tr>
-				</s:iterator>
-				<s:iterator value="events.centuries">
-				  <tr><s:property value="name"/></tr>
-				</s:iterator>
+				
+				</td>
 				<s:url id="detailURL" action="ShowEvent">
 					<s:param name="eventId" value="id"/>
 				</s:url>
-				<td><s:a href="%{detailURL}"><s:text name="label.list.detail"/></s:a></td>
+				<td><s:a action="ShowEvent" href="%{detailURL}"><s:text name="label.list.detail"/></s:a></td>
 				<td><s:a action="DeleteAction"><s:text name="label.list.delete"/></s:a></td>
 			</tr>
 		</s:iterator>

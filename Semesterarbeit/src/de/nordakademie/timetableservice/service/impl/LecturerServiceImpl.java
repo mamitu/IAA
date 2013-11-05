@@ -1,8 +1,9 @@
 package de.nordakademie.timetableservice.service.impl;
 
-import java.util.List;
+import java.util.Set;
 
 import de.nordakademie.timetableservice.dao.LecturerDAO;
+import de.nordakademie.timetableservice.model.Event;
 import de.nordakademie.timetableservice.model.Lecturer;
 import de.nordakademie.timetableservice.service.LecturerService;
 
@@ -25,8 +26,13 @@ public class LecturerServiceImpl implements LecturerService {
 	}
 
 	@Override
-	public List<Lecturer> loadAll() {
+	public Set<Lecturer> loadAll() {
 		return this.lecturerDAO.loadAll();
+	}
+
+	@Override
+	public Set<Lecturer> findLecturersByEvent(Event event) {
+		return lecturerDAO.findLecturersByEvent(event.getId());
 	}
 
 }

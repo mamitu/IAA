@@ -1,8 +1,9 @@
 package de.nordakademie.timetableservice.service;
 
-import java.util.List;
+import java.util.Set;
 
 import de.nordakademie.timetableservice.model.Century;
+import de.nordakademie.timetableservice.model.Event;
 
 public interface CenturyService {
 
@@ -10,6 +11,8 @@ public interface CenturyService {
 
 	public Century load(Long id);
 
-	public List<Century> loadAll();
+	public Set<Century> loadAll();
+
+	public Set<Century> findCenturiesByEvent(Event event);
 
 }

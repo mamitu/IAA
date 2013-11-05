@@ -1,6 +1,6 @@
 package de.nordakademie.timetableservice.action.room;
 
-import java.util.List;
+import java.util.Set;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -10,7 +10,7 @@ import de.nordakademie.timetableservice.service.RoomService;
 public class ShowRoomListAction extends ActionSupport {
 
 	private RoomService roomService;
-	private List<Room> rooms;
+	private Set<Room> rooms;
 
 	@Override
 	public String execute() throws Exception {
@@ -18,11 +18,11 @@ public class ShowRoomListAction extends ActionSupport {
 		return SUCCESS;
 	}
 
-	public List<Room> getRooms() {
+	public Set<Room> getRooms() {
 		return rooms;
 	}
 
-	public void setRooms(List<Room> rooms) {
+	public void setRooms(Set<Room> rooms) {
 		this.rooms = rooms;
 	}
 

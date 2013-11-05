@@ -1,7 +1,8 @@
 package de.nordakademie.timetableservice.service;
 
-import java.util.List;
+import java.util.Set;
 
+import de.nordakademie.timetableservice.model.Event;
 import de.nordakademie.timetableservice.model.Lecturer;
 
 public interface LecturerService {
@@ -10,6 +11,8 @@ public interface LecturerService {
 
 	public Lecturer load(Long id);
 
-	public List<Lecturer> loadAll();
+	public Set<Lecturer> loadAll();
+
+	public Set<Lecturer> findLecturersByEvent(Event event);
 
 }

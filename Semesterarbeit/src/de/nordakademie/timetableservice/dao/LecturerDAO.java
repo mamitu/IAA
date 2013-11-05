@@ -1,6 +1,7 @@
 package de.nordakademie.timetableservice.dao;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
@@ -18,7 +19,7 @@ public class LecturerDAO {
 
 	public void save(Lecturer lecturer) {
 		Session session = sessionFactory.getCurrentSession();
-		session.saveOrUpdate(lecturer);
+		session.merge(lecturer);
 	}
 
 	/**
@@ -38,6 +39,7 @@ public class LecturerDAO {
 		Hibernate.initialize(lecturer.getFirstName());
 		Hibernate.initialize(lecturer.getLastName());
 		Hibernate.initialize(lecturer.getBreakTime());
+		Hibernate.initialize(lecturer.getEvents());
 		return lecturer;
 	}
 
@@ -48,9 +50,16 @@ public class LecturerDAO {
 	 *         an empty list is returned.
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Lecturer> loadAll() {
+	public Set<Lecturer> loadAll() {
 		Session session = sessionFactory.getCurrentSession();
-		return session.createQuery("from Lecturer").list();
+		return new HashSet<Lecturer>(session.createQuery("from Lecturer").list());
 	}
 
+	public Set<Lecturer> findLecturersByEvent(Long eventId) {
+		Session session = sessionFactory.getCurrentSession();
+		@SuppressWarnings("unchecked")
+		Set<Lecturer> lecturers = new HashSet<Lecturer>(session.createQuery("select lecturer from Lecturer lecturer join lecturer.events event where event.id = :eventId")
+				.setParameter("eventId", eventId).list());
+		return lecturers;
+	}
 }

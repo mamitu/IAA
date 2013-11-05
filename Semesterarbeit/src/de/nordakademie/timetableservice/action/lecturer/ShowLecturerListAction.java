@@ -1,6 +1,6 @@
 package de.nordakademie.timetableservice.action.lecturer;
 
-import java.util.List;
+import java.util.Set;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -10,7 +10,7 @@ import de.nordakademie.timetableservice.service.LecturerService;
 public class ShowLecturerListAction extends ActionSupport {
 
 	private LecturerService lecturerService;
-	private List<Lecturer> lecturers;
+	private Set<Lecturer> lecturers;
 
 	@Override
 	public String execute() throws Exception {
@@ -18,11 +18,11 @@ public class ShowLecturerListAction extends ActionSupport {
 		return SUCCESS;
 	}
 
-	public List<Lecturer> getLecturers() {
+	public Set<Lecturer> getLecturers() {
 		return lecturers;
 	}
 
-	public void setLecturers(List<Lecturer> lecturers) {
+	public void setLecturers(Set<Lecturer> lecturers) {
 		this.lecturers = lecturers;
 	}
 

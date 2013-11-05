@@ -1,6 +1,7 @@
 package de.nordakademie.timetableservice.dao;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
@@ -18,7 +19,7 @@ public class RoomDAO {
 
 	public void save(Room room) {
 		Session session = sessionFactory.getCurrentSession();
-		session.saveOrUpdate(room);
+		session.merge(room);
 	}
 
 	public Room load(Long id) {
@@ -30,13 +31,22 @@ public class RoomDAO {
 		Hibernate.initialize(room.getName());
 		Hibernate.initialize(room.getNumberOfSeats());
 		Hibernate.initialize(room.getBreakTime());
+		Hibernate.initialize(room.getEvents());
 		return room;
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Room> loadAll() {
+	public Set<Room> loadAll() {
 		Session session = sessionFactory.getCurrentSession();
-		return session.createQuery("from Room").list();
+		return new HashSet<Room>(session.createQuery("from Room").list());
+	}
+
+	public Set<Room> findRoomsByEvent(Long eventId) {
+		Session session = sessionFactory.getCurrentSession();
+		@SuppressWarnings("unchecked")
+		Set<Room> rooms = new HashSet<Room>(session.createQuery("select room from Room room join room.events event where event.id = :eventId").setParameter("eventId", eventId)
+				.list());
+		return rooms;
 	}
 
 }

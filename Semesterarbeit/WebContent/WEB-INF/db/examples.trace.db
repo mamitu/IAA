@@ -1,0 +1,8 @@
+10-28 10:55:55 jdbc[2]: SQLException
+org.h2.jdbc.JdbcSQLException: Tabelle "LECTURER" nicht gefunden
+Table "LECTURER" not found; SQL statement:
+SELECT * FROM Lecturer [42102-140]
+10-28 10:58:31 jdbc[2]: SQLException
+org.h2.jdbc.JdbcSQLException: Tabelle "LECTURER" nicht gefunden
+Table "LECTURER" not found; SQL statement:
+SELECT * from lecturer [42102-140]

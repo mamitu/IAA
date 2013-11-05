@@ -1,22 +1,21 @@
 package de.nordakademie.timetableservice.model;
 
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.ManyToMany;
 
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public abstract class Event {
+public class Event {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -34,8 +33,22 @@ public abstract class Event {
 	@Column(name = "number_of_repititions", nullable = false)
 	private int numberOfRepetitions;
 
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<Lecturer> lecturers;
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "events")
+	private Set<Lecturer> lecturers;
+
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "events")
+	private Set<Century> centuries;
+
+	@Enumerated
+	private EventType eventType;
+
+	public EventType getEventType() {
+		return eventType;
+	}
+
+	public void setEventType(EventType eventType) {
+		this.eventType = eventType;
+	}
 
 	public Long getId() {
 		return id;
@@ -77,23 +90,82 @@ public abstract class Event {
 		this.numberOfRepetitions = numberOfRepetitions;
 	}
 
-	public List<Lecturer> getLecturers() {
+	public Set<Lecturer> getLecturers() {
 		return lecturers;
 	}
 
-	public void setLecturers(List<Lecturer> lecturers) {
+	public void setLecturers(Set<Lecturer> lecturers) {
 		this.lecturers = lecturers;
 	}
 
-	public List<Room> getRooms() {
+	public Set<Room> getRooms() {
 		return rooms;
 	}
 
-	public void setRooms(List<Room> rooms) {
+	public void setRooms(Set<Room> rooms) {
 		this.rooms = rooms;
 	}
 
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private List<Room> rooms;
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "events")
+	protected Set<Room> rooms;
+
+	public void associateLecturers(Set<Lecturer> lecturers) {
+		if (lecturers == null) {
+			throw new IllegalArgumentException();
+		}
+		for (Lecturer lecturer : lecturers) {
+			if (lecturer.getEvents() != null) {
+				if (lecturer.getEvents().contains(this)) {
+					continue;
+				}
+				for (Event event : lecturer.getEvents()) {
+					event.getLecturers().remove(lecturer);
+				}
+				lecturer.getEvents().add(this);
+				if (this.lecturers == null) {
+					this.lecturers = new HashSet<Lecturer>();
+				}
+				this.lecturers.add(lecturer);
+			}
+		}
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Event other = (Event) obj;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return name;
+	}
+
+	public Set<Century> getCenturies() {
+		return centuries;
+	}
+
+	public void setCenturies(Set<Century> centuries) {
+		this.centuries = centuries;
+	}
 
 }

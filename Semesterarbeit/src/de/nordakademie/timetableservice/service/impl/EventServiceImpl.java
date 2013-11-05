@@ -1,6 +1,6 @@
 package de.nordakademie.timetableservice.service.impl;
 
-import java.util.List;
+import java.util.Set;
 
 import de.nordakademie.timetableservice.dao.EventDAO;
 import de.nordakademie.timetableservice.model.Event;
@@ -25,7 +25,7 @@ public class EventServiceImpl implements EventService {
 	}
 
 	@Override
-	public List<Event> loadAll() {
+	public Set<Event> loadAll() {
 		return this.eventDAO.loadAll();
 	}
 

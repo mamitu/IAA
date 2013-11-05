@@ -1,6 +1,7 @@
 package de.nordakademie.timetableservice.dao;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
@@ -18,7 +19,7 @@ public class EventDAO {
 
 	public void save(Event event) {
 		Session session = sessionFactory.getCurrentSession();
-		session.saveOrUpdate(event);
+		session.merge(event);
 	}
 
 	public Event load(Long id) {
@@ -31,15 +32,16 @@ public class EventDAO {
 		Hibernate.initialize(event.getStartDate());
 		Hibernate.initialize(event.getEndDate());
 		Hibernate.initialize(event.getLecturers());
+		Hibernate.initialize(event.getCenturies());
 		Hibernate.initialize(event.getNumberOfRepetitions());
 		Hibernate.initialize(event.getRooms());
 		return event;
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Event> loadAll() {
+	public Set<Event> loadAll() {
 		Session session = sessionFactory.getCurrentSession();
-		return session.createQuery("from Event").list();
+		return new HashSet<Event>(session.createQuery("from Event").list());
 	}
 
 }

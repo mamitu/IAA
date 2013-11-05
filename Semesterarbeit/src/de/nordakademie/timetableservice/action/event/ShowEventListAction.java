@@ -1,6 +1,6 @@
 package de.nordakademie.timetableservice.action.event;
 
-import java.util.List;
+import java.util.Set;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -10,7 +10,7 @@ import de.nordakademie.timetableservice.service.EventService;
 public class ShowEventListAction extends ActionSupport {
 
 	private EventService eventService;
-	private List<Event> events;
+	private Set<Event> events;
 
 	@Override
 	public String execute() throws Exception {
@@ -18,11 +18,11 @@ public class ShowEventListAction extends ActionSupport {
 		return SUCCESS;
 	}
 
-	public List<Event> getEvents() {
+	public Set<Event> getEvents() {
 		return events;
 	}
 
-	public void setEvents(List<Event> events) {
+	public void setEvents(Set<Event> events) {
 		this.events = events;
 	}
 

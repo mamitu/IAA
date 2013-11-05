@@ -1,6 +1,6 @@
 package de.nordakademie.timetableservice.model;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -9,13 +9,15 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
 @Entity
 public class Lecturer {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long id;
 
 	@Column(name = "first_name", length = 50, nullable = false)
@@ -27,18 +29,19 @@ public class Lecturer {
 	@Column(nullable = false)
 	private int breakTime;
 
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private List<Event> events;
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinTable(joinColumns = { @JoinColumn(name = "lecturer_id") }, inverseJoinColumns = { @JoinColumn(name = "event_id") })
+	private Set<Event> events;
 
 	public Long getId() {
 		return id;
 	}
 
-	public List<Event> getEvents() {
+	public Set<Event> getEvents() {
 		return events;
 	}
 
-	public void setEvents(List<Event> events) {
+	public void setEvents(Set<Event> events) {
 		this.events = events;
 	}
 
@@ -72,7 +75,57 @@ public class Lecturer {
 
 	@Override
 	public String toString() {
-		return getFirstName() + " " + getLastName();
+		return getFirstName() + " " + getLastName() + " (" + getId() + ")";
+	}
+
+	public void associateEvent(Event event) {
+		if (event == null) {
+			throw new IllegalArgumentException();
+		}
+		event.getLecturers().add(this);
+		this.events.add(event);
+	}
+
+	public void removeEvent(Event event) {
+		if (event == null) {
+			throw new IllegalArgumentException();
+		}
+		event.getLecturers().remove(this);
+		this.events.remove(event);
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + breakTime;
+		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
+		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Lecturer other = (Lecturer) obj;
+		if (breakTime != other.breakTime)
+			return false;
+		if (firstName == null) {
+			if (other.firstName != null)
+				return false;
+		} else if (!firstName.equals(other.firstName))
+			return false;
+		if (lastName == null) {
+			if (other.lastName != null)
+				return false;
+		} else if (!lastName.equals(other.lastName))
+			return false;
+		return true;
 	}
 
 }

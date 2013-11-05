@@ -1,6 +1,7 @@
 package de.nordakademie.timetableservice.dao;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
@@ -18,7 +19,7 @@ public class CenturyDAO {
 
 	public void save(Century century) {
 		Session session = sessionFactory.getCurrentSession();
-		session.saveOrUpdate(century);
+		session.merge(century);
 	}
 
 	public Century load(Long id) {
@@ -30,13 +31,22 @@ public class CenturyDAO {
 		Hibernate.initialize(century.getName());
 		Hibernate.initialize(century.getNumberOfStudents());
 		Hibernate.initialize(century.getBreakTime());
+		Hibernate.initialize(century.getEvents());
 		return century;
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Century> loadAll() {
+	public Set<Century> loadAll() {
 		Session session = sessionFactory.getCurrentSession();
-		return session.createQuery("from Century").list();
+		return new HashSet<Century>(session.createQuery("from Century").list());
+	}
+
+	public Set<Century> findCenturiesByEvent(Long eventId) {
+		Session session = sessionFactory.getCurrentSession();
+		@SuppressWarnings("unchecked")
+		Set<Century> centuries = new HashSet<Century>(session.createQuery("select century from Century century join century.events event where event.id = :eventId")
+				.setParameter("eventId", eventId).list());
+		return centuries;
 	}
 
 }

@@ -1,6 +1,6 @@
 package de.nordakademie.timetableservice.service;
 
-import java.util.List;
+import java.util.Set;
 
 import de.nordakademie.timetableservice.model.Event;
 
@@ -10,6 +10,6 @@ public interface EventService {
 
 	public Event load(Long id);
 
-	public List<Event> loadAll();
+	public Set<Event> loadAll();
 
 }
