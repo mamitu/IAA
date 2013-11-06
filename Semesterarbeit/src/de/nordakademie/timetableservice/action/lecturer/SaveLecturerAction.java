@@ -27,4 +27,12 @@ public class SaveLecturerAction extends ActionSupport {
 		lecturerService.saveLecturer(lecturer);
 		return super.execute();
 	}
+
+	@Override
+	public void validate() {
+		super.validate();
+		if (lecturerService.checkEmailExists(lecturer.getEmailAddress())) {
+			addFieldError("lecturer.emailAddress", getText("error.existingEmailAddress"));
+		}
+	}
 }

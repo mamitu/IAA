@@ -13,33 +13,36 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
+import org.hibernate.annotations.NaturalId;
+
 @Entity
 public class Century {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
+	@NaturalId
 	@Column(length = 50, nullable = false)
 	private String name;
 
 	@Column(name = "number_of_students", nullable = false)
 	private int numberOfStudents;
 
+	public Set<Event> getEventsOfCentury() {
+		return eventsOfCentury;
+	}
+
+	public void setEventsOfCentury(Set<Event> eventsOfCentury) {
+		this.eventsOfCentury = eventsOfCentury;
+	}
+
 	@Column(nullable = false)
 	private int breakTime;
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(joinColumns = { @JoinColumn(name = "century_id") }, inverseJoinColumns = { @JoinColumn(name = "event_id") })
-	private Set<Event> events;
-
-	public Set<Event> getEvents() {
-		return events;
-	}
-
-	public void setEvents(Set<Event> events) {
-		this.events = events;
-	}
+	private Set<Event> eventsOfCentury;
 
 	public Long getId() {
 		return id;
@@ -78,16 +81,14 @@ public class Century {
 			throw new IllegalArgumentException();
 		}
 		event.getCenturies().remove(this);
-		this.events.remove(event);
+		this.eventsOfCentury.remove(event);
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + breakTime;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + numberOfStudents;
 		return result;
 	}
 
@@ -100,14 +101,10 @@ public class Century {
 		if (getClass() != obj.getClass())
 			return false;
 		Century other = (Century) obj;
-		if (breakTime != other.breakTime)
-			return false;
 		if (name == null) {
 			if (other.name != null)
 				return false;
 		} else if (!name.equals(other.name))
-			return false;
-		if (numberOfStudents != other.numberOfStudents)
 			return false;
 		return true;
 	}
@@ -122,7 +119,7 @@ public class Century {
 			throw new IllegalArgumentException();
 		}
 		event.getCenturies().add(this);
-		this.events.add(event);
+		this.eventsOfCentury.add(event);
 	}
 
 }

@@ -19,7 +19,7 @@ public class EventDAO {
 
 	public void save(Event event) {
 		Session session = sessionFactory.getCurrentSession();
-		session.merge(event);
+		session.saveOrUpdate(event);
 	}
 
 	public Event load(Long id) {
@@ -42,6 +42,11 @@ public class EventDAO {
 	public Set<Event> loadAll() {
 		Session session = sessionFactory.getCurrentSession();
 		return new HashSet<Event>(session.createQuery("from Event").list());
+	}
+
+	public void deleteEventWithId(Long id) {
+		Session session = sessionFactory.getCurrentSession();
+		session.delete(load(id));
 	}
 
 }

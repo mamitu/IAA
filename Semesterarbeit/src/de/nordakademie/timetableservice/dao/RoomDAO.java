@@ -19,7 +19,7 @@ public class RoomDAO {
 
 	public void save(Room room) {
 		Session session = sessionFactory.getCurrentSession();
-		session.merge(room);
+		session.saveOrUpdate(room);
 	}
 
 	public Room load(Long id) {
@@ -31,7 +31,7 @@ public class RoomDAO {
 		Hibernate.initialize(room.getName());
 		Hibernate.initialize(room.getNumberOfSeats());
 		Hibernate.initialize(room.getBreakTime());
-		Hibernate.initialize(room.getEvents());
+		Hibernate.initialize(room.getEventsOfRoom());
 		return room;
 	}
 
@@ -41,11 +41,11 @@ public class RoomDAO {
 		return new HashSet<Room>(session.createQuery("from Room").list());
 	}
 
+	@SuppressWarnings("unchecked")
 	public Set<Room> findRoomsByEvent(Long eventId) {
 		Session session = sessionFactory.getCurrentSession();
-		@SuppressWarnings("unchecked")
-		Set<Room> rooms = new HashSet<Room>(session.createQuery("select room from Room room join room.events event where event.id = :eventId").setParameter("eventId", eventId)
-				.list());
+		Set<Room> rooms = new HashSet<Room>(session.createQuery("select room from Room room join room.eventsOfRoom event where event.id = :eventId")
+				.setParameter("eventId", eventId).list());
 		return rooms;
 	}
 

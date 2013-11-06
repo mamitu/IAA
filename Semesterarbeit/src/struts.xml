@@ -64,6 +64,12 @@
 			class="de.nordakademie.timetableservice.action.event.ShowEventAction">
 			<result type="tiles">EditEvent</result>	
 		</action>
+		
+		<action name="DeleteEvent"
+			class="de.nordakademie.timetableservice.action.event.DeleteEventAction">
+			<result type="tiles">EventList</result>	
+		</action>
+		
 		<action name="SaveEvent"
 			class="de.nordakademie.timetableservice.action.event.SaveEventAction">
 			<result type="chain">ShowEventList</result>

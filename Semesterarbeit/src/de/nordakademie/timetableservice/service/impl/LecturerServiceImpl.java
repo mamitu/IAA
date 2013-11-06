@@ -1,7 +1,9 @@
 package de.nordakademie.timetableservice.service.impl;
 
+import java.util.List;
 import java.util.Set;
 
+import de.nordakademie.timetableservice.business.Collision;
 import de.nordakademie.timetableservice.dao.LecturerDAO;
 import de.nordakademie.timetableservice.model.Event;
 import de.nordakademie.timetableservice.model.Lecturer;
@@ -33,6 +35,16 @@ public class LecturerServiceImpl implements LecturerService {
 	@Override
 	public Set<Lecturer> findLecturersByEvent(Event event) {
 		return lecturerDAO.findLecturersByEvent(event.getId());
+	}
+
+	@Override
+	public boolean checkEmailExists(String emailAddress) {
+		return lecturerDAO.findLecturersByEmailAddress(emailAddress).isEmpty() ? false : true;
+	}
+
+	@Override
+	public void getCollisions(Event event, List<Lecturer> lecturersToCheck, List<Collision> collisions) {
+		// TODO Auto-generated method stub
 	}
 
 }

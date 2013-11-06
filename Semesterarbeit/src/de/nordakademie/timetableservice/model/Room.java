@@ -13,13 +13,16 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
+import org.hibernate.annotations.NaturalId;
+
 @Entity
 public class Room {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
+	@NaturalId
 	@Column(length = 50, nullable = false)
 	private String name;
 
@@ -31,14 +34,14 @@ public class Room {
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(joinColumns = { @JoinColumn(name = "room_id") }, inverseJoinColumns = { @JoinColumn(name = "event_id") })
-	private Set<Event> events;
+	private Set<Event> eventsOfRoom;
 
-	public Set<Event> getEvents() {
-		return events;
+	public Set<Event> getEventsOfRoom() {
+		return eventsOfRoom;
 	}
 
-	public void setEvents(Set<Event> events) {
-		this.events = events;
+	public void setEventsOfRoom(Set<Event> eventsOfRoom) {
+		this.eventsOfRoom = eventsOfRoom;
 	}
 
 	public int getBreakTime() {
@@ -78,7 +81,7 @@ public class Room {
 			throw new IllegalArgumentException();
 		}
 		event.getRooms().remove(this);
-		this.events.remove(event);
+		this.eventsOfRoom.remove(event);
 	}
 
 	public void associateEvent(Event event) {
@@ -86,15 +89,13 @@ public class Room {
 			throw new IllegalArgumentException();
 		}
 		event.getRooms().add(this);
-		this.events.add(event);
+		this.eventsOfRoom.add(event);
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + NumberOfSeats;
-		result = prime * result + breakTime;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
@@ -108,10 +109,6 @@ public class Room {
 		if (getClass() != obj.getClass())
 			return false;
 		Room other = (Room) obj;
-		if (NumberOfSeats != other.NumberOfSeats)
-			return false;
-		if (breakTime != other.breakTime)
-			return false;
 		if (name == null) {
 			if (other.name != null)
 				return false;

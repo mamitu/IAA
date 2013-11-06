@@ -1,6 +1,8 @@
 package de.nordakademie.timetableservice.dao;
 
+import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.hibernate.Hibernate;
@@ -19,7 +21,7 @@ public class CenturyDAO {
 
 	public void save(Century century) {
 		Session session = sessionFactory.getCurrentSession();
-		session.merge(century);
+		session.saveOrUpdate(century);
 	}
 
 	public Century load(Long id) {
@@ -31,7 +33,7 @@ public class CenturyDAO {
 		Hibernate.initialize(century.getName());
 		Hibernate.initialize(century.getNumberOfStudents());
 		Hibernate.initialize(century.getBreakTime());
-		Hibernate.initialize(century.getEvents());
+		Hibernate.initialize(century.getEventsOfCentury());
 		return century;
 	}
 
@@ -41,11 +43,21 @@ public class CenturyDAO {
 		return new HashSet<Century>(session.createQuery("from Century").list());
 	}
 
+	@SuppressWarnings("unchecked")
 	public Set<Century> findCenturiesByEvent(Long eventId) {
 		Session session = sessionFactory.getCurrentSession();
-		@SuppressWarnings("unchecked")
-		Set<Century> centuries = new HashSet<Century>(session.createQuery("select century from Century century join century.events event where event.id = :eventId")
+		Set<Century> centuries = new HashSet<Century>(session.createQuery("select century from Century century join century.eventsOfCentury event where event.id = :eventId")
 				.setParameter("eventId", eventId).list());
+		return centuries;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Century> findCenturiesByDatesWithoutId(Date startDate, Date endDate, Long eventId) {
+		Session session = sessionFactory.getCurrentSession();
+		List<Century> centuries = (List<Century>) session
+				.createQuery(
+						"select century from Century century join century.eventsOfCentury event where event.id = :eventId and event.startDate < :endDate and event.endDate > :startDate")
+				.setTimestamp("endDate", endDate).setTimestamp("startDate", startDate).setParameter("eventId", eventId).list();
 		return centuries;
 	}
 

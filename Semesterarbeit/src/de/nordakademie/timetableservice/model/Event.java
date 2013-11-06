@@ -1,7 +1,6 @@
 package de.nordakademie.timetableservice.model;
 
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -14,11 +13,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
+import org.hibernate.annotations.NaturalId;
+
 @Entity
 public class Event {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
 	@Column(name = "start_date", nullable = false)
@@ -27,16 +28,17 @@ public class Event {
 	@Column(name = "end_date", nullable = false)
 	private Date endDate;
 
+	@NaturalId
 	@Column(length = 50, nullable = false)
 	private String name;
 
 	@Column(name = "number_of_repititions", nullable = false)
 	private int numberOfRepetitions;
 
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "events")
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE, mappedBy = "eventsOfLecturer")
 	private Set<Lecturer> lecturers;
 
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "events")
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE, mappedBy = "eventsOfCentury")
 	private Set<Century> centuries;
 
 	@Enumerated
@@ -106,28 +108,20 @@ public class Event {
 		this.rooms = rooms;
 	}
 
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "events")
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST, mappedBy = "eventsOfRoom")
 	protected Set<Room> rooms;
 
-	public void associateLecturers(Set<Lecturer> lecturers) {
-		if (lecturers == null) {
-			throw new IllegalArgumentException();
-		}
-		for (Lecturer lecturer : lecturers) {
-			if (lecturer.getEvents() != null) {
-				if (lecturer.getEvents().contains(this)) {
-					continue;
-				}
-				for (Event event : lecturer.getEvents()) {
-					event.getLecturers().remove(lecturer);
-				}
-				lecturer.getEvents().add(this);
-				if (this.lecturers == null) {
-					this.lecturers = new HashSet<Lecturer>();
-				}
-				this.lecturers.add(lecturer);
-			}
-		}
+	@Override
+	public String toString() {
+		return name + "(" + getId() + ")";
+	}
+
+	public Set<Century> getCenturies() {
+		return centuries;
+	}
+
+	public void setCenturies(Set<Century> centuries) {
+		this.centuries = centuries;
 	}
 
 	@Override
@@ -153,19 +147,6 @@ public class Event {
 		} else if (!name.equals(other.name))
 			return false;
 		return true;
-	}
-
-	@Override
-	public String toString() {
-		return name;
-	}
-
-	public Set<Century> getCenturies() {
-		return centuries;
-	}
-
-	public void setCenturies(Set<Century> centuries) {
-		this.centuries = centuries;
 	}
 
 }

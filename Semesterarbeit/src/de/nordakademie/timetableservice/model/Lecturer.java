@@ -13,11 +13,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
+import org.hibernate.annotations.NaturalId;
+
 @Entity
 public class Lecturer {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
 	@Column(name = "first_name", length = 50, nullable = false)
@@ -29,20 +31,24 @@ public class Lecturer {
 	@Column(nullable = false)
 	private int breakTime;
 
+	@NaturalId
+	@Column(nullable = false, length = 50)
+	private String emailAddress;
+
+	public String getEmailAddress() {
+		return emailAddress;
+	}
+
+	public void setEmailAddress(String emailAddress) {
+		this.emailAddress = emailAddress;
+	}
+
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(joinColumns = { @JoinColumn(name = "lecturer_id") }, inverseJoinColumns = { @JoinColumn(name = "event_id") })
-	private Set<Event> events;
+	private Set<Event> eventsOfLecturer;
 
 	public Long getId() {
 		return id;
-	}
-
-	public Set<Event> getEvents() {
-		return events;
-	}
-
-	public void setEvents(Set<Event> events) {
-		this.events = events;
 	}
 
 	public void setId(Long id) {
@@ -83,7 +89,7 @@ public class Lecturer {
 			throw new IllegalArgumentException();
 		}
 		event.getLecturers().add(this);
-		this.events.add(event);
+		this.eventsOfLecturer.add(event);
 	}
 
 	public void removeEvent(Event event) {
@@ -91,16 +97,22 @@ public class Lecturer {
 			throw new IllegalArgumentException();
 		}
 		event.getLecturers().remove(this);
-		this.events.remove(event);
+		this.eventsOfLecturer.remove(event);
+	}
+
+	public Set<Event> getEventsOfLecturer() {
+		return eventsOfLecturer;
+	}
+
+	public void setEventsOfLecturer(Set<Event> eventsOfLecturer) {
+		this.eventsOfLecturer = eventsOfLecturer;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + breakTime;
-		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
-		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
+		result = prime * result + ((emailAddress == null) ? 0 : emailAddress.hashCode());
 		return result;
 	}
 
@@ -113,17 +125,10 @@ public class Lecturer {
 		if (getClass() != obj.getClass())
 			return false;
 		Lecturer other = (Lecturer) obj;
-		if (breakTime != other.breakTime)
-			return false;
-		if (firstName == null) {
-			if (other.firstName != null)
+		if (emailAddress == null) {
+			if (other.emailAddress != null)
 				return false;
-		} else if (!firstName.equals(other.firstName))
-			return false;
-		if (lastName == null) {
-			if (other.lastName != null)
-				return false;
-		} else if (!lastName.equals(other.lastName))
+		} else if (!emailAddress.equals(other.emailAddress))
 			return false;
 		return true;
 	}

@@ -12,4 +12,6 @@ public interface EventService {
 
 	public Set<Event> loadAll();
 
+	public void deleteEventWithId(Long id);
+
 }

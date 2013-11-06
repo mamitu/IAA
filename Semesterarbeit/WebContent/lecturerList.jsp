@@ -8,6 +8,7 @@
 			<th> <s:text name="label.lecturer.firstName"/> </th>
 			<th> <s:text name="label.lecturer.lastName"/> </th>
 			<th> <s:text name="label.lecturer.breakTime"/> </th>
+			<th> <s:text name="label.lecturer.emailAddress"/> </th>
 			<th>&nbsp;</th>
 		</tr>
 		<s:iterator value="lecturers">
@@ -15,6 +16,7 @@
 				<td><s:property value="firstName"/></td>
 				<td><s:property value="lastName"/></td>
 				<td><s:property value="breakTime"/></td>
+				<td><s:property value="emailAddress"/></td>
 				<s:url id="detailURL" action="ShowLecturer">
 					<s:param name="lecturerId" value="id"/>
 				</s:url>

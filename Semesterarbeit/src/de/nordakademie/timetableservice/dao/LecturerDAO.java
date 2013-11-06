@@ -1,6 +1,7 @@
 package de.nordakademie.timetableservice.dao;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.hibernate.Hibernate;
@@ -19,7 +20,7 @@ public class LecturerDAO {
 
 	public void save(Lecturer lecturer) {
 		Session session = sessionFactory.getCurrentSession();
-		session.merge(lecturer);
+		session.saveOrUpdate(lecturer);
 	}
 
 	/**
@@ -39,7 +40,8 @@ public class LecturerDAO {
 		Hibernate.initialize(lecturer.getFirstName());
 		Hibernate.initialize(lecturer.getLastName());
 		Hibernate.initialize(lecturer.getBreakTime());
-		Hibernate.initialize(lecturer.getEvents());
+		Hibernate.initialize(lecturer.getEventsOfLecturer());
+		Hibernate.initialize(lecturer.getEmailAddress());
 		return lecturer;
 	}
 
@@ -55,11 +57,18 @@ public class LecturerDAO {
 		return new HashSet<Lecturer>(session.createQuery("from Lecturer").list());
 	}
 
+	@SuppressWarnings("unchecked")
 	public Set<Lecturer> findLecturersByEvent(Long eventId) {
 		Session session = sessionFactory.getCurrentSession();
-		@SuppressWarnings("unchecked")
-		Set<Lecturer> lecturers = new HashSet<Lecturer>(session.createQuery("select lecturer from Lecturer lecturer join lecturer.events event where event.id = :eventId")
-				.setParameter("eventId", eventId).list());
+		Set<Lecturer> lecturers = new HashSet<Lecturer>(session
+				.createQuery("select lecturer from Lecturer lecturer join lecturer.eventsOfLecturer event where event.id = :eventId").setParameter("eventId", eventId).list());
 		return lecturers;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Lecturer> findLecturersByEmailAddress(String emailAddress) {
+		Session session = sessionFactory.getCurrentSession();
+		return (List<Lecturer>) session.createQuery("select lecturer from Lecturer as lecturer where lecturer.emailAddress = :emailAddress")
+				.setString("emailAddress", emailAddress).list();
 	}
 }

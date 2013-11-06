@@ -23,6 +23,10 @@ public class SaveEventAction extends ActionSupport {
 	private List<Long> selectedRoomIds;
 	private List<Long> selectedCenturyIds;
 
+	private List<Lecturer> selectedLecturers;
+	private List<Century> selectedCenturies;
+	private List<Room> selectedRooms;
+
 	private LecturerService lecturerService;
 	private RoomService roomService;
 	private CenturyService centuryService;
@@ -67,6 +71,47 @@ public class SaveEventAction extends ActionSupport {
 		this.eventService = eventService;
 	}
 
+	// @Override
+	// public String execute() throws Exception {
+	// if (event.getId() != null) {
+	// Event originalEvent = eventService.load(event.getId());
+	// originalEvent.toString();
+	// }
+	// event.setLecturers(lecturerService.findLecturersByEvent(event));
+	// event.setRooms(roomService.findRoomsByEvent(event));
+	// event.setCenturies(centuryService.findCenturiesByEvent(event));
+	//
+	// selectedLecturers = new LinkedList<Lecturer>();
+	// for (Long id : selectedLecturerIds) {
+	// selectedLecturers.add(lecturerService.load(id));
+	// }
+	// selectedCenturies = new LinkedList<Century>();
+	// for (Long id : selectedCenturyIds) {
+	// selectedCenturies.add(centuryService.load(id));
+	// }
+	// selectedRooms = new LinkedList<Room>();
+	// for (Long id : selectedRoomIds) {
+	// selectedRooms.add(roomService.load(id));
+	// }
+	// centuryService.updateCenturyReferences(event, selectedCenturies);
+	// roomService.updateRoomReferences(event, selectedRooms);
+	// lecturerService.updateLecturerReferences(event, selectedLecturers);
+	// eventService.saveEvent(event);
+	// return super.execute();
+	// }
+
+	// @Override
+	// public void validate() {
+
+	// List<Collision> collisions = new LinkedList<Collision>();
+	// centuryService.getCollisions(event, selectedCenturies, collisions);
+	// roomService.getCollisions(event, selectedRooms, collisions);
+	// lecturerService.getCollisions(event, selectedLecturers, collisions);
+	// for (Collision collision : collisions) {
+	// addActionError(collision.toString());
+	// }
+	// }
+
 	@Override
 	public String execute() throws Exception {
 		event.setLecturers(lecturerService.findLecturersByEvent(event));
@@ -93,6 +138,7 @@ public class SaveEventAction extends ActionSupport {
 		for (Lecturer lecturer : selectedLecturers) {
 			if (!event.getLecturers().contains(lecturer)) {
 				lecturer.associateEvent(event);
+				lecturerService.saveLecturer(lecturer);
 			}
 		}
 	}
@@ -111,6 +157,7 @@ public class SaveEventAction extends ActionSupport {
 		for (Room room : selectedRooms) {
 			if (!event.getRooms().contains(room)) {
 				room.associateEvent(event);
+				roomService.saveRoom(room);
 			}
 		}
 	}
@@ -129,6 +176,7 @@ public class SaveEventAction extends ActionSupport {
 		for (Century century : selectedCenturies) {
 			if (!event.getCenturies().contains(century)) {
 				century.associateEvent(event);
+				centuryService.saveCentury(century);
 			}
 		}
 	}

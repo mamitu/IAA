@@ -30,8 +30,12 @@
 				<s:url id="detailURL" action="ShowEvent">
 					<s:param name="eventId" value="id"/>
 				</s:url>
-				<td><s:a action="ShowEvent" href="%{detailURL}"><s:text name="label.list.detail"/></s:a></td>
-				<td><s:a action="DeleteAction"><s:text name="label.list.delete"/></s:a></td>
+				<td><s:a href="%{detailURL}"><s:text name="label.list.detail"/></s:a></td>
+				
+				<s:url id="deleteURL" action="DeleteEvent">
+					<s:param name="eventId" value="id"/>
+				</s:url>
+				<td><s:a href="%{deleteURL}"><s:text name="label.list.delete"/></s:a></td>
 			</tr>
 		</s:iterator>
 	</table>

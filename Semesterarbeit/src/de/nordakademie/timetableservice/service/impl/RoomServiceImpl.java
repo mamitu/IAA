@@ -1,7 +1,9 @@
 package de.nordakademie.timetableservice.service.impl;
 
+import java.util.List;
 import java.util.Set;
 
+import de.nordakademie.timetableservice.business.Collision;
 import de.nordakademie.timetableservice.dao.RoomDAO;
 import de.nordakademie.timetableservice.model.Event;
 import de.nordakademie.timetableservice.model.Room;
@@ -33,6 +35,11 @@ public class RoomServiceImpl implements RoomService {
 	@Override
 	public Set<Room> findRoomsByEvent(Event event) {
 		return roomDAO.findRoomsByEvent(event.getId());
+	}
+
+	@Override
+	public void getCollisions(Event event, List<Room> roomsToCheck, List<Collision> collisions) {
+		// TODO Auto-generated method stub
 	}
 
 }
