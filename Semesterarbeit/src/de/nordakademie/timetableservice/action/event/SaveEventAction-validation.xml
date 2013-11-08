@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+ <!DOCTYPE validators PUBLIC
+         "-//Apache Struts//XWork Validator 1.0.3//EN"
+           "http://struts.apache.org/dtds/xwork-validator-1.0.3.dtd">
+
+<validators>
+
+	<field name="event.name">
+		<field-validator type="requiredstring">
+			<message key="label.required.eventName" />
+		</field-validator>
+		<field-validator type="regex">
+			<param name="expression"><![CDATA[^[-A-Za-z\säöü]+$]]></param>
+			<message key="label.error.eventName" />
+		</field-validator>
+	</field>
+
+	<field name="event.startDate">
+		<field-validator type="required">
+			<message key="label.required.startDate" />
+		</field-validator>	
+	</field>
+	
+		<field name="event.endDate">
+		<field-validator type="required">
+			<message key="label.required.endDate" />
+		</field-validator>	
+	</field>
+	
+
+
+
+</validators>
+
