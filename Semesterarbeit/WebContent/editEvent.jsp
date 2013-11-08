@@ -5,8 +5,8 @@
 <s:actionerror/>
 <s:form  acceptcharset="utf-8">
 	<s:hidden name="event.id"/>
-	<s:textfield name="event.name" key="label.event.name"/>
-	<s:radio name="event.eventType" list="%{@de.nordakademie.timetableservice.model.EventType@values()}" key="label.event.eventType" />
+	<s:textfield name="event.name" key="label.event.name" readonly="readOnly"/>
+	<s:radio name="event.eventType"  value ="event.eventType" disabled="readOnly" list="%{@de.nordakademie.timetableservice.model.EventType@values()}" key="label.event.eventType" />
 	
 	<s:textfield name="event.startDate" key="label.event.startDate" value="%{getText('format.date',{event.startDate})}"/>
 	<s:textfield name="event.endDate" key="label.event.endDate" value="%{getText('format.date',{event.endDate})}"/>
@@ -19,6 +19,7 @@
 		listValue="value"
 		list="availableLecturers"
 		key="label.event.lecturers"
+		
 	/>
 	
 	<s:select
@@ -39,6 +40,8 @@
 		list="availableCenturies"
 		key="label.event.centuries"
 	/>
+	<s:textfield name="event.numberOfWeeklyRepititions" key="label.event.numberOfWeeklyRepititions"/>
+	
 	<s:submit value="Save" action="SaveEvent"/>
 	<s:submit value="Cancel" action="ShowEventList"/>
 </s:form>

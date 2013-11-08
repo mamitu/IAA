@@ -32,8 +32,8 @@ public class Event {
 	@Column(length = 50, nullable = false)
 	private String name;
 
-	@Column(name = "number_of_repititions", nullable = false)
-	private int numberOfRepetitions;
+	@Column(name = "number_of_weekly_repititions", nullable = false)
+	private int numberOfWeeklyRepetitions;
 
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE, mappedBy = "eventsOfLecturer")
 	private Set<Lecturer> lecturers;
@@ -84,12 +84,12 @@ public class Event {
 		this.name = name;
 	}
 
-	public int getNumberOfRepetitions() {
-		return numberOfRepetitions;
+	public int getNumberOfWeeklyRepetitions() {
+		return numberOfWeeklyRepetitions;
 	}
 
-	public void setNumberOfRepetitions(int numberOfRepetitions) {
-		this.numberOfRepetitions = numberOfRepetitions;
+	public void setNumberOfWeeklyRepetitions(int numberOfWeeklyRepetitions) {
+		this.numberOfWeeklyRepetitions = numberOfWeeklyRepetitions;
 	}
 
 	public Set<Lecturer> getLecturers() {

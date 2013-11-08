@@ -55,4 +55,16 @@ public class LecturerServiceImpl implements LecturerService {
 		}
 	}
 
+	@Override
+	public void getCollisionBecauseOfChangeTime(Event event, List<Lecturer> lecturersToCheck, List<Collision> collisions) {
+		Set<Lecturer> lecturersWithBreakTimeConflicts = lecturerDAO.findLecturersWithBreakTimeConflictsForEvent(event.getStartDate(), event.getEndDate(), event.getId());
+		if (!lecturersWithBreakTimeConflicts.isEmpty()) {
+			for (Lecturer lecturer : lecturersToCheck) {
+				if (lecturersWithBreakTimeConflicts.contains(lecturer)) {
+					collisions.add(new Collision(CollisionType.ERROR, lecturer.toString(), "label.collision.breakTimeConflict"));
+				}
+			}
+		}
+	}
+
 }

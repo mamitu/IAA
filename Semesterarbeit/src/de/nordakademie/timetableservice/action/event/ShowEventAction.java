@@ -27,6 +27,8 @@ public class ShowEventAction extends ActionSupport implements Preparable {
 	private List<Long> selectedRoomIds;
 	private List<Long> selectedCenturyIds;
 
+	private boolean readOnly = false;
+
 	private Event event;
 	private Long eventId;
 	private EventService eventService;
@@ -119,6 +121,7 @@ public class ShowEventAction extends ActionSupport implements Preparable {
 			for (Century century : event.getCenturies()) {
 				selectedCenturyIds.add(century.getId());
 			}
+			this.setReadOnly(true);
 		} else {
 			event = new Event();
 
@@ -151,5 +154,13 @@ public class ShowEventAction extends ActionSupport implements Preparable {
 
 	public void setSelectedLecturerIds(List<Long> selectedLecturerIds) {
 		this.selectedLecturerIds = selectedLecturerIds;
+	}
+
+	public boolean getReadOnly() {
+		return readOnly;
+	}
+
+	public void setReadOnly(boolean readOnly) {
+		this.readOnly = readOnly;
 	}
 }

@@ -132,4 +132,8 @@ public class LecturerDAO {
 			lecturers.addAll(lecturerList);
 		}
 	}
+
+	public Set<Lecturer> findLecturersWithBreakTimeConflictsForEvent(Date startDate, Date endDate, Long eventId) {
+		return null;
+	}
 }

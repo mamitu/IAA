@@ -21,4 +21,6 @@ public interface LecturerService {
 
 	public void getCollisionsWithOtherEvents(Event event, List<Lecturer> lecturersToCheck, List<Collision> collisions);
 
+	public void getCollisionBecauseOfChangeTime(Event event, List<Lecturer> lecturersToCheck, List<Collision> collisions);
+
 }

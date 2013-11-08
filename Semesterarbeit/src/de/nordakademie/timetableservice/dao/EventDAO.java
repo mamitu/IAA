@@ -33,7 +33,7 @@ public class EventDAO {
 		Hibernate.initialize(event.getEndDate());
 		Hibernate.initialize(event.getLecturers());
 		Hibernate.initialize(event.getCenturies());
-		Hibernate.initialize(event.getNumberOfRepetitions());
+		Hibernate.initialize(event.getNumberOfWeeklyRepetitions());
 		Hibernate.initialize(event.getRooms());
 		return event;
 	}

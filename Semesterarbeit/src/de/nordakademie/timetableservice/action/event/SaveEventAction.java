@@ -11,6 +11,7 @@ import com.opensymphony.xwork2.Preparable;
 import de.nordakademie.timetableservice.business.Collision;
 import de.nordakademie.timetableservice.model.Century;
 import de.nordakademie.timetableservice.model.Event;
+import de.nordakademie.timetableservice.model.EventType;
 import de.nordakademie.timetableservice.model.Lecturer;
 import de.nordakademie.timetableservice.model.Room;
 import de.nordakademie.timetableservice.service.CenturyService;
@@ -189,25 +190,41 @@ public class SaveEventAction extends ActionSupport implements Preparable {
 		event.setRooms(roomService.findRoomsByEvent(event));
 		event.setCenturies(centuryService.findCenturiesByEvent(event));
 
-		for (Long id : selectedLecturerIds) {
-			selectedLecturers.add(lecturerService.load(id));
+		if (selectedLecturerIds.size() == 0 || selectedRoomIds.size() == 0) {
+			addActionError(getText("error.fieldsRequired"));
 		}
-		for (Long id : selectedCenturyIds) {
-			selectedCenturies.add(centuryService.load(id));
-		}
-		for (Long id : selectedRoomIds) {
-			selectedRooms.add(roomService.load(id));
+		if (event.getEventType().equals(EventType.SEMINAR) && selectedCenturyIds.size() != 0) {
+			addActionError(getText("error.seminarNoCenturies"));
 		}
 
-		List<Collision> collisions = new LinkedList<Collision>();
-		lecturerService.getCollisionsWithOtherEvents(event, selectedLecturers, collisions);
-		roomService.getCollisionsWithOtherEvents(event, selectedRooms, collisions);
-		centuryService.getCollisionsWithOtherEvents(event, selectedCenturies, collisions);
+		if (getActionErrors().size() == 0) {
 
-		roomService.checkRoomSize(selectedRooms, selectedCenturies, collisions);
+			for (Long id : selectedLecturerIds) {
+				selectedLecturers.add(lecturerService.load(id));
+			}
+			for (Long id : selectedCenturyIds) {
+				selectedCenturies.add(centuryService.load(id));
+			}
+			for (Long id : selectedRoomIds) {
+				selectedRooms.add(roomService.load(id));
+			}
+			List<Collision> collisions = new LinkedList<Collision>();
+			lecturerService.getCollisionsWithOtherEvents(event, selectedLecturers, collisions);
+			roomService.getCollisionsWithOtherEvents(event, selectedRooms, collisions);
+			centuryService.getCollisionsWithOtherEvents(event, selectedCenturies, collisions);
 
-		for (Collision collision : collisions) {
-			addActionError(getText(collision.getCollisionType().toString()) + collision.getEntity() + getText(collision.getMessage()));
+			roomService.checkRoomSize(selectedRooms, selectedCenturies, collisions);
+
+			// lecturerService.getCollisionBecauseOfChangeTime(event,
+			// selectedLecturers, collisions);
+			// roomService.getCollisionBecauseOfChangeTime(event, selectedRooms,
+			// collisions);
+			// centuryService.getCollisionBecauseOfChangeTime(event,
+			// selectedCenturies, collisions);
+
+			for (Collision collision : collisions) {
+				addActionError(getText(collision.getCollisionType().toString()) + collision.getEntity() + getText(collision.getMessage()));
+			}
 		}
 	}
 
