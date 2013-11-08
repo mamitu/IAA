@@ -39,10 +39,14 @@ public class CenturyServiceImpl implements CenturyService {
 	}
 
 	@Override
-	public void getCollisions(Event event, List<Century> centuriesToCheck, List<Collision> collisions) {
-		List<Century> centuriesWithCollisions = centuryDAO.findCenturiesByDatesWithoutId(event.getStartDate(), event.getEndDate(), event.getId());
-		for (Century century : centuriesWithCollisions) {
-			collisions.add(new Collision(CollisionType.ERROR, century.getName() + " hat bereits eine Veranstaltung zur angegebenen Uhrzeit."));
+	public void getCollisionsWithOtherEvents(Event event, List<Century> centuriesToCheck, List<Collision> collisions) {
+		Set<Century> centuriesWithExistingEvent = centuryDAO.findCenturiesWithDatesWithoutId(event.getStartDate(), event.getEndDate(), event.getId());
+		if (!centuriesWithExistingEvent.isEmpty()) {
+			for (Century century : centuriesToCheck) {
+				if (centuriesWithExistingEvent.contains(century)) {
+					collisions.add(new Collision(CollisionType.ERROR, century.toString(), "label.collision.existingEventForEntity"));
+				}
+			}
 		}
 	}
 

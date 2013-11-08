@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import de.nordakademie.timetableservice.business.Collision;
+import de.nordakademie.timetableservice.business.CollisionType;
 import de.nordakademie.timetableservice.dao.LecturerDAO;
 import de.nordakademie.timetableservice.model.Event;
 import de.nordakademie.timetableservice.model.Lecturer;
@@ -43,8 +44,15 @@ public class LecturerServiceImpl implements LecturerService {
 	}
 
 	@Override
-	public void getCollisions(Event event, List<Lecturer> lecturersToCheck, List<Collision> collisions) {
-		// TODO Auto-generated method stub
+	public void getCollisionsWithOtherEvents(Event event, List<Lecturer> lecturersToCheck, List<Collision> collisions) {
+		Set<Lecturer> lecturersWithExistingEvent = lecturerDAO.findLecturersWithDatesWithoutId(event.getStartDate(), event.getEndDate(), event.getId());
+		if (!lecturersWithExistingEvent.isEmpty()) {
+			for (Lecturer lecturer : lecturersToCheck) {
+				if (lecturersWithExistingEvent.contains(lecturer)) {
+					collisions.add(new Collision(CollisionType.ERROR, lecturer.toString(), "label.collision.existingEventForEntity"));
+				}
+			}
+		}
 	}
 
 }

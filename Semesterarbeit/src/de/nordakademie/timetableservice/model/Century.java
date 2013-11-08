@@ -111,7 +111,7 @@ public class Century {
 
 	@Override
 	public String toString() {
-		return getName() + " (" + getId() + ")";
+		return getName() + " (Studenten: " + getNumberOfStudents() + ")";
 	}
 
 	public void associateEvent(Event event) {

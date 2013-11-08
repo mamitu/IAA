@@ -119,7 +119,6 @@ public class ShowEventAction extends ActionSupport implements Preparable {
 			for (Century century : event.getCenturies()) {
 				selectedCenturyIds.add(century.getId());
 			}
-
 		} else {
 			event = new Event();
 

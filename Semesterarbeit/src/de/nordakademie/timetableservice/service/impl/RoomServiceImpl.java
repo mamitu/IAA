@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Set;
 
 import de.nordakademie.timetableservice.business.Collision;
+import de.nordakademie.timetableservice.business.CollisionType;
 import de.nordakademie.timetableservice.dao.RoomDAO;
+import de.nordakademie.timetableservice.model.Century;
 import de.nordakademie.timetableservice.model.Event;
 import de.nordakademie.timetableservice.model.Room;
 import de.nordakademie.timetableservice.service.RoomService;
@@ -38,8 +40,28 @@ public class RoomServiceImpl implements RoomService {
 	}
 
 	@Override
-	public void getCollisions(Event event, List<Room> roomsToCheck, List<Collision> collisions) {
-		// TODO Auto-generated method stub
+	public void getCollisionsWithOtherEvents(Event event, List<Room> roomsToCheck, List<Collision> collisions) {
+		Set<Room> roomsWithExistingEvent = roomDAO.findRoomsWithDatesWithoutId(event.getStartDate(), event.getEndDate(), event.getId());
+		if (!roomsWithExistingEvent.isEmpty()) {
+			for (Room room : roomsToCheck) {
+				if (roomsWithExistingEvent.contains(room)) {
+					collisions.add(new Collision(CollisionType.ERROR, room.toString(), "label.collision.existingEventForEntity"));
+				}
+			}
+		}
 	}
 
+	@Override
+	public void checkRoomSize(List<Room> roomsToCheck, List<Century> selectedCenturies, List<Collision> collisions) {
+		int numberOfSeatsRequired = 0;
+		for (Century century : selectedCenturies) {
+			numberOfSeatsRequired += century.getNumberOfStudents();
+		}
+		for (Room room : roomsToCheck) {
+			if (room.getNumberOfSeats() < numberOfSeatsRequired) {
+				collisions.add(new Collision(CollisionType.ERROR, room.toString(), "label.collision.roomNotEnoughSeats"));
+			}
+		}
+
+	}
 }

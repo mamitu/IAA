@@ -17,6 +17,6 @@ public interface CenturyService {
 
 	public Set<Century> findCenturiesByEvent(Event event);
 
-	public void getCollisions(Event event, List<Century> centuriesToCheck, List<Collision> collisions);
+	public void getCollisionsWithOtherEvents(Event event, List<Century> centuriesToCheck, List<Collision> collisions);
 
 }

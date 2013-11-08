@@ -81,7 +81,7 @@ public class Lecturer {
 
 	@Override
 	public String toString() {
-		return getFirstName() + " " + getLastName() + " (" + getId() + ")";
+		return getFirstName() + " " + getLastName() + " (" + getEmailAddress() + ")";
 	}
 
 	public void associateEvent(Event event) {

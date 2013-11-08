@@ -119,7 +119,7 @@ public class Room {
 
 	@Override
 	public String toString() {
-		return getName() + " (" + getId() + ")";
+		return getName() + " (Sitze: " + getNumberOfSeats() + ")";
 	}
 
 }

@@ -1,5 +1,6 @@
 package de.nordakademie.timetableservice.dao;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -70,5 +71,65 @@ public class LecturerDAO {
 		Session session = sessionFactory.getCurrentSession();
 		return (List<Lecturer>) session.createQuery("select lecturer from Lecturer as lecturer where lecturer.emailAddress = :emailAddress")
 				.setString("emailAddress", emailAddress).list();
+	}
+
+	@SuppressWarnings("unchecked")
+	public Set<Lecturer> findLecturersWithDatesWithoutId(Date startDate, Date endDate, Long eventId) {
+		Session session = sessionFactory.getCurrentSession();
+		Set<Lecturer> lecturers = new HashSet<Lecturer>();
+		getLecturersWithStartDateBetweenExistingEvent(startDate, eventId, session, lecturers);
+		getLecturersWithEndDateBetweenExistingEvent(endDate, eventId, session, lecturers);
+		getLecturersWithDatesAroundExistingEvent(startDate, endDate, eventId, session, lecturers);
+		return lecturers;
+	}
+
+	@SuppressWarnings("unchecked")
+	private void getLecturersWithDatesAroundExistingEvent(Date startDate, Date endDate, Long eventId, Session session, Set<Lecturer> lecturers) {
+		if (eventId == null) {
+			List<Lecturer> lecturerList = (List<Lecturer>) session
+					.createQuery("select lecturer from Lecturer lecturer join lecturer.eventsOfLecturer event where :startDate <= event.startDate and :endDate >= event.endDate")
+					.setTimestamp("endDate", endDate).setTimestamp("startDate", startDate).list();
+			lecturers.addAll(lecturerList);
+		} else {
+			List<Lecturer> lecturerList = (List<Lecturer>) session
+					.createQuery(
+							"select lecturer from Lecturer lecturer join lecturer.eventsOfLecturer event where event.id != :eventId and :startDate <= event.startDate and :endDate >= event.endDate")
+					.setTimestamp("endDate", endDate).setTimestamp("startDate", startDate).setParameter("eventId", eventId).list();
+			lecturers.addAll(lecturerList);
+
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private void getLecturersWithEndDateBetweenExistingEvent(Date endDate, Long eventId, Session session, Set<Lecturer> lecturers) {
+		if (eventId == null) {
+			List<Lecturer> lecturerList = (List<Lecturer>) session
+					.createQuery("select lecturer from Lecturer lecturer join lecturer.eventsOfLecturer event where :endDate between event.startDate and event.endDate")
+					.setTimestamp("endDate", endDate).list();
+			lecturers.addAll(lecturerList);
+		} else {
+			List<Lecturer> lecturerList = (List<Lecturer>) session
+					.createQuery(
+							"select lecturer from Lecturer lecturer join lecturer.eventsOfLecturer event where event.id != :eventId and :endDate between event.startDate and event.endDate")
+					.setTimestamp("endDate", endDate).setParameter("eventId", eventId).list();
+			lecturers.addAll(lecturerList);
+
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private void getLecturersWithStartDateBetweenExistingEvent(Date startDate, Long eventId, Session session, Set<Lecturer> lecturers) {
+		if (eventId == null) {
+			List<Lecturer> lecturerList = (List<Lecturer>) session
+					.createQuery("select lecturer from Lecturer lecturer join lecturer.eventsOfLecturer event where :startDate between event.startDate and event.endDate")
+					.setTimestamp("startDate", startDate).list();
+			lecturers.addAll(lecturerList);
+		} else {
+			List<Lecturer> lecturerList = (List<Lecturer>) session
+					.createQuery(
+							"select lecturer from Lecturer lecturer join lecturer.eventsOfLecturer event where event.id != :eventId and :startDate between event.startDate and event.endDate")
+					.setTimestamp("startDate", startDate).setParameter("eventId", eventId).list();
+			lecturers.addAll(lecturerList);
+		}
 	}
 }

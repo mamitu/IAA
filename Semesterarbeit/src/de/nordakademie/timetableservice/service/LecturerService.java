@@ -19,6 +19,6 @@ public interface LecturerService {
 
 	public boolean checkEmailExists(String emailAddress);
 
-	public void getCollisions(Event event, List<Lecturer> lecturersToCheck, List<Collision> collisions);
+	public void getCollisionsWithOtherEvents(Event event, List<Lecturer> lecturersToCheck, List<Collision> collisions);
 
 }

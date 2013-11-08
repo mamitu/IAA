@@ -1,5 +1,7 @@
 package de.nordakademie.timetableservice.action.event;
 
+import java.util.Set;
+
 import com.opensymphony.xwork2.ActionSupport;
 
 import de.nordakademie.timetableservice.model.Century;
@@ -17,6 +19,15 @@ public class DeleteEventAction extends ActionSupport {
 	private Event event;
 	private EventService eventService;
 	private LecturerService lecturerService;
+	private Set<Event> events;
+
+	public Set<Event> getEvents() {
+		return events;
+	}
+
+	public void setEvents(Set<Event> events) {
+		this.events = events;
+	}
 
 	public void setLecturerService(LecturerService lecturerService) {
 		this.lecturerService = lecturerService;
@@ -61,6 +72,7 @@ public class DeleteEventAction extends ActionSupport {
 			}
 			eventService.deleteEventWithId(eventId);
 		}
+		events = eventService.loadAll();
 		return SUCCESS;
 	}
 

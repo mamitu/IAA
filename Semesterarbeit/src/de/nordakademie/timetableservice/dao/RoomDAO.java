@@ -1,6 +1,8 @@
 package de.nordakademie.timetableservice.dao;
 
+import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.hibernate.Hibernate;
@@ -49,4 +51,60 @@ public class RoomDAO {
 		return rooms;
 	}
 
+	public Set<Room> findRoomsWithDatesWithoutId(Date startDate, Date endDate, Long eventId) {
+		Session session = sessionFactory.getCurrentSession();
+		Set<Room> rooms = new HashSet<Room>();
+		getRoomsWithStartDateBetweenExistingEvent(startDate, eventId, session, rooms);
+		getRoomsWithEndDateBetweenExistingEvent(endDate, eventId, session, rooms);
+		getRoomsWithDatesAroundExistingEvent(startDate, endDate, eventId, session, rooms);
+		return rooms;
+	}
+
+	@SuppressWarnings("unchecked")
+	private void getRoomsWithDatesAroundExistingEvent(Date startDate, Date endDate, Long eventId, Session session, Set<Room> rooms) {
+		if (eventId == null) {
+			List<Room> roomList = (List<Room>) session
+					.createQuery("select room from Room room join room.eventsOfRoom event where :startDate <= event.startDate and :endDate >= event.endDate")
+					.setTimestamp("endDate", endDate).setTimestamp("startDate", startDate).list();
+			rooms.addAll(roomList);
+		} else {
+			List<Room> roomList = (List<Room>) session
+					.createQuery(
+							"select room from Room room join room.eventsOfRoom event where event.id != :eventId and :startDate <= event.startDate and :endDate >= event.endDate")
+					.setTimestamp("endDate", endDate).setTimestamp("startDate", startDate).setParameter("eventId", eventId).list();
+			rooms.addAll(roomList);
+
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private void getRoomsWithEndDateBetweenExistingEvent(Date endDate, Long eventId, Session session, Set<Room> rooms) {
+		if (eventId == null) {
+			List<Room> roomList = (List<Room>) session
+					.createQuery("select room from Room room join room.eventsOfRoom event where :endDate between event.startDate and event.endDate")
+					.setTimestamp("endDate", endDate).list();
+			rooms.addAll(roomList);
+		} else {
+			List<Room> roomList = (List<Room>) session
+					.createQuery("select room from Room room join room.eventsOfRoom event where event.id != :eventId and :endDate between event.startDate and event.endDate")
+					.setTimestamp("endDate", endDate).setParameter("eventId", eventId).list();
+			rooms.addAll(roomList);
+
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private void getRoomsWithStartDateBetweenExistingEvent(Date startDate, Long eventId, Session session, Set<Room> rooms) {
+		if (eventId == null) {
+			List<Room> roomList = (List<Room>) session
+					.createQuery("select room from Room room join room.eventsOfRoom event where :startDate between event.startDate and event.endDate")
+					.setTimestamp("startDate", startDate).list();
+			rooms.addAll(roomList);
+		} else {
+			List<Room> roomList = (List<Room>) session
+					.createQuery("select room from Room room join room.eventsOfRoom event where event.id != :eventId and :startDate between event.startDate and event.endDate")
+					.setTimestamp("startDate", startDate).setParameter("eventId", eventId).list();
+			rooms.addAll(roomList);
+		}
+	}
 }

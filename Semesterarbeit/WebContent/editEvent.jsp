@@ -2,13 +2,14 @@
     pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="/struts-tags" prefix="s" %>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %> 
-
+<s:actionerror/>
 <s:form  acceptcharset="utf-8">
 	<s:hidden name="event.id"/>
 	<s:textfield name="event.name" key="label.event.name"/>
 	<s:radio name="event.eventType" list="%{@de.nordakademie.timetableservice.model.EventType@values()}" key="label.event.eventType" />
-	<s:textfield name="event.startDate" key="label.event.startDate"/>
-	<s:textfield name="event.endDate" key="label.event.endDate"/>
+	
+	<s:textfield name="event.startDate" key="label.event.startDate" value="%{getText('format.date',{event.startDate})}"/>
+	<s:textfield name="event.endDate" key="label.event.endDate" value="%{getText('format.date',{event.endDate})}"/>
 	
 	<s:select
 		name="selectedLecturerIds"

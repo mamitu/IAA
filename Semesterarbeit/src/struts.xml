@@ -75,7 +75,5 @@
 			<result type="chain">ShowEventList</result>
 			<result name="input" type="tiles">EditEvent</result>	
 		</action>
-		
-		
 	</package>
 </struts>

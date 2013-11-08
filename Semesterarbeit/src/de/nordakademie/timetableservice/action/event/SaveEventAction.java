@@ -1,10 +1,14 @@
 package de.nordakademie.timetableservice.action.event;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import com.opensymphony.xwork2.ActionSupport;
+import com.opensymphony.xwork2.Preparable;
 
+import de.nordakademie.timetableservice.business.Collision;
 import de.nordakademie.timetableservice.model.Century;
 import de.nordakademie.timetableservice.model.Event;
 import de.nordakademie.timetableservice.model.Lecturer;
@@ -14,7 +18,7 @@ import de.nordakademie.timetableservice.service.EventService;
 import de.nordakademie.timetableservice.service.LecturerService;
 import de.nordakademie.timetableservice.service.RoomService;
 
-public class SaveEventAction extends ActionSupport {
+public class SaveEventAction extends ActionSupport implements Preparable {
 
 	private Event event;
 	private EventService eventService;
@@ -22,10 +26,53 @@ public class SaveEventAction extends ActionSupport {
 	private List<Long> selectedLecturerIds;
 	private List<Long> selectedRoomIds;
 	private List<Long> selectedCenturyIds;
+	private Map<Long, String> availableLecturers;
+	private Map<Long, String> availableRooms;
+	private Map<Long, String> availableCenturies;
+
+	public Map<Long, String> getAvailableLecturers() {
+		return availableLecturers;
+	}
+
+	public void setAvailableLecturers(Map<Long, String> availableLecturers) {
+		this.availableLecturers = availableLecturers;
+	}
+
+	public Map<Long, String> getAvailableRooms() {
+		return availableRooms;
+	}
+
+	public void setAvailableRooms(Map<Long, String> availableRooms) {
+		this.availableRooms = availableRooms;
+	}
+
+	public Map<Long, String> getAvailableCenturies() {
+		return availableCenturies;
+	}
+
+	public void setAvailableCenturies(Map<Long, String> availableCenturies) {
+		this.availableCenturies = availableCenturies;
+	}
+
+	public void prepare() {
+
+		availableLecturers = new HashMap<Long, String>();
+		availableRooms = new HashMap<Long, String>();
+		availableCenturies = new HashMap<Long, String>();
+		for (Lecturer lecturer : lecturerService.loadAll()) {
+			availableLecturers.put(lecturer.getId(), lecturer.toString());
+		}
+		for (Room room : roomService.loadAll()) {
+			availableRooms.put(room.getId(), room.toString());
+		}
+		for (Century century : centuryService.loadAll()) {
+			availableCenturies.put(century.getId(), century.toString());
+		}
+	}
 
 	private List<Lecturer> selectedLecturers;
-	private List<Century> selectedCenturies;
 	private List<Room> selectedRooms;
+	private List<Century> selectedCenturies;
 
 	private LecturerService lecturerService;
 	private RoomService roomService;
@@ -71,52 +118,8 @@ public class SaveEventAction extends ActionSupport {
 		this.eventService = eventService;
 	}
 
-	// @Override
-	// public String execute() throws Exception {
-	// if (event.getId() != null) {
-	// Event originalEvent = eventService.load(event.getId());
-	// originalEvent.toString();
-	// }
-	// event.setLecturers(lecturerService.findLecturersByEvent(event));
-	// event.setRooms(roomService.findRoomsByEvent(event));
-	// event.setCenturies(centuryService.findCenturiesByEvent(event));
-	//
-	// selectedLecturers = new LinkedList<Lecturer>();
-	// for (Long id : selectedLecturerIds) {
-	// selectedLecturers.add(lecturerService.load(id));
-	// }
-	// selectedCenturies = new LinkedList<Century>();
-	// for (Long id : selectedCenturyIds) {
-	// selectedCenturies.add(centuryService.load(id));
-	// }
-	// selectedRooms = new LinkedList<Room>();
-	// for (Long id : selectedRoomIds) {
-	// selectedRooms.add(roomService.load(id));
-	// }
-	// centuryService.updateCenturyReferences(event, selectedCenturies);
-	// roomService.updateRoomReferences(event, selectedRooms);
-	// lecturerService.updateLecturerReferences(event, selectedLecturers);
-	// eventService.saveEvent(event);
-	// return super.execute();
-	// }
-
-	// @Override
-	// public void validate() {
-
-	// List<Collision> collisions = new LinkedList<Collision>();
-	// centuryService.getCollisions(event, selectedCenturies, collisions);
-	// roomService.getCollisions(event, selectedRooms, collisions);
-	// lecturerService.getCollisions(event, selectedLecturers, collisions);
-	// for (Collision collision : collisions) {
-	// addActionError(collision.toString());
-	// }
-	// }
-
 	@Override
 	public String execute() throws Exception {
-		event.setLecturers(lecturerService.findLecturersByEvent(event));
-		event.setRooms(roomService.findRoomsByEvent(event));
-		event.setCenturies(centuryService.findCenturiesByEvent(event));
 		updateLecturers();
 		updateRooms();
 		updateCenturies();
@@ -125,10 +128,6 @@ public class SaveEventAction extends ActionSupport {
 	}
 
 	private void updateLecturers() {
-		List<Lecturer> selectedLecturers = new LinkedList<Lecturer>();
-		for (Long id : selectedLecturerIds) {
-			selectedLecturers.add(lecturerService.load(id));
-		}
 		List<Lecturer> lecturersToRemove = new LinkedList<Lecturer>(event.getLecturers());
 		lecturersToRemove.removeAll(selectedLecturers);
 		for (Lecturer lecturer : lecturersToRemove) {
@@ -144,10 +143,6 @@ public class SaveEventAction extends ActionSupport {
 	}
 
 	private void updateRooms() {
-		List<Room> selectedRooms = new LinkedList<Room>();
-		for (Long id : selectedRoomIds) {
-			selectedRooms.add(roomService.load(id));
-		}
 		List<Room> roomsToRemove = new LinkedList<Room>(event.getRooms());
 		roomsToRemove.removeAll(selectedRooms);
 		for (Room room : roomsToRemove) {
@@ -163,10 +158,6 @@ public class SaveEventAction extends ActionSupport {
 	}
 
 	private void updateCenturies() {
-		List<Century> selectedCenturies = new LinkedList<Century>();
-		for (Long id : selectedCenturyIds) {
-			selectedCenturies.add(centuryService.load(id));
-		}
 		List<Century> centuriesToRemove = new LinkedList<Century>(event.getCenturies());
 		centuriesToRemove.removeAll(selectedCenturies);
 		for (Century century : centuriesToRemove) {
@@ -187,6 +178,37 @@ public class SaveEventAction extends ActionSupport {
 
 	public void setSelectedLecturerIds(List<Long> selectedLecturerIds) {
 		this.selectedLecturerIds = selectedLecturerIds;
+	}
+
+	@Override
+	public void validate() {
+		selectedRooms = new LinkedList<Room>();
+		selectedCenturies = new LinkedList<Century>();
+		selectedLecturers = new LinkedList<Lecturer>();
+		event.setLecturers(lecturerService.findLecturersByEvent(event));
+		event.setRooms(roomService.findRoomsByEvent(event));
+		event.setCenturies(centuryService.findCenturiesByEvent(event));
+
+		for (Long id : selectedLecturerIds) {
+			selectedLecturers.add(lecturerService.load(id));
+		}
+		for (Long id : selectedCenturyIds) {
+			selectedCenturies.add(centuryService.load(id));
+		}
+		for (Long id : selectedRoomIds) {
+			selectedRooms.add(roomService.load(id));
+		}
+
+		List<Collision> collisions = new LinkedList<Collision>();
+		lecturerService.getCollisionsWithOtherEvents(event, selectedLecturers, collisions);
+		roomService.getCollisionsWithOtherEvents(event, selectedRooms, collisions);
+		centuryService.getCollisionsWithOtherEvents(event, selectedCenturies, collisions);
+
+		roomService.checkRoomSize(selectedRooms, selectedCenturies, collisions);
+
+		for (Collision collision : collisions) {
+			addActionError(getText(collision.getCollisionType().toString()) + collision.getEntity() + getText(collision.getMessage()));
+		}
 	}
 
 }

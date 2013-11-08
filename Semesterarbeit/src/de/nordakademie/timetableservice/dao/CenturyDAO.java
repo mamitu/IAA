@@ -52,13 +52,63 @@ public class CenturyDAO {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Century> findCenturiesByDatesWithoutId(Date startDate, Date endDate, Long eventId) {
+	public Set<Century> findCenturiesWithDatesWithoutId(Date startDate, Date endDate, Long eventId) {
 		Session session = sessionFactory.getCurrentSession();
-		List<Century> centuries = (List<Century>) session
-				.createQuery(
-						"select century from Century century join century.eventsOfCentury event where event.id = :eventId and event.startDate < :endDate and event.endDate > :startDate")
-				.setTimestamp("endDate", endDate).setTimestamp("startDate", startDate).setParameter("eventId", eventId).list();
+		Set<Century> centuries = new HashSet<Century>();
+		getCenturiesWithStartDateBetweenExistingEvent(startDate, eventId, session, centuries);
+		getCenturiesWithEndDateBetweenExistingEvent(endDate, eventId, session, centuries);
+		getCenturiesWithDatesAroundExistingEvent(startDate, endDate, eventId, session, centuries);
 		return centuries;
+	}
+
+	@SuppressWarnings("unchecked")
+	private void getCenturiesWithDatesAroundExistingEvent(Date startDate, Date endDate, Long eventId, Session session, Set<Century> centuries) {
+		if (eventId == null) {
+			List<Century> centuryList = (List<Century>) session
+					.createQuery("select century from Century century join century.eventsOfCentury event where :startDate <= event.startDate and :endDate >= event.endDate")
+					.setTimestamp("endDate", endDate).setTimestamp("startDate", startDate).list();
+			centuries.addAll(centuryList);
+		} else {
+			List<Century> centuryList = (List<Century>) session
+					.createQuery(
+							"select century from Century century join century.eventsOfCentury event where event.id != :eventId and :startDate <= event.startDate and :endDate >= event.endDate")
+					.setTimestamp("endDate", endDate).setTimestamp("startDate", startDate).setParameter("eventId", eventId).list();
+			centuries.addAll(centuryList);
+
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private void getCenturiesWithEndDateBetweenExistingEvent(Date endDate, Long eventId, Session session, Set<Century> centuries) {
+		if (eventId == null) {
+			List<Century> centuryList = (List<Century>) session
+					.createQuery("select century from Century century join century.eventsOfCentury event where :endDate between event.startDate and event.endDate")
+					.setTimestamp("endDate", endDate).list();
+			centuries.addAll(centuryList);
+		} else {
+			List<Century> centuryList = (List<Century>) session
+					.createQuery(
+							"select century from Century century join century.eventsOfCentury event where event.id != :eventId and :endDate between event.startDate and event.endDate")
+					.setTimestamp("endDate", endDate).setParameter("eventId", eventId).list();
+			centuries.addAll(centuryList);
+
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private void getCenturiesWithStartDateBetweenExistingEvent(Date startDate, Long eventId, Session session, Set<Century> centuries) {
+		if (eventId == null) {
+			List<Century> centuryList = (List<Century>) session
+					.createQuery("select century from Century century join century.eventsOfCentury event where :startDate between event.startDate and event.endDate")
+					.setTimestamp("startDate", startDate).list();
+			centuries.addAll(centuryList);
+		} else {
+			List<Century> centuryList = (List<Century>) session
+					.createQuery(
+							"select century from Century century join century.eventsOfCentury event where event.id != :eventId and :startDate between event.startDate and event.endDate")
+					.setTimestamp("startDate", startDate).setParameter("eventId", eventId).list();
+			centuries.addAll(centuryList);
+		}
 	}
 
 }
