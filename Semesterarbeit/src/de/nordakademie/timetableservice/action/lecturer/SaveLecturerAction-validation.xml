@@ -26,6 +26,14 @@
 		</field-validator>
 	</field>
 
+	<field name="lecturer.emailAddress">
+		<field-validator type="requiredstring">
+			<message key="label.required.email" />
+		</field-validator>
+		<field-validator type="email">
+			<message key="label.error.email" />
+		</field-validator>
+	</field>
 
 	<field name="lecturer.breakTime">
 		<field-validator type="int">
@@ -33,15 +41,6 @@
 			<message key="label.required.breakTime" />
 		</field-validator>
 	</field>
-
-
-<!-- 	<field name="lecturer.breakTime"> -->
-<!-- 	<field-validator type="regex"> -->
-<!-- 	<param name="expression"><![CDATA[^[\d]+$]]></param> -->
-<!-- 	<message key="label.required.breakTime" /> -->
-<!-- 	</field-validator> -->
-<!-- 	</field> -->
-
 
 </validators>
 
