@@ -1,6 +1,5 @@
 package de.nordakademie.timetableservice.service.impl;
 
-import java.util.List;
 import java.util.Set;
 
 import de.nordakademie.timetableservice.business.Collision;
@@ -39,29 +38,22 @@ public class LecturerServiceImpl implements LecturerService {
 	}
 
 	@Override
+	public boolean checkEmailExistsForAnotherId(Long lecturerId, String emailAddress) {
+		return lecturerDAO.findLecturersByEmailAddressWithoutId(emailAddress, lecturerId).isEmpty() ? false : true;
+	}
+
+	@Override
 	public boolean checkEmailExists(String emailAddress) {
 		return lecturerDAO.findLecturersByEmailAddress(emailAddress).isEmpty() ? false : true;
 	}
 
 	@Override
-	public void getCollisionsWithOtherEvents(Event event, List<Lecturer> lecturersToCheck, List<Collision> collisions) {
+	public void getCollisionsWithOtherEvents(Event event, Set<Lecturer> lecturersToCheck, Set<Collision> collisions) {
 		Set<Lecturer> lecturersWithExistingEvent = lecturerDAO.findLecturersWithDatesWithoutId(event.getStartDate(), event.getEndDate(), event.getId());
 		if (!lecturersWithExistingEvent.isEmpty()) {
 			for (Lecturer lecturer : lecturersToCheck) {
 				if (lecturersWithExistingEvent.contains(lecturer)) {
 					collisions.add(new Collision(CollisionType.ERROR, lecturer.toString(), "label.collision.existingEventForEntity"));
-				}
-			}
-		}
-	}
-
-	@Override
-	public void getCollisionBecauseOfChangeTime(Event event, List<Lecturer> lecturersToCheck, List<Collision> collisions) {
-		Set<Lecturer> lecturersWithBreakTimeConflicts = lecturerDAO.findLecturersWithBreakTimeConflictsForEvent(event.getStartDate(), event.getEndDate(), event.getId());
-		if (!lecturersWithBreakTimeConflicts.isEmpty()) {
-			for (Lecturer lecturer : lecturersToCheck) {
-				if (lecturersWithBreakTimeConflicts.contains(lecturer)) {
-					collisions.add(new Collision(CollisionType.ERROR, lecturer.toString(), "label.collision.breakTimeConflict"));
 				}
 			}
 		}

@@ -36,7 +36,7 @@
 	</field>
 
 	<field name="lecturer.breakTime">
-		<field-validator type="int">
+		<field-validator type="long">
 			<param name="min">0</param>
 			<message key="label.required.breakTime" />
 		</field-validator>

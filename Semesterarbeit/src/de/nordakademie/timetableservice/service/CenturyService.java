@@ -1,6 +1,5 @@
 package de.nordakademie.timetableservice.service;
 
-import java.util.List;
 import java.util.Set;
 
 import de.nordakademie.timetableservice.business.Collision;
@@ -17,6 +16,10 @@ public interface CenturyService {
 
 	public Set<Century> findCenturiesByEvent(Event event);
 
-	public void getCollisionsWithOtherEvents(Event event, List<Century> centuriesToCheck, List<Collision> collisions);
+	public void getCollisionsWithOtherEvents(Event event, Set<Century> centuriesToCheck, Set<Collision> collisions);
+
+	public boolean checkNameExists(String centuryName);
+
+	public boolean checkNameExistsForAnotherId(Long centuryId, String centuryName);
 
 }

@@ -38,7 +38,7 @@ public class Century {
 	}
 
 	@Column(nullable = false)
-	private int breakTime;
+	private Long breakTime;
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(joinColumns = { @JoinColumn(name = "century_id") }, inverseJoinColumns = { @JoinColumn(name = "event_id") })
@@ -68,11 +68,11 @@ public class Century {
 		this.numberOfStudents = numberOfStudents;
 	}
 
-	public int getBreakTime() {
+	public Long getBreakTime() {
 		return breakTime;
 	}
 
-	public void setBreakTime(int breakTime) {
+	public void setBreakTime(Long breakTime) {
 		this.breakTime = breakTime;
 	}
 

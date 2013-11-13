@@ -21,12 +21,5 @@
 			<message key="label.required.numberOfSeats" />
 		</field-validator>
 	</field>
-
-	<field name="lecturer.breakTime">
-		<field-validator type="int">
-			<param name="min">0</param>
-			<message key="label.required.breakTime" />
-		</field-validator>
-	</field>
 </validators>
 

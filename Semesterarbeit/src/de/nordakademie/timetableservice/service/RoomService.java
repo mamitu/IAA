@@ -1,6 +1,6 @@
 package de.nordakademie.timetableservice.service;
 
-import java.util.List;
+import java.util.Date;
 import java.util.Set;
 
 import de.nordakademie.timetableservice.business.Collision;
@@ -18,8 +18,14 @@ public interface RoomService {
 
 	public Set<Room> findRoomsByEvent(Event event);
 
-	public void getCollisionsWithOtherEvents(Event event, List<Room> roomsToCheck, List<Collision> collisions);
+	public void getCollisionsWithOtherEvents(Event event, Set<Room> roomsToCheck, Set<Collision> collisions);
 
-	public void checkRoomSize(List<Room> roomsToCheck, List<Century> selectedCenturies, List<Collision> collisions);
+	public void checkRoomSize(Set<Room> roomsToCheck, Set<Century> selectedCenturies, Set<Collision> collisions);
+
+	public boolean checkNameExists(String roomName);
+
+	public boolean checkNameExistsForAnotherId(Long roomId, String roomName);
+
+	public Set<Room> findFreeRoomsByDates(Date startDate, Date endDate);
 
 }

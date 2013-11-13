@@ -3,6 +3,7 @@
 <%@ taglib uri="/struts-tags" prefix="s" %>
 
 <s:form action="ShowLecturer">
+	<s:submit key="button.register.lecturer.name"/>
 	<table>
 		<tr>
 			<th> <s:text name="label.lecturer.firstName"/> </th>
@@ -17,12 +18,12 @@
 				<td><s:property value="lastName"/></td>
 				<td><s:property value="breakTime"/></td>
 				<td><s:property value="emailAddress"/></td>
-				<s:url id="detailURL" action="ShowLecturer">
-					<s:param name="lecturerId" value="id"/>
+				<s:url id="timetableURL" action="ShowTimetable">
+					<s:param name="entityId" value="id"/>
+					<s:param name="entity" value="'lecturer'"/>
 				</s:url>
-				<td><s:a href="%{detailURL}"><s:text name="label.list.detail"/></s:a></td>
+				<td><s:a href="%{timetableURL}"><s:text name="label.list.timetable"/></s:a></td>
 			</tr>
 		</s:iterator>
 	</table>
-	<s:submit value="Register"/>
 </s:form>

@@ -1,6 +1,6 @@
 package de.nordakademie.timetableservice.service.impl;
 
-import java.util.List;
+import java.util.Date;
 import java.util.Set;
 
 import de.nordakademie.timetableservice.business.Collision;
@@ -40,7 +40,7 @@ public class RoomServiceImpl implements RoomService {
 	}
 
 	@Override
-	public void getCollisionsWithOtherEvents(Event event, List<Room> roomsToCheck, List<Collision> collisions) {
+	public void getCollisionsWithOtherEvents(Event event, Set<Room> roomsToCheck, Set<Collision> collisions) {
 		Set<Room> roomsWithExistingEvent = roomDAO.findRoomsWithDatesWithoutId(event.getStartDate(), event.getEndDate(), event.getId());
 		if (!roomsWithExistingEvent.isEmpty()) {
 			for (Room room : roomsToCheck) {
@@ -52,7 +52,7 @@ public class RoomServiceImpl implements RoomService {
 	}
 
 	@Override
-	public void checkRoomSize(List<Room> roomsToCheck, List<Century> selectedCenturies, List<Collision> collisions) {
+	public void checkRoomSize(Set<Room> roomsToCheck, Set<Century> selectedCenturies, Set<Collision> collisions) {
 		int numberOfSeatsRequired = 0;
 		for (Century century : selectedCenturies) {
 			numberOfSeatsRequired += century.getNumberOfStudents();
@@ -63,5 +63,20 @@ public class RoomServiceImpl implements RoomService {
 			}
 		}
 
+	}
+
+	@Override
+	public boolean checkNameExists(String roomName) {
+		return roomDAO.findRoomsByName(roomName).isEmpty() ? false : true;
+	}
+
+	@Override
+	public boolean checkNameExistsForAnotherId(Long roomId, String roomName) {
+		return roomDAO.findRoomsByNameWithoutId(roomName, roomId).isEmpty() ? false : true;
+	}
+
+	@Override
+	public Set<Room> findFreeRoomsByDates(Date startDate, Date endDate) {
+		return roomDAO.findFreeRoomsByDate(startDate, endDate);
 	}
 }

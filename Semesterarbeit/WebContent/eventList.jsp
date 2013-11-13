@@ -3,7 +3,7 @@
 <%@ taglib uri="/struts-tags" prefix="s" %>
 
 <s:form>
-<s:submit key="label.button.registerEvent" action="ShowEvent"/>
+<s:submit key="label.button.registerEvent" action="CreateEvent"/>
 	<table>
 		<tr>
 			<th> <s:text name="label.event.name"/> </th>
@@ -18,8 +18,8 @@
 		<s:iterator value="events" var="event">
 			<tr>
 				<td><s:property value="#event.name"/></td>
-				<td><s:property value="startDate"/></td>
-				<td><s:property value="endDate"/></td>
+				<td><s:property value="%{getText('format.date',{startDate})}"/></td>
+				<td><s:property value="%{getText('format.date',{endDate})}"/></td>
 				<td>				
 				
 				<s:iterator value="#event.lecturers" var="lecturer">
@@ -27,7 +27,7 @@
 				</s:iterator>
 				
 				</td>
-				<s:url id="detailURL" action="ShowEvent">
+				<s:url id="detailURL" action="EditExistingEvent">
 					<s:param name="eventId" value="id"/>
 				</s:url>
 				<td><s:a href="%{detailURL}"><s:text name="label.list.detail"/></s:a></td>

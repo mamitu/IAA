@@ -5,6 +5,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,11 +31,14 @@ public class Room {
 	private int NumberOfSeats;
 
 	@Column(nullable = false)
-	private int breakTime;
+	private Long breakTime;
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(joinColumns = { @JoinColumn(name = "room_id") }, inverseJoinColumns = { @JoinColumn(name = "event_id") })
 	private Set<Event> eventsOfRoom;
+
+	@Enumerated
+	private RoomType roomType;
 
 	public Set<Event> getEventsOfRoom() {
 		return eventsOfRoom;
@@ -44,11 +48,11 @@ public class Room {
 		this.eventsOfRoom = eventsOfRoom;
 	}
 
-	public int getBreakTime() {
+	public Long getBreakTime() {
 		return breakTime;
 	}
 
-	public void setBreakTime(int breakTime) {
+	public void setBreakTime(Long breakTime) {
 		this.breakTime = breakTime;
 	}
 
@@ -120,6 +124,14 @@ public class Room {
 	@Override
 	public String toString() {
 		return getName() + " (Sitze: " + getNumberOfSeats() + ")";
+	}
+
+	public RoomType getRoomType() {
+		return roomType;
+	}
+
+	public void setRoomType(RoomType roomType) {
+		this.roomType = roomType;
 	}
 
 }

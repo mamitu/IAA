@@ -36,10 +36,18 @@
 		<put-attribute name="content" value="/roomList.jsp"/>
 	</definition>
 	
-		<definition name="EditEvent" extends="template">
+		<definition name="EditExistingEvent" extends="template">
 		<put-attribute name="content" value="/editEvent.jsp"/>
 	</definition>
+	<definition name="CreateEvent" extends="template">
+		<put-attribute name="content" value="/createEvent.jsp"/>
+	</definition>
+	
 	<definition name="EventList" extends="template">
 		<put-attribute name="content" value="/eventList.jsp"/>
 	</definition>
+	<definition name="ShowTimetable" extends="template">
+		<put-attribute name="content" value="/showTimetable.jsp"/>
+	</definition>
+	
 </tiles-definitions>

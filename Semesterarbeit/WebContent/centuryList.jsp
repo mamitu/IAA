@@ -3,6 +3,7 @@
 <%@ taglib uri="/struts-tags" prefix="s" %>
 
 <s:form action="ShowCentury">
+<s:submit key="button.register.century.name"/>
 	<table>
 		<tr>
 			<th> <s:text name="label.century.name"/> </th>
@@ -15,12 +16,12 @@
 				<td><s:property value="name"/></td>
 				<td><s:property value="numberOfStudents"/></td>
 				<td><s:property value="breakTime"/></td>
-				<s:url id="detailURL" action="ShowCentury">
-					<s:param name="centuryId" value="id"/>
+				<s:url id="timetableURL" action="ShowTimetable">
+					<s:param name="entityId" value="id"/>
+					<s:param name="entity" value="'century'"/>
 				</s:url>
-				<td><s:a href="%{detailURL}"><s:text name="label.list.detail"/></s:a></td>
+				<td><s:a href="%{timetableURL}"><s:text name="label.list.timetable"/></s:a></td>
 			</tr>
 		</s:iterator>
 	</table>
-	<s:submit value="Register"/>
 </s:form>

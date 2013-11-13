@@ -27,4 +27,28 @@ public class SaveRoomAction extends ActionSupport {
 		roomService.saveRoom(room);
 		return super.execute();
 	}
+
+	@Override
+	public void validate() {
+		checkRoomNameAlreadyExists();
+		checkBreakTimeValid();
+	}
+
+	private void checkRoomNameAlreadyExists() {
+		if (roomService.checkNameExists(room.getName())) {
+			addFieldError("room.name", getText("error.existingRoomName"));
+		}
+	}
+
+	private void checkBreakTimeValid() {
+		if (room.getBreakTime() == null) {
+			addFieldError("room.breakTime", getText("label.required.breakTime"));
+		} else if (room.getBreakTime() < room.getRoomType().getMinimalChangeTime()) {
+			String errorMessage = getText("error.roomTypeMoreChangeTime");
+			errorMessage = errorMessage.replace("$roomType", getText(room.getRoomType().getName()));
+			errorMessage = errorMessage.replace("$breakTime", getText(String.valueOf(room.getRoomType().getMinimalChangeTime())));
+			addFieldError("room.breakTime", errorMessage);
+		}
+	}
+
 }

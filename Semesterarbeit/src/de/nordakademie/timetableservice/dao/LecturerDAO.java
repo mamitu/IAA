@@ -67,13 +67,19 @@ public class LecturerDAO {
 	}
 
 	@SuppressWarnings("unchecked")
+	public List<Lecturer> findLecturersByEmailAddressWithoutId(String emailAddress, Long lecturerId) {
+		Session session = sessionFactory.getCurrentSession();
+		return (List<Lecturer>) session.createQuery("select lecturer from Lecturer as lecturer where lecturer.emailAddress = :emailAddress and lecturer.id != :lecturerId")
+				.setString("emailAddress", emailAddress).setParameter("lecturerId", lecturerId).list();
+	}
+
+	@SuppressWarnings("unchecked")
 	public List<Lecturer> findLecturersByEmailAddress(String emailAddress) {
 		Session session = sessionFactory.getCurrentSession();
 		return (List<Lecturer>) session.createQuery("select lecturer from Lecturer as lecturer where lecturer.emailAddress = :emailAddress")
 				.setString("emailAddress", emailAddress).list();
 	}
 
-	@SuppressWarnings("unchecked")
 	public Set<Lecturer> findLecturersWithDatesWithoutId(Date startDate, Date endDate, Long eventId) {
 		Session session = sessionFactory.getCurrentSession();
 		Set<Lecturer> lecturers = new HashSet<Lecturer>();
@@ -131,9 +137,5 @@ public class LecturerDAO {
 					.setTimestamp("startDate", startDate).setParameter("eventId", eventId).list();
 			lecturers.addAll(lecturerList);
 		}
-	}
-
-	public Set<Lecturer> findLecturersWithBreakTimeConflictsForEvent(Date startDate, Date endDate, Long eventId) {
-		return null;
 	}
 }

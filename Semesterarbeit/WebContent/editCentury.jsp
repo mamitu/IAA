@@ -3,6 +3,7 @@
 <%@ taglib uri="/struts-tags" prefix="s" %>
 
 <s:form action="SaveCentury">
+<s:fielderror/>
 	<s:hidden name="century.id"/>
 	<s:textfield name="century.name" key="label.century.name"/>
 	<s:textfield name="century.numberOfStudents" key="label.century.numberOfStudents"/>

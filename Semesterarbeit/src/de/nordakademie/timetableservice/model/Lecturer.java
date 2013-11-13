@@ -29,7 +29,7 @@ public class Lecturer {
 	private String lastName;
 
 	@Column(nullable = false)
-	private int breakTime;
+	private Long breakTime;
 
 	@NaturalId
 	@Column(nullable = false, length = 50)
@@ -71,11 +71,11 @@ public class Lecturer {
 		this.lastName = lastName;
 	}
 
-	public int getBreakTime() {
+	public Long getBreakTime() {
 		return breakTime;
 	}
 
-	public void setBreakTime(int breakTime) {
+	public void setBreakTime(Long breakTime) {
 		this.breakTime = breakTime;
 	}
 

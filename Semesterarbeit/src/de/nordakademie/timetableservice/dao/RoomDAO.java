@@ -34,6 +34,7 @@ public class RoomDAO {
 		Hibernate.initialize(room.getNumberOfSeats());
 		Hibernate.initialize(room.getBreakTime());
 		Hibernate.initialize(room.getEventsOfRoom());
+		Hibernate.initialize(room.getRoomType());
 		return room;
 	}
 
@@ -107,4 +108,27 @@ public class RoomDAO {
 			rooms.addAll(roomList);
 		}
 	}
+
+	@SuppressWarnings("unchecked")
+	public List<Room> findRoomsByName(String roomName) {
+		Session session = sessionFactory.getCurrentSession();
+		return (List<Room>) session.createQuery("select room from Room as room where room.name = :roomName").setString("roomName", roomName).list();
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Room> findRoomsByNameWithoutId(String roomName, Long roomId) {
+		Session session = sessionFactory.getCurrentSession();
+		return (List<Room>) session.createQuery("select room from Room as room where room.name = :roomName and room.id != :roomId").setString("roomName", roomName)
+				.setParameter("roomId", roomId).list();
+	}
+
+	@SuppressWarnings("unchecked")
+	public Set<Room> findFreeRoomsByDate(Date startDate, Date endDate) {
+		Session session = sessionFactory.getCurrentSession();
+		return new HashSet<Room>(
+				session.createQuery(
+						"select room from Room as room join room.eventsOfRoom as event where ( event.startDate not between :startDate and :endDate) OR (event.endDate not between :startDate and :endDate) OR ( event.startDate < :startDate AND event.endDate > :endDate )")
+						.setTimestamp("startDate", startDate).setTimestamp("endDate", endDate).list());
+	}
+
 }

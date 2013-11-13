@@ -4,14 +4,16 @@
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %> 
 
 <s:actionerror/>
-<s:form  acceptcharset="utf-8">
+<s:form acceptcharset="utf-8">
 	<s:hidden name="eventId"/>
-	<s:textfield name="event.name" key="label.event.name" readonly="true" />
-	<s:textfield name="event.eventType" value="%{getText(name)}" key="label.event.eventType" readonly="true" />
+	<s:textfield name="name" key="label.event.name" />
+	<s:radio name="eventType" list="%{@de.nordakademie.timetableservice.model.EventType@values()}" listValue="%{getText(name)}" key="label.event.eventType" />
 	
-	<s:textfield name="startDate" key="label.event.startDate" value="%{getText('format.date',{event.startDate})}"/>
-	<s:textfield name="endDate" key="label.event.endDate" value="%{getText('format.date',{event.endDate})}"/>
-
+	<s:textfield name="startDate" key="label.event.startDate" value="%{getText('format.date',{startDate})}"/>
+	<s:textfield name="endDate" key="label.event.endDate" value="%{getText('format.date',{endDate})}"/>
+	
+	<s:submit key="button.searchFreeRooms.name" tooltip="button.searchFreeRooms.tooltip" action="SearchFreeRooms"/>	
+	
 	<s:select
 		name="selectedRoomIds"
 		multiple="true"
@@ -21,7 +23,7 @@
 		list="availableRooms"
 		key="label.event.rooms"
 	/>
-	
+		
 	<s:select
 		name="selectedLecturerIds"
 		multiple="true"
@@ -30,6 +32,7 @@
 		listValue="value"
 		list="availableLecturers"
 		key="label.event.lecturers"
+		
 	/>
 	
 	<s:select
@@ -41,8 +44,10 @@
 		list="availableCenturies"
 		key="label.event.centuries"
 	/>
-	<s:textfield name="changeTime" value="%{event.changeTime}" key="label.event.changeTime"/>
 	
-	<s:submit value="Save" action="SaveExistingEvent"/>
+	<s:textfield name="changeTime" key="label.event.changeTime"/>
+	<s:textfield name="numberOfWeeklyRepetitions" key="label.numberOfWeeklyRepetitions"/>
+	
+	<s:submit value="Save" action="SaveNewEvent"/>
 	<s:submit value="Cancel" action="ShowEventList"/>
 </s:form>

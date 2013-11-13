@@ -13,8 +13,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
-import org.hibernate.annotations.NaturalId;
-
 @Entity
 public class Event {
 
@@ -28,18 +26,25 @@ public class Event {
 	@Column(name = "end_date", nullable = false)
 	private Date endDate;
 
-	@NaturalId
 	@Column(length = 50, nullable = false)
 	private String name;
-
-	@Column(name = "number_of_weekly_repititions", nullable = false)
-	private int numberOfWeeklyRepetitions;
 
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE, mappedBy = "eventsOfLecturer")
 	private Set<Lecturer> lecturers;
 
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE, mappedBy = "eventsOfCentury")
 	private Set<Century> centuries;
+
+	@Column(name = "change_time", nullable = false)
+	private Long changeTime;
+
+	public Long getChangeTime() {
+		return changeTime;
+	}
+
+	public void setChangeTime(Long changeTime) {
+		this.changeTime = changeTime;
+	}
 
 	@Enumerated
 	private EventType eventType;
@@ -84,14 +89,6 @@ public class Event {
 		this.name = name;
 	}
 
-	public int getNumberOfWeeklyRepetitions() {
-		return numberOfWeeklyRepetitions;
-	}
-
-	public void setNumberOfWeeklyRepetitions(int numberOfWeeklyRepetitions) {
-		this.numberOfWeeklyRepetitions = numberOfWeeklyRepetitions;
-	}
-
 	public Set<Lecturer> getLecturers() {
 		return lecturers;
 	}
@@ -109,7 +106,7 @@ public class Event {
 	}
 
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST, mappedBy = "eventsOfRoom")
-	protected Set<Room> rooms;
+	private Set<Room> rooms;
 
 	@Override
 	public String toString() {
@@ -122,31 +119,6 @@ public class Event {
 
 	public void setCenturies(Set<Century> centuries) {
 		this.centuries = centuries;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Event other = (Event) obj;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		return true;
 	}
 
 }

@@ -27,4 +27,17 @@ public class SaveCenturyAction extends ActionSupport {
 		centuryService.saveCentury(century);
 		return super.execute();
 	}
+
+	@Override
+	public void validate() {
+		if (century.getId() == null) {
+			if (centuryService.checkNameExists(century.getName())) {
+				addFieldError("lecturer.name", getText("error.existingCenturyName"));
+			}
+		} else {
+			if (centuryService.checkNameExistsForAnotherId(century.getId(), century.getName())) {
+				addFieldError("lecturer.name", getText("error.existingCenturyName"));
+			}
+		}
+	}
 }

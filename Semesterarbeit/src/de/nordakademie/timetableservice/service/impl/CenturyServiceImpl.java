@@ -1,6 +1,5 @@
 package de.nordakademie.timetableservice.service.impl;
 
-import java.util.List;
 import java.util.Set;
 
 import de.nordakademie.timetableservice.business.Collision;
@@ -39,7 +38,7 @@ public class CenturyServiceImpl implements CenturyService {
 	}
 
 	@Override
-	public void getCollisionsWithOtherEvents(Event event, List<Century> centuriesToCheck, List<Collision> collisions) {
+	public void getCollisionsWithOtherEvents(Event event, Set<Century> centuriesToCheck, Set<Collision> collisions) {
 		Set<Century> centuriesWithExistingEvent = centuryDAO.findCenturiesWithDatesWithoutId(event.getStartDate(), event.getEndDate(), event.getId());
 		if (!centuriesWithExistingEvent.isEmpty()) {
 			for (Century century : centuriesToCheck) {
@@ -48,6 +47,16 @@ public class CenturyServiceImpl implements CenturyService {
 				}
 			}
 		}
+	}
+
+	@Override
+	public boolean checkNameExists(String centuryName) {
+		return centuryDAO.findCenturiesByName(centuryName).isEmpty() ? false : true;
+	}
+
+	@Override
+	public boolean checkNameExistsForAnotherId(Long centuryId, String centuryName) {
+		return centuryDAO.findCenturiesByNameWithoutId(centuryName, centuryId).isEmpty() ? false : true;
 	}
 
 }

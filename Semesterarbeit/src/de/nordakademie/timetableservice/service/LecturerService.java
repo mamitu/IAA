@@ -1,6 +1,5 @@
 package de.nordakademie.timetableservice.service;
 
-import java.util.List;
 import java.util.Set;
 
 import de.nordakademie.timetableservice.business.Collision;
@@ -19,8 +18,8 @@ public interface LecturerService {
 
 	public boolean checkEmailExists(String emailAddress);
 
-	public void getCollisionsWithOtherEvents(Event event, List<Lecturer> lecturersToCheck, List<Collision> collisions);
+	public boolean checkEmailExistsForAnotherId(Long lecturerId, String emailAddress);
 
-	public void getCollisionBecauseOfChangeTime(Event event, List<Lecturer> lecturersToCheck, List<Collision> collisions);
+	public void getCollisionsWithOtherEvents(Event event, Set<Lecturer> lecturersToCheck, Set<Collision> collisions);
 
 }

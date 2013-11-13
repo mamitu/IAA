@@ -56,13 +56,25 @@
 			<result name="input" type="tiles">EditRoom</result>	
 		</action>
 		
+		<action name="SearchFreeRooms"
+			class="de.nordakademie.timetableservice.action.event.SearchFreeRoomsAction">
+			<result type="chain">CreateEvent</result>	
+			<result name="input" type="tiles">CreateEvent</result>
+		</action>
+		
 		<action name="ShowEventList" 
 			class="de.nordakademie.timetableservice.action.event.ShowEventListAction">
 			<result type="tiles">EventList</result>
 		</action>
-		<action name="ShowEvent"
-			class="de.nordakademie.timetableservice.action.event.ShowEventAction">
-			<result type="tiles">EditEvent</result>	
+		
+		<action name="CreateEvent"
+			class="de.nordakademie.timetableservice.action.event.CreateEventAction">
+			<result type="tiles">CreateEvent</result>	
+		</action>
+		
+		<action name="EditExistingEvent"
+			class="de.nordakademie.timetableservice.action.event.EditExistingEventAction">
+			<result type="tiles">EditExistingEvent</result>	
 		</action>
 		
 		<action name="DeleteEvent"
@@ -70,10 +82,22 @@
 			<result type="tiles">EventList</result>	
 		</action>
 		
-		<action name="SaveEvent"
-			class="de.nordakademie.timetableservice.action.event.SaveEventAction">
+		<action name="SaveExistingEvent"
+			class="de.nordakademie.timetableservice.action.event.SaveExistingEventAction">
 			<result type="chain">ShowEventList</result>
-			<result name="input" type="tiles">EditEvent</result>	
+			<result name="input" type="tiles">EditExistingEvent</result>	
 		</action>
+		
+		<action name="SaveNewEvent"
+			class="de.nordakademie.timetableservice.action.event.SaveNewEventAction">
+			<result type="chain">ShowEventList</result>
+			<result name="input" type="tiles">CreateEvent</result>	
+		</action>
+		
+		<action name="ShowTimetable"
+			class="de.nordakademie.timetableservice.action.ShowTimetable">
+			<result type="tiles">ShowTimetable</result>	
+		</action>
+		
 	</package>
 </struts>

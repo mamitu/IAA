@@ -10,6 +10,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import de.nordakademie.timetableservice.model.Century;
+import de.nordakademie.timetableservice.model.Event;
 
 public class CenturyDAO {
 
@@ -109,6 +110,23 @@ public class CenturyDAO {
 					.setTimestamp("startDate", startDate).setParameter("eventId", eventId).list();
 			centuries.addAll(centuryList);
 		}
+	}
+
+	public List<Century> findCenturiesByName(String centuryName) {
+		Session session = sessionFactory.getCurrentSession();
+		return (List<Century>) session.createQuery("select century from Century as century where century.name = :centuryName").setString("centuryName", centuryName).list();
+	}
+
+	public List<Century> findCenturiesByNameWithoutId(String centuryName, Long centuryId) {
+		Session session = sessionFactory.getCurrentSession();
+		return (List<Century>) session.createQuery("select century from Century as century where century.name = :centuryName and century.id != :centuryId")
+				.setString("centuryName", centuryName).setParameter("centuryId", centuryId).list();
+	}
+
+	public List<Event> findEventsForCentury(Long centuryId) {
+		Session session = sessionFactory.getCurrentSession();
+		return (List<Event>) session.createQuery("select event from Century century join century.events event where century.id = :centuryId").setParameter("centuryId", centuryId)
+				.list();
 	}
 
 }
