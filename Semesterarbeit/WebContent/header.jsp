@@ -6,13 +6,23 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<link rel="stylesheet" type="style/css" href="Style/style.css">
 </head>
 <body>
+<div id="header">
+<p>RoMa-Stundenplan Datenbank</p>
+</div>
 
-<s:a action="Overview"><s:text name="label.menu.overview"/></s:a>
-<s:a action="ShowLecturerList"><s:text name="label.menu.editLecturers"/></s:a>
-<s:a action="ShowCenturyList"><s:text name="label.menu.editCenturies"/></s:a>
-<s:a action="ShowRoomList"><s:text name="label.menu.editRooms"/></s:a>
-<s:a action="ShowEventList"><s:text name="label.menu.editEvents"/></s:a>
+<div id="navigation">
+<ul>
+<li><s:a action="Overview"><s:text name="label.menu.overview"/></s:a></li>
+<li><s:a action="ShowLecturerList"><s:text name="label.menu.editLecturers"/></s:a></li>
+<li><s:a action="ShowCenturyList"><s:text name="label.menu.editCenturies"/></s:a></li>
+<li><s:a action="ShowRoomList"><s:text name="label.menu.editRooms"/></s:a></li>
+<li><s:a action="ShowEventList"><s:text name="label.menu.editEvents"/></s:a></li>
+</ul>
+</div>
+
+<div id="shadow"></div>
 	</body>
 </html>

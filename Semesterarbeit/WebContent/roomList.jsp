@@ -22,7 +22,8 @@
 					<s:param name="entityId" value="id"/>
 					<s:param name="entity" value="'room'"/>
 				</s:url>
-				<td><s:a href="%{timetableURL}"><s:text name="label.list.timetable"/></s:a></td>
+				<td><s:a id="timetable2" href="%{timetableURL}"><s:text name="label.list.timetable"/></s:a></td>
+				
 			</tr>
 		</s:iterator>
 	</table>

@@ -3,6 +3,7 @@
 <%@ taglib uri="/struts-tags" prefix="s" %>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %> 
 
+<div id="content">
 <s:actionerror/>
 <s:form  acceptcharset="utf-8">
 	<s:hidden name="eventId"/>
@@ -46,3 +47,4 @@
 	<s:submit value="Save" action="SaveExistingEvent"/>
 	<s:submit value="Cancel" action="ShowEventList"/>
 </s:form>
+</div>

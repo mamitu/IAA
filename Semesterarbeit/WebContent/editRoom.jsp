@@ -2,6 +2,8 @@
     pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="/struts-tags" prefix="s" %>
 
+
+<div id="content">
 <s:form action="SaveRoom">
 <s:fielderror/>
 	<s:hidden name="room.id"/>
@@ -12,3 +14,4 @@
 	<s:submit value="Save"/>
 	<s:submit value="Cancel" action="ShowRoomList"/>
 </s:form>
+</div>

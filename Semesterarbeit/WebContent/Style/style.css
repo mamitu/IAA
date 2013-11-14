@@ -1,0 +1,89 @@
+@charset "UTF-8";
+/* CSS Document */
+* {
+	margin: 0;
+	padding: 0;
+}
+
+html,body {
+	font: 100% Arial, Helvetica, sans-serif;
+}
+
+#header {
+	background-color: #0969A2;
+	font-size: 2em;
+	text-align: right;
+	color: white;
+	padding: .4em .4em 0 0;
+}
+
+#bluestripe {
+	height: 1em;
+	background-color: #0969A2;
+}
+
+#yellowstripe {
+	height: .5em;
+	background-color: #FFDA73;
+}
+
+#navigation {
+	background-color: #FFDA73;
+	padding-left: 1em;
+}
+
+#shadow {
+	background: url(schatten.png) repeat-x;
+	height: 12px;
+}
+
+#shadow2 {
+	background: url(schatten2.png) repeat-x;
+	height: 12px;
+}
+
+#content {
+	padding: 2em;
+}
+
+#content h1,h2,h3,p,ul {
+	padding-bottom: .7em;
+}
+
+#content ul {
+	padding-left: 2em;
+}
+
+ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+}
+
+li {
+	float: left;
+}
+
+a:link,a:visited {
+	display: block;
+	width: 120px;
+	font-weight: bold;
+	color: #FFFFFF;
+	background-color: #FFDA73;
+	text-align: center;
+	padding: 4px;
+	text-decoration: none;
+}
+
+a:hover,a:active {
+	background-color: #A67A00;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table td,table th {
+	padding: 2px 10px;
+}

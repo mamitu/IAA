@@ -7,14 +7,17 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
-<title> <s:text name="title"/>
+<link rel="icon" href="Style/favicon.ico" type="image/x-icon" /> 
+<link rel="shortcut icon" href="Style/favicon.ico" type="image/x-icon" /> 
+<title> <s:text name="label.title"/>
 </title>
 </head>
 <body>
 		<!-- Header -->
 		<tiles:insertAttribute name="header"/>
-		<hr/>
 		<!-- Content -->	
 		<tiles:insertAttribute name="content"/>
+		<!-- Footer -->
+		<tiles:insertAttribute name="footer"/>
 	</body>
 </html>

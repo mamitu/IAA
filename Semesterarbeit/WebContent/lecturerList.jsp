@@ -4,6 +4,7 @@
 
 <s:form action="ShowLecturer">
 	<s:submit key="button.register.lecturer.name"/>
+	
 	<table>
 		<tr>
 			<th> <s:text name="label.lecturer.firstName"/> </th>

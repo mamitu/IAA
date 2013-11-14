@@ -2,4 +2,7 @@
     pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="/struts-tags" prefix="s" %>
 
+
+<div id="content">
 <h1><s:text name="label.overview.welcome"/></h1>
+</div>
