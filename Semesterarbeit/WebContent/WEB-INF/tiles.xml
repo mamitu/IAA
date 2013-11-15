@@ -16,22 +16,29 @@
 
 	
 	
-	<definition name="EditLecturer" extends="template">
-		<put-attribute name="content" value="/editLecturer.jsp"/>
+	<definition name="CreateLecturer" extends="template">
+		<put-attribute name="content" value="/createLecturer.jsp"/>
 	</definition>
 	<definition name="LecturerList" extends="template">
 		<put-attribute name="content" value="/lecturerList.jsp"/>
 	</definition>
 	
-		<definition name="EditCentury" extends="template">
-		<put-attribute name="content" value="/editCentury.jsp"/>
+		<definition name="CreateCentury" extends="template">
+		<put-attribute name="content" value="/createCentury.jsp"/>
 	</definition>
 	<definition name="CenturyList" extends="template">
 		<put-attribute name="content" value="/centuryList.jsp"/>
 	</definition>
 	
-		<definition name="EditRoom" extends="template">
-		<put-attribute name="content" value="/editRoom.jsp"/>
+	<definition name="CreateCohort" extends="template">
+		<put-attribute name="content" value="/createCohort.jsp"/>
+	</definition>
+	<definition name="CohortList" extends="template">
+		<put-attribute name="content" value="/cohortList.jsp"/>
+	</definition>
+	
+		<definition name="CreateRoom" extends="template">
+		<put-attribute name="content" value="/createRoom.jsp"/>
 	</definition>
 	<definition name="RoomList" extends="template">
 		<put-attribute name="content" value="/roomList.jsp"/>

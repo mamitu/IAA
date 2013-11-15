@@ -5,7 +5,7 @@ import com.opensymphony.xwork2.ActionSupport;
 import de.nordakademie.timetableservice.model.Lecturer;
 import de.nordakademie.timetableservice.service.LecturerService;
 
-public class ShowLecturerAction extends ActionSupport {
+public class CreateLecturerAction extends ActionSupport {
 
 	private LecturerService lecturerService;
 	private Lecturer lecturer;
@@ -33,12 +33,8 @@ public class ShowLecturerAction extends ActionSupport {
 
 	@Override
 	public String execute() throws Exception {
-		if (lecturerId != null) {
-			lecturer = lecturerService.load(lecturerId);
-		} else {
-			lecturer = new Lecturer();
-		}
+		lecturer = new Lecturer();
+		lecturer.setBreakTime(Long.valueOf(15));
 		return SUCCESS;
 	}
-
 }

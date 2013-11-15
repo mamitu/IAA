@@ -2,7 +2,7 @@
     pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="/struts-tags" prefix="s" %>
 
-<s:form action="ShowCentury">
+<s:form action="CreateCentury">
 <s:submit key="button.register.century.name"/>
 	<table>
 		<tr>

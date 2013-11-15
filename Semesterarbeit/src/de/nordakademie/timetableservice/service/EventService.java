@@ -15,7 +15,7 @@ public interface EventService {
 
 	public Event load(Long id);
 
-	public Set<Event> loadAll();
+	public List<Event> loadAll();
 
 	public void deleteEventWithId(Long id);
 
@@ -31,5 +31,7 @@ public interface EventService {
 	public List<Event> findEventsForLecturer(Long lecturerId);
 
 	public List<Event> findEventsForRoom(Long roomId);
+
+	public List<Event> findEventsForCohort(Long cohortId);
 
 }

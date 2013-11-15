@@ -122,13 +122,4 @@ public class RoomDAO {
 				.setParameter("roomId", roomId).list();
 	}
 
-	@SuppressWarnings("unchecked")
-	public Set<Room> findFreeRoomsByDate(Date startDate, Date endDate) {
-		Session session = sessionFactory.getCurrentSession();
-		return new HashSet<Room>(
-				session.createQuery(
-						"select room from Room as room join room.eventsOfRoom as event where ( event.startDate not between :startDate and :endDate) OR (event.endDate not between :startDate and :endDate) OR ( event.startDate < :startDate AND event.endDate > :endDate )")
-						.setTimestamp("startDate", startDate).setTimestamp("endDate", endDate).list());
-	}
-
 }

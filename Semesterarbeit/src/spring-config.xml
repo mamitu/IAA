@@ -52,6 +52,9 @@
 		<bean id="centuryDAO" class="de.nordakademie.timetableservice.dao.CenturyDAO">
 		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
+		<bean id="cohortDAO" class="de.nordakademie.timetableservice.dao.CohortDAO">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
 			<bean id="roomDAO" class="de.nordakademie.timetableservice.dao.RoomDAO">
 		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
@@ -65,6 +68,9 @@
 	</bean>
 	<bean id="centuryService" class="de.nordakademie.timetableservice.service.impl.CenturyServiceImpl">
 		<property name="centuryDAO" ref="centuryDAO"/>
+	</bean>
+	<bean id="cohortService" class="de.nordakademie.timetableservice.service.impl.CohortServiceImpl">
+		<property name="cohortDAO" ref="cohortDAO"/>
 	</bean>
 	<bean id="roomService" class="de.nordakademie.timetableservice.service.impl.RoomServiceImpl">
 		<property name="roomDAO" ref="roomDAO"/>

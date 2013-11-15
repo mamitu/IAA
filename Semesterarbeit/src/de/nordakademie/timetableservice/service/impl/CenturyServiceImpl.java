@@ -6,6 +6,7 @@ import de.nordakademie.timetableservice.business.Collision;
 import de.nordakademie.timetableservice.business.CollisionType;
 import de.nordakademie.timetableservice.dao.CenturyDAO;
 import de.nordakademie.timetableservice.model.Century;
+import de.nordakademie.timetableservice.model.Cohort;
 import de.nordakademie.timetableservice.model.Event;
 import de.nordakademie.timetableservice.service.CenturyService;
 
@@ -57,6 +58,11 @@ public class CenturyServiceImpl implements CenturyService {
 	@Override
 	public boolean checkNameExistsForAnotherId(Long centuryId, String centuryName) {
 		return centuryDAO.findCenturiesByNameWithoutId(centuryName, centuryId).isEmpty() ? false : true;
+	}
+
+	@Override
+	public Set<Century> findCenturiesByCohort(Cohort cohort) {
+		return centuryDAO.findCenturiesByCohort(cohort.getId());
 	}
 
 }

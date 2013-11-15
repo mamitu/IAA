@@ -4,6 +4,7 @@ import java.util.Set;
 
 import de.nordakademie.timetableservice.business.Collision;
 import de.nordakademie.timetableservice.model.Century;
+import de.nordakademie.timetableservice.model.Cohort;
 import de.nordakademie.timetableservice.model.Event;
 
 public interface CenturyService {
@@ -21,5 +22,7 @@ public interface CenturyService {
 	public boolean checkNameExists(String centuryName);
 
 	public boolean checkNameExistsForAnotherId(Long centuryId, String centuryName);
+
+	public Set<Century> findCenturiesByCohort(Cohort selectedCohort);
 
 }

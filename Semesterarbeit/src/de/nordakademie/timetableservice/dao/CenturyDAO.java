@@ -129,4 +129,12 @@ public class CenturyDAO {
 				.list();
 	}
 
+	@SuppressWarnings("unchecked")
+	public Set<Century> findCenturiesByCohort(Long cohortId) {
+		Session session = sessionFactory.getCurrentSession();
+		Set<Century> centuries = new HashSet<Century>(session.createQuery("select century from Century century join century.cohort cohort where cohort.id = :cohortId")
+				.setParameter("cohortId", cohortId).list());
+		return centuries;
+	}
+
 }

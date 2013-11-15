@@ -5,7 +5,7 @@ import com.opensymphony.xwork2.ActionSupport;
 import de.nordakademie.timetableservice.model.Room;
 import de.nordakademie.timetableservice.service.RoomService;
 
-public class ShowRoomAction extends ActionSupport {
+public class CreateRoomAction extends ActionSupport {
 
 	private RoomService roomService;
 	private Room room;

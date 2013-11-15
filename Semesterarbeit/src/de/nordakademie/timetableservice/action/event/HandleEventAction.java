@@ -12,10 +12,13 @@ import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.Preparable;
 
 import de.nordakademie.timetableservice.model.Century;
+import de.nordakademie.timetableservice.model.Cohort;
 import de.nordakademie.timetableservice.model.Event;
+import de.nordakademie.timetableservice.model.EventType;
 import de.nordakademie.timetableservice.model.Lecturer;
 import de.nordakademie.timetableservice.model.Room;
 import de.nordakademie.timetableservice.service.CenturyService;
+import de.nordakademie.timetableservice.service.CohortService;
 import de.nordakademie.timetableservice.service.EventService;
 import de.nordakademie.timetableservice.service.LecturerService;
 import de.nordakademie.timetableservice.service.RoomService;
@@ -27,16 +30,35 @@ public abstract class HandleEventAction extends ActionSupport implements Prepara
 	protected List<Long> selectedLecturerIds;
 	protected List<Long> selectedRoomIds;
 	protected List<Long> selectedCenturyIds;
+	protected List<Long> selectedCohortIds;
 	protected String eventType;
 	protected Set<Lecturer> selectedLecturers;
 	protected Set<Room> selectedRooms;
 	protected Set<Century> selectedCenturies;
+	protected Cohort selectedCohort;
 
 	protected Map<Long, String> availableLecturers;
 	protected Map<Long, String> availableRooms;
 	protected Map<Long, String> availableCenturies;
+	protected Map<Long, String> availableCohorts;
 
 	protected int numberOfWeeklyRepetitions;
+
+	protected boolean isCenturySelected;
+
+	public boolean getIsCenturySelected() {
+		return isCenturySelected;
+	}
+
+	public void setIsCenturySelected(boolean isCenturySelected) {
+		this.isCenturySelected = isCenturySelected;
+	}
+
+	protected Set<Century> getRelevantCenturies() {
+		if (isCenturySelected)
+			return selectedCenturies;
+		return centuryService.findCenturiesByCohort(selectedCohort);
+	}
 
 	protected Date startDate;
 
@@ -91,6 +113,35 @@ public abstract class HandleEventAction extends ActionSupport implements Prepara
 	protected LecturerService lecturerService;
 	protected RoomService roomService;
 	protected CenturyService centuryService;
+	protected CohortService cohortService;
+
+	public List<Long> getSelectedCohortIds() {
+		return selectedCohortIds;
+	}
+
+	public void setSelectedCohortIds(List<Long> selectedCohortIds) {
+		this.selectedCohortIds = selectedCohortIds;
+	}
+
+	public Cohort getSelectedCohort() {
+		return selectedCohort;
+	}
+
+	public void setSelectedCohort(Cohort selectedCohort) {
+		this.selectedCohort = selectedCohort;
+	}
+
+	public Map<Long, String> getAvailableCohorts() {
+		return availableCohorts;
+	}
+
+	public void setAvailableCohorts(Map<Long, String> availableCohorts) {
+		this.availableCohorts = availableCohorts;
+	}
+
+	public void setCohortService(CohortService cohortService) {
+		this.cohortService = cohortService;
+	}
 
 	public Event getEvent() {
 		return event;
@@ -185,6 +236,7 @@ public abstract class HandleEventAction extends ActionSupport implements Prepara
 		selectedLecturerIds = new LinkedList<Long>();
 		selectedRoomIds = new LinkedList<Long>();
 		selectedCenturyIds = new LinkedList<Long>();
+		selectedCohortIds = new LinkedList<Long>();
 
 		selectedRooms = new HashSet<Room>();
 		selectedCenturies = new HashSet<Century>();
@@ -193,6 +245,7 @@ public abstract class HandleEventAction extends ActionSupport implements Prepara
 		availableLecturers = new HashMap<Long, String>();
 		availableRooms = new HashMap<Long, String>();
 		availableCenturies = new HashMap<Long, String>();
+		availableCohorts = new HashMap<Long, String>();
 
 		for (Room room : roomService.loadAll()) {
 			availableRooms.put(room.getId(), room.toString());
@@ -203,6 +256,9 @@ public abstract class HandleEventAction extends ActionSupport implements Prepara
 		for (Century century : centuryService.loadAll()) {
 			availableCenturies.put(century.getId(), century.toString());
 		}
+		for (Cohort cohort : cohortService.loadAll()) {
+			availableCohorts.put(cohort.getId(), cohort.toString());
+		}
 
 	}
 
@@ -211,6 +267,21 @@ public abstract class HandleEventAction extends ActionSupport implements Prepara
 			addActionError(getText("error.invalidDate"));
 		} else if (startDate.getTime() > endDate.getTime()) {
 			addActionError(getText("error.startDateLaterThanEndDate"));
+		}
+	}
+
+	protected void checkCenturySelections() {
+		if (event.getEventType().equals(EventType.SEMINAR)) {
+			if (selectedCenturyIds.size() != 0) {
+				addActionError(getText("error.seminarNoCenturies"));
+			}
+		} else {
+			if (isCenturySelected && selectedCenturyIds.size() == 0) {
+				addActionError(getText("error.centuriesRequired"));
+			}
+		}
+		if (isCenturySelected && event.getEventType().equals(EventType.ELECTIVE)) {
+			addActionError(getText("error.electiveJustCohort"));
 		}
 	}
 
@@ -224,5 +295,7 @@ public abstract class HandleEventAction extends ActionSupport implements Prepara
 		for (Long id : selectedRoomIds) {
 			selectedRooms.add(roomService.load(id));
 		}
+		if (!isCenturySelected)
+			selectedCohort = cohortService.load(selectedCohortIds.get(0));
 	}
 }

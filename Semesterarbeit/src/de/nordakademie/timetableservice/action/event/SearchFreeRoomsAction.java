@@ -8,7 +8,8 @@ public class SearchFreeRoomsAction extends HandleEventAction {
 
 	@Override
 	public String execute() throws Exception {
-		Set<Room> rooms = roomService.findFreeRoomsByDates(startDate, endDate);
+		Set<Room> rooms = roomService.findFreeRoomsWithOtherEventsByDates(startDate, endDate, eventId);
+		availableRooms.clear();
 		for (Room room : rooms) {
 			availableRooms.put(room.getId(), room.toString());
 		}

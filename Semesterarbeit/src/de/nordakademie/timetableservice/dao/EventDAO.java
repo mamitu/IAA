@@ -1,9 +1,8 @@
 package de.nordakademie.timetableservice.dao;
 
 import java.util.Date;
-import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
@@ -40,9 +39,9 @@ public class EventDAO {
 	}
 
 	@SuppressWarnings("unchecked")
-	public Set<Event> loadAll() {
+	public List<Event> loadAll() {
 		Session session = sessionFactory.getCurrentSession();
-		return new HashSet<Event>(session.createQuery("from Event").list());
+		return new LinkedList<Event>(session.createQuery("from Event event order by startDate asc").list());
 	}
 
 	public void deleteEventWithId(Long id) {
@@ -128,6 +127,14 @@ public class EventDAO {
 		Session session = sessionFactory.getCurrentSession();
 		return (List<Event>) session.createQuery("select event from Event event join event.rooms room where room.id = :roomId order by event.endDate asc")
 				.setParameter("roomId", roomId).list();
+	}
+
+	public List<Event> findEventsForCohort(Long cohortId) {
+		Session session = sessionFactory.getCurrentSession();
+		return (List<Event>) session
+				.createQuery(
+						"select distinct event from Event event join event.centuries century join century.cohort cohort where cohort.id = :cohortId order by event.startDate asc")
+				.setParameter("cohortId", cohortId).list();
 	}
 
 }

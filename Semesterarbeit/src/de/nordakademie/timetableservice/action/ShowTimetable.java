@@ -47,6 +47,10 @@ public class ShowTimetable extends ActionSupport {
 			events = eventService.findEventsForCentury(entityId);
 			break;
 		}
+		case ("cohort"): {
+			events = eventService.findEventsForCohort(entityId);
+			break;
+		}
 		case ("room"): {
 			events = eventService.findEventsForRoom(entityId);
 			break;

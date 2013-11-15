@@ -2,7 +2,7 @@
     pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="/struts-tags" prefix="s" %>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %> 
-
+<div id="content">
 <s:actionerror/>
 <s:form acceptcharset="utf-8">
 	<s:hidden name="eventId"/>
@@ -13,7 +13,7 @@
 	<s:textfield name="endDate" key="label.event.endDate" value="%{getText('format.date',{endDate})}"/>
 	
 	<s:submit key="button.searchFreeRooms.name" tooltip="button.searchFreeRooms.tooltip" action="SearchFreeRooms"/>	
-	
+
 	<s:select
 		name="selectedRoomIds"
 		multiple="true"
@@ -34,7 +34,8 @@
 		key="label.event.lecturers"
 		
 	/>
-	
+		<s:radio name="isCenturySelected" key="label.choice" list="#@java.util.LinkedHashMap@{true:'Pro Zenturie',false:'Pro Kohorte'}"/>
+
 	<s:select
 		name="selectedCenturyIds"
 		multiple="true"
@@ -44,6 +45,15 @@
 		list="availableCenturies"
 		key="label.event.centuries"
 	/>
+
+	<s:select
+		name="selectedCohortIds"
+		size="5"
+		listKey="key"
+		listValue="value"
+		list="availableCohorts"
+		key="label.cohort.name"
+	/>
 	
 	<s:textfield name="changeTime" key="label.event.changeTime"/>
 	<s:textfield name="numberOfWeeklyRepetitions" key="label.numberOfWeeklyRepetitions"/>
@@ -51,3 +61,4 @@
 	<s:submit value="Save" action="SaveNewEvent"/>
 	<s:submit value="Cancel" action="ShowEventList"/>
 </s:form>
+</div>

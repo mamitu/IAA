@@ -26,6 +26,6 @@ public interface RoomService {
 
 	public boolean checkNameExistsForAnotherId(Long roomId, String roomName);
 
-	public Set<Room> findFreeRoomsByDates(Date startDate, Date endDate);
+	public Set<Room> findFreeRoomsWithOtherEventsByDates(Date startDate, Date endDate, Long eventId);
 
 }

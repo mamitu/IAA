@@ -22,10 +22,6 @@ public class ShowCenturyListAction extends ActionSupport {
 		return centuries;
 	}
 
-	public void setCenturies(Set<Century> centuries) {
-		this.centuries = centuries;
-	}
-
 	public void setCenturyService(CenturyService centuryService) {
 		this.centuryService = centuryService;
 	}

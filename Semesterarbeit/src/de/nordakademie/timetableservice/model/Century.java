@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.NaturalId;
 
@@ -43,6 +44,18 @@ public class Century {
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(joinColumns = { @JoinColumn(name = "century_id") }, inverseJoinColumns = { @JoinColumn(name = "event_id") })
 	private Set<Event> eventsOfCentury;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "cohort_id")
+	private Cohort cohort;
+
+	public Cohort getCohort() {
+		return cohort;
+	}
+
+	public void setCohort(Cohort cohort) {
+		this.cohort = cohort;
+	}
 
 	public Long getId() {
 		return id;

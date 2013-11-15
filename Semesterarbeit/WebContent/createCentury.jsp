@@ -5,9 +5,20 @@
 
 <div id="content">
 <s:form action="SaveCentury">
+<s:actionerror/>
 <s:fielderror/>
 	<s:hidden name="century.id"/>
-	<s:textfield name="century.name" key="label.century.name"/>
+	
+	<s:select
+		name="selectedCohortIds"
+		size="5"
+		listKey="key"
+		listValue="value"
+		list="availableCohorts"
+		key="label.century.cohort"
+	/>
+	
+	<s:textfield name="suffix" key="label.century.suffix" maxlength="1"/>
 	<s:textfield name="century.numberOfStudents" key="label.century.numberOfStudents"/>
 	<s:textfield name="century.breakTime" key="label.century.breakTime"/>
 	<s:submit value="Save"/>

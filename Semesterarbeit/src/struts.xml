@@ -17,14 +17,14 @@
 			class="de.nordakademie.timetableservice.action.lecturer.ShowLecturerListAction">
 			<result type="tiles">LecturerList</result>
 		</action>
-		<action name="ShowLecturer"
-			class="de.nordakademie.timetableservice.action.lecturer.ShowLecturerAction">
-			<result type="tiles">EditLecturer</result>	
+		<action name="CreateLecturer"
+			class="de.nordakademie.timetableservice.action.lecturer.CreateLecturerAction">
+			<result type="tiles">CreateLecturer</result>	
 		</action>
 		<action name="SaveLecturer"
 			class="de.nordakademie.timetableservice.action.lecturer.SaveLecturerAction">
 			<result type="chain">ShowLecturerList</result>
-			<result name="input" type="tiles">EditLecturer</result>	
+			<result name="input" type="tiles">CreateLecturer</result>	
 		</action>
 		
 		
@@ -32,28 +32,45 @@
 			class="de.nordakademie.timetableservice.action.century.ShowCenturyListAction">
 			<result type="tiles">CenturyList</result>
 		</action>
-		<action name="ShowCentury"
-			class="de.nordakademie.timetableservice.action.century.ShowCenturyAction">
-			<result type="tiles">EditCentury</result>	
+		<action name="CreateCentury"
+			class="de.nordakademie.timetableservice.action.century.CreateCenturyAction">
+			<result type="tiles">CreateCentury</result>	
 		</action>
 		<action name="SaveCentury"
 			class="de.nordakademie.timetableservice.action.century.SaveCenturyAction">
 			<result type="chain">ShowCenturyList</result>
-			<result name="input" type="tiles">EditCentury</result>	
+			<result name="input" type="tiles">CreateCentury</result>	
 		</action>
+		
+		
+		<action name="ShowCohortList" 
+			class="de.nordakademie.timetableservice.action.cohort.ShowCohortListAction">
+			<result type="tiles">CohortList</result>
+		</action>
+		<action name="CreateCohort"
+			class="de.nordakademie.timetableservice.action.cohort.CreateCohortAction">
+			<result type="tiles">CreateCohort</result>	
+		</action>
+		<action name="SaveCohort"
+			class="de.nordakademie.timetableservice.action.cohort.SaveCohortAction">
+			<result type="chain">ShowCohortList</result>
+			<result name="input" type="tiles">CreateCohort</result>	
+		</action>
+		
+		
 		
 		<action name="ShowRoomList" 
 			class="de.nordakademie.timetableservice.action.room.ShowRoomListAction">
 			<result type="tiles">RoomList</result>
 		</action>
-		<action name="ShowRoom"
-			class="de.nordakademie.timetableservice.action.room.ShowRoomAction">
-			<result type="tiles">EditRoom</result>	
+		<action name="CreateRoom"
+			class="de.nordakademie.timetableservice.action.room.CreateRoomAction">
+			<result type="tiles">CreateRoom</result>	
 		</action>
 		<action name="SaveRoom"
 			class="de.nordakademie.timetableservice.action.room.SaveRoomAction">
 			<result type="chain">ShowRoomList</result>
-			<result name="input" type="tiles">EditRoom</result>	
+			<result name="input" type="tiles">CreateRoom</result>	
 		</action>
 		
 		<action name="SearchFreeRooms"

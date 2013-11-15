@@ -8,7 +8,7 @@
 <s:form  acceptcharset="utf-8">
 	<s:hidden name="eventId"/>
 	<s:textfield name="event.name" key="label.event.name" readonly="true" />
-	<s:textfield name="event.eventType" value="%{getText(name)}" key="label.event.eventType" readonly="true" />
+	<s:textfield name="eventType" value="%{getText(event.eventType)}" key="label.event.eventType" readonly="true" />
 	
 	<s:textfield name="startDate" key="label.event.startDate" value="%{getText('format.date',{event.startDate})}"/>
 	<s:textfield name="endDate" key="label.event.endDate" value="%{getText('format.date',{event.endDate})}"/>
@@ -33,6 +33,8 @@
 		key="label.event.lecturers"
 	/>
 	
+	<s:radio name="isCenturySelected" key="label.choice" list="#@java.util.LinkedHashMap@{true:'Pro Zenturie',false:'Pro Kohorte'}"/>
+
 	<s:select
 		name="selectedCenturyIds"
 		multiple="true"
@@ -41,6 +43,15 @@
 		listValue="value"
 		list="availableCenturies"
 		key="label.event.centuries"
+	/>
+
+	<s:select
+		name="selectedCohortIds"
+		size="5"
+		listKey="key"
+		listValue="value"
+		list="availableCohorts"
+		key="label.cohort.name"
 	/>
 	<s:textfield name="changeTime" value="%{event.changeTime}" key="label.event.changeTime"/>
 	

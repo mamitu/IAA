@@ -17,6 +17,11 @@ public enum RoomType {
 		return name;
 	}
 
+	@Override
+	public String toString() {
+		return name;
+	}
+
 	private int minimalChangeTime;
 	private String name;
 

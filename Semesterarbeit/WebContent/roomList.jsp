@@ -2,7 +2,7 @@
     pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="/struts-tags" prefix="s" %>
 
-<s:form action="ShowRoom">
+<s:form action="CreateRoom">
 	<s:submit key="button.register.room.name"/>
 	<table>
 		<tr>
@@ -17,7 +17,7 @@
 				<td><s:property value="name"/></td>
 				<td><s:property value="numberOfSeats"/></td>
 				<td><s:property value="breakTime"/></td>
-				<td><s:property value="roomType"/></td>
+				<td><s:property value="%{getText(roomType)}"/></td>
 				<s:url id="timetableURL" action="ShowTimetable">
 					<s:param name="entityId" value="id"/>
 					<s:param name="entity" value="'room'"/>

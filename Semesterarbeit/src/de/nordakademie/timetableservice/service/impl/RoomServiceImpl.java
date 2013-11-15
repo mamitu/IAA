@@ -76,7 +76,9 @@ public class RoomServiceImpl implements RoomService {
 	}
 
 	@Override
-	public Set<Room> findFreeRoomsByDates(Date startDate, Date endDate) {
-		return roomDAO.findFreeRoomsByDate(startDate, endDate);
+	public Set<Room> findFreeRoomsWithOtherEventsByDates(Date startDate, Date endDate, Long eventId) {
+		Set<Room> resultSet = roomDAO.loadAll();
+		resultSet.removeAll(roomDAO.findRoomsWithDatesWithoutId(startDate, endDate, eventId));
+		return resultSet;
 	}
 }

@@ -8,7 +8,6 @@ import java.util.Set;
 import de.nordakademie.timetableservice.business.Collision;
 import de.nordakademie.timetableservice.model.Century;
 import de.nordakademie.timetableservice.model.Event;
-import de.nordakademie.timetableservice.model.EventType;
 import de.nordakademie.timetableservice.model.Lecturer;
 import de.nordakademie.timetableservice.model.Room;
 
@@ -59,12 +58,12 @@ public class SaveExistingEventAction extends HandleEventAction {
 
 	private void updateCenturies(Event eventToSave) {
 		List<Century> centuriesToRemove = new LinkedList<Century>(eventToSave.getCenturies());
-		centuriesToRemove.removeAll(selectedCenturies);
+		centuriesToRemove.removeAll(getRelevantCenturies());
 		for (Century century : centuriesToRemove) {
 			century.removeEvent(eventToSave);
 			centuryService.saveCentury(century);
 		}
-		for (Century century : selectedCenturies) {
+		for (Century century : getRelevantCenturies()) {
 			if (!eventToSave.getCenturies().contains(century)) {
 				century.associateEvent(eventToSave);
 				centuryService.saveCentury(century);
@@ -82,6 +81,9 @@ public class SaveExistingEventAction extends HandleEventAction {
 		if (selectedRoomIds.size() == 0) {
 			addActionError(getText("error.roomRequired"));
 		}
+		if (!isCenturySelected && selectedCohortIds.size() == 0) {
+			addActionError(getText("error.noCohortSelected"));
+		}
 
 		if (getActionErrors().size() == 0) {
 			fillSelectedEntities();
@@ -89,15 +91,8 @@ public class SaveExistingEventAction extends HandleEventAction {
 			event.setEndDate(endDate);
 			event.setChangeTime(changeTime);
 
-			if (event.getEventType().equals(EventType.SEMINAR)) {
-				if (selectedCenturyIds.size() != 0) {
-					addActionError(getText("error.seminarNoCenturies"));
-				}
-			} else {
-				if (selectedCenturyIds.size() == 0) {
-					addActionError(getText("error.centuriesRequired"));
-				}
-			}
+			checkCenturySelections();
+
 			if (event.getChangeTime() < event.getEventType().getMinimalChangeTime()) {
 				String errorMessage = getText("error.eventTypeMoreChangeTime");
 				errorMessage = errorMessage.replace("$eventType", getText(event.getEventType().getName()));
@@ -116,7 +111,7 @@ public class SaveExistingEventAction extends HandleEventAction {
 	private void checkCollisions(Event eventToCheck, Set<Collision> collisions) {
 		lecturerService.getCollisionsWithOtherEvents(eventToCheck, selectedLecturers, collisions);
 		roomService.getCollisionsWithOtherEvents(eventToCheck, selectedRooms, collisions);
-		centuryService.getCollisionsWithOtherEvents(eventToCheck, selectedCenturies, collisions);
+		centuryService.getCollisionsWithOtherEvents(eventToCheck, getRelevantCenturies(), collisions);
 
 		roomService.checkRoomSize(selectedRooms, selectedCenturies, collisions);
 

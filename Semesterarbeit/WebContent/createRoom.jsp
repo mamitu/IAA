@@ -10,7 +10,8 @@
 	<s:textfield name="room.name" key="label.room.name"/>
 	<s:textfield name="room.numberOfSeats" key="label.room.numberOfSeats"/>
 	<s:textfield name="room.breakTime" key="label.room.breakTime"/>
-	<s:radio name="room.roomType" list="%{@de.nordakademie.timetableservice.model.RoomType@values()}" key="label.room.roomType" />
+	<s:radio name="roomType" list="%{@de.nordakademie.timetableservice.model.RoomType@values()}" listValue="%{getText(name)}" key="label.room.roomType" />
+
 	<s:submit value="Save"/>
 	<s:submit value="Cancel" action="ShowRoomList"/>
 </s:form>

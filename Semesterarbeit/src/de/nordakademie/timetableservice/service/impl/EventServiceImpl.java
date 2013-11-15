@@ -31,7 +31,7 @@ public class EventServiceImpl implements EventService {
 	}
 
 	@Override
-	public Set<Event> loadAll() {
+	public List<Event> loadAll() {
 		return this.eventDAO.loadAll();
 	}
 
@@ -56,6 +56,7 @@ public class EventServiceImpl implements EventService {
 
 			if (nextEventForLecturer != null) {
 				long breakTimeAfterEventForLecturer = nextEventForLecturer.getStartDate().getTime() - event.getEndDate().getTime();
+				long changeTimeNextEventNeeds = nextEventForLecturer.getChangeTime() * 1000 * 60;
 
 				if (breakTimeAfterEventForLecturer < Math.max(breakTimeLecturerNeeds, changeTimeEventNeeds)) {
 					if (breakTimeLecturerNeeds >= changeTimeEventNeeds) {
@@ -69,6 +70,7 @@ public class EventServiceImpl implements EventService {
 
 			if (eventAheadForLecturer != null) {
 				long breakTimeBeforeEvent = event.getStartDate().getTime() - eventAheadForLecturer.getEndDate().getTime();
+				long changeTimeEventAheadNeeds = eventAheadForLecturer.getChangeTime() * 1000 * 60;
 
 				if (breakTimeBeforeEvent < Math.max(breakTimeLecturerNeeds, changeTimeEventNeeds)) {
 					if (breakTimeLecturerNeeds >= changeTimeEventNeeds) {
@@ -91,6 +93,7 @@ public class EventServiceImpl implements EventService {
 
 			if (nextEventForRoom != null) {
 				long breakTimeAfterEventForRoom = nextEventForRoom.getStartDate().getTime() - event.getEndDate().getTime();
+				long changeTimeNextEventNeeds = nextEventForRoom.getChangeTime() * 1000 * 60;
 
 				if (breakTimeAfterEventForRoom < Math.max(breakTimeRoomNeeds, changeTimeEventNeeds)) {
 					if (breakTimeRoomNeeds >= changeTimeEventNeeds) {
@@ -103,6 +106,7 @@ public class EventServiceImpl implements EventService {
 
 			if (eventAheadForRoom != null) {
 				long breakTimeBeforeEvent = event.getStartDate().getTime() - eventAheadForRoom.getEndDate().getTime();
+				long changeTimeEventAheadNeeds = eventAheadForRoom.getChangeTime() * 1000 * 60;
 
 				if (breakTimeBeforeEvent < Math.max(breakTimeRoomNeeds, changeTimeEventNeeds)) {
 					if (breakTimeRoomNeeds >= changeTimeEventNeeds) {
@@ -125,6 +129,7 @@ public class EventServiceImpl implements EventService {
 
 			if (nextEventForCentury != null) {
 				long breakTimeAfterEventForCentury = nextEventForCentury.getStartDate().getTime() - event.getEndDate().getTime();
+				long changeTimeNextEventNeeds = nextEventForCentury.getChangeTime() * 1000 * 60;
 
 				if (breakTimeAfterEventForCentury < Math.max(breakTimeCenturyNeeds, changeTimeEventNeeds)) {
 					if (breakTimeCenturyNeeds >= changeTimeEventNeeds) {
@@ -137,6 +142,7 @@ public class EventServiceImpl implements EventService {
 
 			if (eventAheadForCentury != null) {
 				long breakTimeBeforeEvent = event.getStartDate().getTime() - eventAheadForCentury.getEndDate().getTime();
+				long changeTimeEventAheadNeeds = eventAheadForCentury.getChangeTime() * 1000 * 60;
 
 				if (breakTimeBeforeEvent < Math.max(breakTimeCenturyNeeds, changeTimeEventNeeds)) {
 					if (breakTimeCenturyNeeds >= changeTimeEventNeeds) {
@@ -175,6 +181,11 @@ public class EventServiceImpl implements EventService {
 	@Override
 	public List<Event> findEventsForRoom(Long roomId) {
 		return eventDAO.findEventsForRoom(roomId);
+	}
+
+	@Override
+	public List<Event> findEventsForCohort(Long cohortId) {
+		return eventDAO.findEventsForCohort(cohortId);
 	}
 
 }
