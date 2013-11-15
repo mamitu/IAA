@@ -9,8 +9,8 @@
 
 <div id="shadow2"></div>
 
-<div id="yellowstripe"></div>
+<div id="orangestripe"></div>
 
-<div id="bluestripe"></div>
+<div id="greenstripe"></div>
 
 
