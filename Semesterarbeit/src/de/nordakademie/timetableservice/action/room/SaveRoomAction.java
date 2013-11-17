@@ -8,16 +8,13 @@ import de.nordakademie.timetableservice.service.RoomService;
 
 public class SaveRoomAction extends ActionSupport {
 
-	private Room room;
+	private static final long serialVersionUID = -3166910830099761921L;
 	private RoomService roomService;
+	private Room room;
 	private String roomType;
 
-	public String getRoomType() {
-		return roomType;
-	}
-
-	public void setRoomType(String roomType) {
-		this.roomType = roomType;
+	public void setRoomService(RoomService roomService) {
+		this.roomService = roomService;
 	}
 
 	public Room getRoom() {
@@ -28,15 +25,47 @@ public class SaveRoomAction extends ActionSupport {
 		this.room = room;
 	}
 
-	public void setRoomService(RoomService roomService) {
-		this.roomService = roomService;
+	public String getRoomType() {
+		return roomType;
+	}
+
+	public void setRoomType(String roomType) {
+		this.roomType = roomType;
 	}
 
 	@Override
 	public String execute() throws Exception {
-		room.setRoomType(translateRoomType());
-		roomService.saveRoom(room);
-		return super.execute();
+		roomService.saveRoom(room, translateRoomType());
+		return SUCCESS;
+	}
+
+	@Override
+	public void validate() {
+		if (roomType == null) {
+			addActionError(getText("error.room.roomTypeRequired"));
+			return;
+		}
+		checkRoomNameAlreadyExists();
+		checkBreakTimeValid();
+	}
+
+	private void checkRoomNameAlreadyExists() {
+		if (roomService.checkNameExists(room.getName())) {
+			addActionError(getText("error.room.existingRoomName"));
+		}
+	}
+
+	private void checkBreakTimeValid() {
+		if (room.getBreakTime() == null) {
+			addActionError(getText("error.room.breakTimeRequired"));
+			return;
+		}
+		if (room.getBreakTime() < translateRoomType().getMinimalBreakTime()) {
+			String errorMessage = getText("error.room.roomTypeMoreBreakTime");
+			errorMessage = errorMessage.replace("$roomType", getText(translateRoomType().getName()));
+			errorMessage = errorMessage.replace("$breakTime", String.valueOf(translateRoomType().getMinimalBreakTime()));
+			addActionError(errorMessage);
+		}
 	}
 
 	private RoomType translateRoomType() {
@@ -55,35 +84,6 @@ public class SaveRoomAction extends ActionSupport {
 		}
 		}
 		return null;
-	}
-
-	@Override
-	public void validate() {
-		if (roomType == null) {
-			addFieldError("room.name", getText("error.roomTypeRequired"));
-		} else {
-			checkRoomNameAlreadyExists();
-			checkBreakTimeValid();
-
-		}
-	}
-
-	private void checkRoomNameAlreadyExists() {
-		if (roomService.checkNameExists(room.getName())) {
-			addFieldError("room.name", getText("error.existingRoomName"));
-		}
-	}
-
-	private void checkBreakTimeValid() {
-
-		if (room.getBreakTime() == null) {
-			addFieldError("room.breakTime", getText("label.required.breakTime"));
-		} else if (room.getBreakTime() < translateRoomType().getMinimalChangeTime()) {
-			String errorMessage = getText("error.roomTypeMoreChangeTime");
-			errorMessage = errorMessage.replace("$roomType", getText(room.getRoomType().getName()));
-			errorMessage = errorMessage.replace("$breakTime", getText(String.valueOf(room.getRoomType().getMinimalChangeTime())));
-			addFieldError("room.breakTime", errorMessage);
-		}
 	}
 
 }

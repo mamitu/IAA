@@ -1,176 +1,90 @@
 package de.nordakademie.timetableservice.service.impl;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
-import de.nordakademie.timetableservice.business.Collision;
-import de.nordakademie.timetableservice.business.CollisionType;
 import de.nordakademie.timetableservice.dao.EventDAO;
 import de.nordakademie.timetableservice.model.Century;
 import de.nordakademie.timetableservice.model.Event;
+import de.nordakademie.timetableservice.model.EventType;
 import de.nordakademie.timetableservice.model.Lecturer;
 import de.nordakademie.timetableservice.model.Room;
+import de.nordakademie.timetableservice.service.CenturyService;
 import de.nordakademie.timetableservice.service.EventService;
+import de.nordakademie.timetableservice.service.LecturerService;
+import de.nordakademie.timetableservice.service.RoomService;
 
 public class EventServiceImpl implements EventService {
 
 	private EventDAO eventDAO;
-
-	@Override
-	public void saveEvent(Event event) {
-		eventDAO.save(event);
-	}
-
-	@Override
-	public Event load(Long id) {
-		return eventDAO.load(id);
-	}
+	private LecturerService lecturerService;
+	private RoomService roomService;
+	private CenturyService centuryService;
 
 	public void setEventDAO(EventDAO eventDAO) {
 		this.eventDAO = eventDAO;
 	}
 
+	public void setLecturerService(LecturerService lecturerService) {
+		this.lecturerService = lecturerService;
+	}
+
+	public void setRoomService(RoomService roomService) {
+		this.roomService = roomService;
+	}
+
+	public void setCenturyService(CenturyService centuryService) {
+		this.centuryService = centuryService;
+	}
+
 	@Override
-	public List<Event> loadAll() {
-		return this.eventDAO.loadAll();
+	public Event createNewEvent() {
+		return new Event();
+	}
+
+	@Override
+	public Event createNewEvent(String name, Date startDate, Date endDate, EventType eventType, Long breakTime) {
+		Event event = new Event();
+		event.setName(name);
+		event.setStartDate(startDate);
+		event.setEndDate(endDate);
+		event.setEventType(eventType);
+		event.setBreakTime(breakTime);
+		event.setCenturies(new LinkedList<Century>());
+		event.setLecturers(new LinkedList<Lecturer>());
+		event.setRooms(new LinkedList<Room>());
+		return event;
+
 	}
 
 	@Override
 	public void deleteEventWithId(Long id) {
+		Event event = load(id);
+		for (Lecturer lecturer : event.getLecturers()) {
+			lecturer.removeEvent(event);
+			lecturerService.saveLecturer(lecturer);
+		}
+		for (Century century : event.getCenturies()) {
+			century.removeEvent(event);
+			centuryService.saveCentury(century);
+		}
+		for (Room room : event.getRooms()) {
+			room.removeEvent(event);
+			roomService.saveRoom(room);
+		}
 		this.eventDAO.deleteEventWithId(id);
 	}
 
 	@Override
-	public void getCollisionBecauseOfChangeTime(Event event, Set<Lecturer> lecturersToCheck, Set<Room> roomsToCheck, Set<Century> centuriesToCheck, Set<Collision> collisions) {
-		checkLecturers(event, lecturersToCheck, collisions);
-		checkRooms(event, roomsToCheck, collisions);
-		checkCenturies(event, centuriesToCheck, collisions);
-	}
-
-	private void checkLecturers(Event event, Set<Lecturer> lecturersToCheck, Set<Collision> collisions) {
-		long changeTimeEventNeeds = event.getChangeTime() * 1000 * 60;
-		for (Lecturer lecturer : lecturersToCheck) {
-			long breakTimeLecturerNeeds = lecturer.getBreakTime() * 1000 * 60;
-			Event nextEventForLecturer = eventDAO.findClosestEventAfterDateForLecturer(lecturer.getId(), event.getEndDate(), event.getId());
-			Event eventAheadForLecturer = eventDAO.findClosestEventBeforeDateForLecturer(lecturer.getId(), event.getStartDate(), event.getId());
-
-			if (nextEventForLecturer != null) {
-				long breakTimeAfterEventForLecturer = nextEventForLecturer.getStartDate().getTime() - event.getEndDate().getTime();
-				long changeTimeNextEventNeeds = nextEventForLecturer.getChangeTime() * 1000 * 60;
-
-				if (breakTimeAfterEventForLecturer < Math.max(breakTimeLecturerNeeds, changeTimeEventNeeds)) {
-					if (breakTimeLecturerNeeds >= changeTimeEventNeeds) {
-						collisions.add(new Collision(CollisionType.ERROR, " " + lecturer.toString() + " (Veranstaltung am: " + event.getEndDate() + ") ",
-								"error.collision.entityNeedsBreakTimeAfterEvent"));
-					} else {
-						collisions.add(new Collision(CollisionType.ERROR, " " + lecturer.toString() + " ", "error.collision.eventNeedsBreakTimeForEntityAfterEvent"));
-					}
-				}
-			}
-
-			if (eventAheadForLecturer != null) {
-				long breakTimeBeforeEvent = event.getStartDate().getTime() - eventAheadForLecturer.getEndDate().getTime();
-				long changeTimeEventAheadNeeds = eventAheadForLecturer.getChangeTime() * 1000 * 60;
-
-				if (breakTimeBeforeEvent < Math.max(breakTimeLecturerNeeds, changeTimeEventNeeds)) {
-					if (breakTimeLecturerNeeds >= changeTimeEventNeeds) {
-						collisions.add(new Collision(CollisionType.ERROR, " " + lecturer.toString() + " ", "error.collision.entityNeedsBreakTimeBeforeEvent"));
-					} else {
-						collisions.add(new Collision(CollisionType.ERROR, " " + lecturer.toString() + " ", "error.collision.eventNeedsBreakTimeForEntityBeforeEvent"));
-					}
-				}
-
-			}
-		}
-	}
-
-	private void checkRooms(Event event, Set<Room> roomsToCheck, Set<Collision> collisions) {
-		long changeTimeEventNeeds = event.getChangeTime() * 1000 * 60;
-		for (Room room : roomsToCheck) {
-			long breakTimeRoomNeeds = room.getBreakTime() * 1000 * 60;
-			Event nextEventForRoom = eventDAO.findClosestEventAfterDateForRoom(room.getId(), event.getEndDate(), event.getId());
-			Event eventAheadForRoom = eventDAO.findClosestEventBeforeDateForRoom(room.getId(), event.getStartDate(), event.getId());
-
-			if (nextEventForRoom != null) {
-				long breakTimeAfterEventForRoom = nextEventForRoom.getStartDate().getTime() - event.getEndDate().getTime();
-				long changeTimeNextEventNeeds = nextEventForRoom.getChangeTime() * 1000 * 60;
-
-				if (breakTimeAfterEventForRoom < Math.max(breakTimeRoomNeeds, changeTimeEventNeeds)) {
-					if (breakTimeRoomNeeds >= changeTimeEventNeeds) {
-						collisions.add(new Collision(CollisionType.ERROR, " " + room.toString() + " ", "error.collision.entityNeedsBreakTimeAfterEvent"));
-					} else {
-						collisions.add(new Collision(CollisionType.ERROR, " " + room.toString() + " ", "error.collision.eventNeedsBreakTimeForEntityAfterEvent"));
-					}
-				}
-			}
-
-			if (eventAheadForRoom != null) {
-				long breakTimeBeforeEvent = event.getStartDate().getTime() - eventAheadForRoom.getEndDate().getTime();
-				long changeTimeEventAheadNeeds = eventAheadForRoom.getChangeTime() * 1000 * 60;
-
-				if (breakTimeBeforeEvent < Math.max(breakTimeRoomNeeds, changeTimeEventNeeds)) {
-					if (breakTimeRoomNeeds >= changeTimeEventNeeds) {
-						collisions.add(new Collision(CollisionType.ERROR, " " + room.toString() + " ", "error.collision.entityNeedsBreakTimeBeforeEvent"));
-					} else {
-						collisions.add(new Collision(CollisionType.ERROR, " " + room.toString() + " ", "error.collision.eventNeedsBreakTimeForEntityBeforeEvent"));
-					}
-				}
-
-			}
-		}
-	}
-
-	private void checkCenturies(Event event, Set<Century> centuriesToCheck, Set<Collision> collisions) {
-		long changeTimeEventNeeds = event.getChangeTime() * 1000 * 60;
-		for (Century century : centuriesToCheck) {
-			long breakTimeCenturyNeeds = century.getBreakTime() * 1000 * 60;
-			Event nextEventForCentury = eventDAO.findClosestEventAfterDateForCentury(century.getId(), event.getEndDate(), event.getId());
-			Event eventAheadForCentury = eventDAO.findClosestEventBeforeDateForCentury(century.getId(), event.getStartDate(), event.getId());
-
-			if (nextEventForCentury != null) {
-				long breakTimeAfterEventForCentury = nextEventForCentury.getStartDate().getTime() - event.getEndDate().getTime();
-				long changeTimeNextEventNeeds = nextEventForCentury.getChangeTime() * 1000 * 60;
-
-				if (breakTimeAfterEventForCentury < Math.max(breakTimeCenturyNeeds, changeTimeEventNeeds)) {
-					if (breakTimeCenturyNeeds >= changeTimeEventNeeds) {
-						collisions.add(new Collision(CollisionType.ERROR, " " + century.toString() + " ", "error.collision.entityNeedsBreakTimeAfterEvent"));
-					} else {
-						collisions.add(new Collision(CollisionType.ERROR, " " + century.toString() + " ", "error.collision.eventNeedsBreakTimeForEntityAfterEvent"));
-					}
-				}
-			}
-
-			if (eventAheadForCentury != null) {
-				long breakTimeBeforeEvent = event.getStartDate().getTime() - eventAheadForCentury.getEndDate().getTime();
-				long changeTimeEventAheadNeeds = eventAheadForCentury.getChangeTime() * 1000 * 60;
-
-				if (breakTimeBeforeEvent < Math.max(breakTimeCenturyNeeds, changeTimeEventNeeds)) {
-					if (breakTimeCenturyNeeds >= changeTimeEventNeeds) {
-						collisions.add(new Collision(CollisionType.ERROR, " " + century.toString() + " ", "error.collision.entityNeedsBreakTimeBeforeEvent"));
-					} else {
-						collisions.add(new Collision(CollisionType.ERROR, " " + century.toString() + " ", "error.collision.eventNeedsBreakTimeForEntityBeforeEvent"));
-					}
-				}
-
-			}
-		}
-	}
-
-	// @Override
-	// public boolean checkNameExists(String eventName) {
-	// return eventDAO.findEventsByName(eventName).isEmpty() ? false : true;
-	// }
-	//
-	// @Override
-	// public boolean checkNameExistsForAnotherId(Long eventId, String
-	// eventName) {
-	// return eventDAO.findEventsByNameWithoutId(eventName, eventId).isEmpty() ?
-	// false : true;
-	// }
-
-	@Override
 	public List<Event> findEventsForCentury(Long centuryId) {
 		return eventDAO.findEventsForCentury(centuryId);
+	}
+
+	@Override
+	public List<Event> findEventsForCohort(Long cohortId) {
+		return eventDAO.findEventsForCohort(cohortId);
 	}
 
 	@Override
@@ -184,8 +98,104 @@ public class EventServiceImpl implements EventService {
 	}
 
 	@Override
-	public List<Event> findEventsForCohort(Long cohortId) {
-		return eventDAO.findEventsForCohort(cohortId);
+	public Event load(Long id) {
+		return eventDAO.load(id);
+	}
+
+	@Override
+	public List<Event> loadAll() {
+		return this.eventDAO.loadAll();
+	}
+
+	@Override
+	public void saveEvent(Event event) {
+		eventDAO.save(event);
+	}
+
+	@Override
+	public void saveReferencesAndEvent(Event event, int numberOfWeeklyRepetitions, List<Room> roomsToUpdate, List<Lecturer> lecturersToUpdate, List<Century> centuriesToUpdate) {
+		updateLecturers(event, lecturersToUpdate);
+		updateRooms(event, roomsToUpdate);
+		updateCenturies(event, centuriesToUpdate);
+		saveEvent(event);
+
+		Calendar c = Calendar.getInstance();
+		for (int i = 1; i <= numberOfWeeklyRepetitions; i++) {
+
+			Event tempEvent = new Event();
+			tempEvent.setName(event.getName());
+			tempEvent.setEventType(event.getEventType());
+			tempEvent.setBreakTime(event.getBreakTime());
+			tempEvent.setLecturers(new LinkedList<Lecturer>());
+			tempEvent.setRooms(new LinkedList<Room>());
+			tempEvent.setCenturies(new LinkedList<Century>());
+			c.setTime(event.getStartDate());
+			c.add(Calendar.DATE, 7 * i);
+			tempEvent.setStartDate(c.getTime());
+
+			c.setTime(event.getEndDate());
+			c.add(Calendar.DATE, 7 * i);
+			tempEvent.setEndDate(c.getTime());
+
+			updateLecturers(tempEvent, lecturersToUpdate);
+			updateRooms(tempEvent, roomsToUpdate);
+			updateCenturies(tempEvent, centuriesToUpdate);
+			saveEvent(tempEvent);
+		}
+	}
+
+	@Override
+	public Event updateEvent(Long eventId, Date startDate, Date endDate, Long breakTime) {
+		Event event = load(eventId);
+		event.setStartDate(startDate);
+		event.setEndDate(endDate);
+		event.setBreakTime(breakTime);
+		return event;
+	}
+
+	private void updateLecturers(Event eventToSave, List<Lecturer> lecturersToUpdate) {
+		List<Lecturer> lecturersToRemove = new LinkedList<Lecturer>(eventToSave.getLecturers());
+		lecturersToRemove.removeAll(lecturersToUpdate);
+		for (Lecturer lecturer : lecturersToRemove) {
+			lecturer.removeEvent(eventToSave);
+			lecturerService.saveLecturer(lecturer);
+		}
+		for (Lecturer lecturer : lecturersToUpdate) {
+			if (!eventToSave.getLecturers().contains(lecturer)) {
+				lecturer.associateEvent(eventToSave);
+				lecturerService.saveLecturer(lecturer);
+			}
+		}
+	}
+
+	private void updateRooms(Event eventToSave, List<Room> roomsToUpdate) {
+		List<Room> roomsToRemove = new LinkedList<Room>(eventToSave.getRooms());
+		roomsToRemove.removeAll(roomsToUpdate);
+		for (Room room : roomsToRemove) {
+			room.removeEvent(eventToSave);
+			roomService.saveRoom(room);
+		}
+		for (Room room : roomsToUpdate) {
+			if (!eventToSave.getRooms().contains(room)) {
+				room.associateEvent(eventToSave);
+				roomService.saveRoom(room);
+			}
+		}
+	}
+
+	private void updateCenturies(Event eventToSave, List<Century> centuriesToUpdate) {
+		List<Century> centuriesToRemove = new LinkedList<Century>(eventToSave.getCenturies());
+		centuriesToRemove.removeAll(centuriesToUpdate);
+		for (Century century : centuriesToRemove) {
+			century.removeEvent(eventToSave);
+			centuryService.saveCentury(century);
+		}
+		for (Century century : centuriesToUpdate) {
+			if (!eventToSave.getCenturies().contains(century)) {
+				century.associateEvent(eventToSave);
+				centuryService.saveCentury(century);
+			}
+		}
 	}
 
 }

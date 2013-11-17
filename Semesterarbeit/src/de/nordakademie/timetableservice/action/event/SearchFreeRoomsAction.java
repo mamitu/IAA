@@ -1,25 +1,26 @@
 package de.nordakademie.timetableservice.action.event;
 
-import java.util.Set;
+public class SearchFreeRoomsAction extends AbstractHandleEventAction {
 
-import de.nordakademie.timetableservice.model.Room;
-
-public class SearchFreeRoomsAction extends HandleEventAction {
+	private static final long serialVersionUID = 5847355205220608060L;
 
 	@Override
 	public String execute() throws Exception {
-		Set<Room> rooms = roomService.findFreeRoomsWithOtherEventsByDates(startDate, endDate, eventId);
-		availableRooms.clear();
-		for (Room room : rooms) {
-			availableRooms.put(room.getId(), room.toString());
-		}
-		return super.execute();
+		availableRooms = roomService.getAvailableRoomsByDates(startDate, endDate, eventId);
+		return SUCCESS;
 	}
 
 	@Override
 	public void validate() {
 		super.validate();
 		checkDates();
+	}
+
+	@Override
+	public void prepare() throws Exception {
+		availableLecturers = lecturerService.getAvailableLecturers();
+		availableCenturies = centuryService.getAvailableCenturies();
+		availableCohorts = cohortService.getAvailableCohorts();
 	}
 
 }

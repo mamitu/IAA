@@ -1,6 +1,6 @@
 package de.nordakademie.timetableservice.model;
 
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,15 +20,15 @@ public class Cohort {
 	private Long id;
 
 	@NaturalId
-	@Enumerated
-	private FieldOfStudy fieldOfStudy;
-
-	@NaturalId
 	@Column(nullable = false)
 	private int year;
 
+	@NaturalId
+	@Enumerated
+	private FieldOfStudy fieldOfStudy;
+
 	@OneToMany(mappedBy = "cohort")
-	private Set<Century> centuries;
+	private List<Century> centuries;
 
 	public Long getId() {
 		return id;
@@ -36,14 +36,6 @@ public class Cohort {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public FieldOfStudy getFieldOfStudy() {
-		return fieldOfStudy;
-	}
-
-	public void setFieldOfStudy(FieldOfStudy fieldOfStudy) {
-		this.fieldOfStudy = fieldOfStudy;
 	}
 
 	public int getYear() {
@@ -54,12 +46,28 @@ public class Cohort {
 		this.year = year;
 	}
 
-	public Set<Century> getCenturies() {
+	public FieldOfStudy getFieldOfStudy() {
+		return fieldOfStudy;
+	}
+
+	public void setFieldOfStudy(FieldOfStudy fieldOfStudy) {
+		this.fieldOfStudy = fieldOfStudy;
+	}
+
+	public List<Century> getCenturies() {
 		return centuries;
 	}
 
-	public void setCenturies(Set<Century> centuries) {
+	public void setCenturies(List<Century> centuries) {
 		this.centuries = centuries;
+	}
+
+	public void associateCentury(Century century) {
+		if (century == null) {
+			throw new IllegalArgumentException();
+		}
+		century.setCohort(this);
+		this.centuries.add(century);
 	}
 
 	@Override
@@ -90,14 +98,6 @@ public class Cohort {
 	@Override
 	public String toString() {
 		return fieldOfStudy.name() + year;
-	}
-
-	public void associateCentury(Century century) {
-		if (century == null) {
-			throw new IllegalArgumentException();
-		}
-		century.setCohort(this);
-		this.centuries.add(century);
 	}
 
 }

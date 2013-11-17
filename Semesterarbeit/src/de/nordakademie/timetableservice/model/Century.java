@@ -1,8 +1,7 @@
 package de.nordakademie.timetableservice.model;
 
-import java.util.Set;
+import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,7 +16,9 @@ import javax.persistence.ManyToOne;
 import org.hibernate.annotations.NaturalId;
 
 @Entity
-public class Century {
+public class Century implements EventParticipant {
+
+	public static Long STANDARD_BREAKTIME = Long.valueOf(15l);
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -27,35 +28,19 @@ public class Century {
 	@Column(length = 50, nullable = false)
 	private String name;
 
-	@Column(name = "number_of_students", nullable = false)
-	private int numberOfStudents;
-
-	public Set<Event> getEventsOfCentury() {
-		return eventsOfCentury;
-	}
-
-	public void setEventsOfCentury(Set<Event> eventsOfCentury) {
-		this.eventsOfCentury = eventsOfCentury;
-	}
-
-	@Column(nullable = false)
-	private Long breakTime;
-
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinTable(joinColumns = { @JoinColumn(name = "century_id") }, inverseJoinColumns = { @JoinColumn(name = "event_id") })
-	private Set<Event> eventsOfCentury;
-
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "cohort_id")
 	private Cohort cohort;
 
-	public Cohort getCohort() {
-		return cohort;
-	}
+	@Column(name = "number_of_students", nullable = false)
+	private int numberOfStudents;
 
-	public void setCohort(Cohort cohort) {
-		this.cohort = cohort;
-	}
+	@Column(nullable = false)
+	private Long breakTime;
+
+	@ManyToMany
+	@JoinTable(joinColumns = { @JoinColumn(name = "century_id") }, inverseJoinColumns = { @JoinColumn(name = "event_id") })
+	private List<Event> events;
 
 	public Long getId() {
 		return id;
@@ -71,6 +56,14 @@ public class Century {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public Cohort getCohort() {
+		return cohort;
+	}
+
+	public void setCohort(Cohort cohort) {
+		this.cohort = cohort;
 	}
 
 	public int getNumberOfStudents() {
@@ -89,12 +82,28 @@ public class Century {
 		this.breakTime = breakTime;
 	}
 
+	public List<Event> getEvents() {
+		return events;
+	}
+
+	public void setEvents(List<Event> events) {
+		this.events = events;
+	}
+
+	public void associateEvent(Event event) {
+		if (event == null) {
+			throw new IllegalArgumentException();
+		}
+		event.getCenturies().add(this);
+		this.events.add(event);
+	}
+
 	public void removeEvent(Event event) {
 		if (event == null) {
 			throw new IllegalArgumentException();
 		}
 		event.getCenturies().remove(this);
-		this.eventsOfCentury.remove(event);
+		this.events.remove(event);
 	}
 
 	@Override
@@ -125,14 +134,6 @@ public class Century {
 	@Override
 	public String toString() {
 		return getName() + " (Studenten: " + getNumberOfStudents() + ")";
-	}
-
-	public void associateEvent(Event event) {
-		if (event == null) {
-			throw new IllegalArgumentException();
-		}
-		event.getCenturies().add(this);
-		this.eventsOfCentury.add(event);
 	}
 
 }

@@ -1,12 +1,10 @@
 package de.nordakademie.timetableservice.model;
 
-import java.util.Set;
+import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,7 +15,7 @@ import javax.persistence.ManyToMany;
 import org.hibernate.annotations.NaturalId;
 
 @Entity
-public class Room {
+public class Room implements EventParticipant {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -27,34 +25,18 @@ public class Room {
 	@Column(length = 50, nullable = false)
 	private String name;
 
+	@Enumerated
+	private RoomType roomType;
+
 	@Column(name = "number_of_seats", nullable = false)
-	private int NumberOfSeats;
+	private int numberOfSeats;
 
 	@Column(nullable = false)
 	private Long breakTime;
 
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToMany
 	@JoinTable(joinColumns = { @JoinColumn(name = "room_id") }, inverseJoinColumns = { @JoinColumn(name = "event_id") })
-	private Set<Event> eventsOfRoom;
-
-	@Enumerated
-	private RoomType roomType;
-
-	public Set<Event> getEventsOfRoom() {
-		return eventsOfRoom;
-	}
-
-	public void setEventsOfRoom(Set<Event> eventsOfRoom) {
-		this.eventsOfRoom = eventsOfRoom;
-	}
-
-	public Long getBreakTime() {
-		return breakTime;
-	}
-
-	public void setBreakTime(Long breakTime) {
-		this.breakTime = breakTime;
-	}
+	private List<Event> events;
 
 	public Long getId() {
 		return id;
@@ -72,20 +54,36 @@ public class Room {
 		this.name = name;
 	}
 
+	public RoomType getRoomType() {
+		return roomType;
+	}
+
+	public void setRoomType(RoomType roomType) {
+		this.roomType = roomType;
+	}
+
 	public int getNumberOfSeats() {
-		return NumberOfSeats;
+		return numberOfSeats;
 	}
 
 	public void setNumberOfSeats(int numberOfSeats) {
-		NumberOfSeats = numberOfSeats;
+		this.numberOfSeats = numberOfSeats;
 	}
 
-	public void removeEvent(Event event) {
-		if (event == null) {
-			throw new IllegalArgumentException();
-		}
-		event.getRooms().remove(this);
-		this.eventsOfRoom.remove(event);
+	public Long getBreakTime() {
+		return breakTime;
+	}
+
+	public void setBreakTime(Long breakTime) {
+		this.breakTime = breakTime;
+	}
+
+	public List<Event> getEvents() {
+		return events;
+	}
+
+	public void setEvents(List<Event> events) {
+		this.events = events;
 	}
 
 	public void associateEvent(Event event) {
@@ -93,7 +91,15 @@ public class Room {
 			throw new IllegalArgumentException();
 		}
 		event.getRooms().add(this);
-		this.eventsOfRoom.add(event);
+		this.events.add(event);
+	}
+
+	public void removeEvent(Event event) {
+		if (event == null) {
+			throw new IllegalArgumentException();
+		}
+		event.getRooms().remove(this);
+		this.events.remove(event);
 	}
 
 	@Override
@@ -124,14 +130,6 @@ public class Room {
 	@Override
 	public String toString() {
 		return getName() + " (Sitze: " + getNumberOfSeats() + ")";
-	}
-
-	public RoomType getRoomType() {
-		return roomType;
-	}
-
-	public void setRoomType(RoomType roomType) {
-		this.roomType = roomType;
 	}
 
 }

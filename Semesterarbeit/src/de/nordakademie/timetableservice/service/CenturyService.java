@@ -1,28 +1,31 @@
 package de.nordakademie.timetableservice.service;
 
-import java.util.Set;
+import java.util.List;
+import java.util.Map;
 
-import de.nordakademie.timetableservice.business.Collision;
 import de.nordakademie.timetableservice.model.Century;
 import de.nordakademie.timetableservice.model.Cohort;
 import de.nordakademie.timetableservice.model.Event;
 
 public interface CenturyService {
+	public boolean checkNameExists(String centuryName);
 
-	public void saveCentury(Century century);
+	public List<Century> findCenturiesByCohort(Cohort selectedCohort);
+
+	public List<Century> findCenturiesByEvent(Event event);
+
+	public Map<Long, String> getAvailableCenturies();
+
+	public Century getNewCentury();
+
+	public List<Century> load(List<Long> centuryIds);
 
 	public Century load(Long id);
 
-	public Set<Century> loadAll();
+	public List<Century> loadAll();
 
-	public Set<Century> findCenturiesByEvent(Event event);
+	public void saveCentury(Century century);
 
-	public void getCollisionsWithOtherEvents(Event event, Set<Century> centuriesToCheck, Set<Collision> collisions);
-
-	public boolean checkNameExists(String centuryName);
-
-	public boolean checkNameExistsForAnotherId(Long centuryId, String centuryName);
-
-	public Set<Century> findCenturiesByCohort(Cohort selectedCohort);
+	public void saveCentury(Century century, String suffix, Long cohortId);
 
 }

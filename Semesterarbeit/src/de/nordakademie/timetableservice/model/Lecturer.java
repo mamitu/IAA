@@ -1,11 +1,9 @@
 package de.nordakademie.timetableservice.model;
 
-import java.util.Set;
+import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,7 +14,9 @@ import javax.persistence.ManyToMany;
 import org.hibernate.annotations.NaturalId;
 
 @Entity
-public class Lecturer {
+public class Lecturer implements EventParticipant {
+
+	public static Long STANDARD_BREAKTIME = Long.valueOf(15l);
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,24 +28,16 @@ public class Lecturer {
 	@Column(name = "last_name", length = 50, nullable = false)
 	private String lastName;
 
-	@Column(nullable = false)
-	private Long breakTime;
-
 	@NaturalId
 	@Column(nullable = false, length = 50)
 	private String emailAddress;
 
-	public String getEmailAddress() {
-		return emailAddress;
-	}
+	@Column(nullable = false)
+	private Long breakTime;
 
-	public void setEmailAddress(String emailAddress) {
-		this.emailAddress = emailAddress;
-	}
-
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToMany
 	@JoinTable(joinColumns = { @JoinColumn(name = "lecturer_id") }, inverseJoinColumns = { @JoinColumn(name = "event_id") })
-	private Set<Event> eventsOfLecturer;
+	private List<Event> events;
 
 	public Long getId() {
 		return id;
@@ -71,6 +63,14 @@ public class Lecturer {
 		this.lastName = lastName;
 	}
 
+	public String getEmailAddress() {
+		return emailAddress;
+	}
+
+	public void setEmailAddress(String emailAddress) {
+		this.emailAddress = emailAddress;
+	}
+
 	public Long getBreakTime() {
 		return breakTime;
 	}
@@ -79,9 +79,12 @@ public class Lecturer {
 		this.breakTime = breakTime;
 	}
 
-	@Override
-	public String toString() {
-		return getFirstName() + " " + getLastName() + " (" + getEmailAddress() + ")";
+	public List<Event> getEvents() {
+		return events;
+	}
+
+	public void setEvents(List<Event> events) {
+		this.events = events;
 	}
 
 	public void associateEvent(Event event) {
@@ -89,7 +92,7 @@ public class Lecturer {
 			throw new IllegalArgumentException();
 		}
 		event.getLecturers().add(this);
-		this.eventsOfLecturer.add(event);
+		this.events.add(event);
 	}
 
 	public void removeEvent(Event event) {
@@ -97,15 +100,7 @@ public class Lecturer {
 			throw new IllegalArgumentException();
 		}
 		event.getLecturers().remove(this);
-		this.eventsOfLecturer.remove(event);
-	}
-
-	public Set<Event> getEventsOfLecturer() {
-		return eventsOfLecturer;
-	}
-
-	public void setEventsOfLecturer(Set<Event> eventsOfLecturer) {
-		this.eventsOfLecturer = eventsOfLecturer;
+		this.events.remove(event);
 	}
 
 	@Override
@@ -131,6 +126,11 @@ public class Lecturer {
 		} else if (!emailAddress.equals(other.emailAddress))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return getFirstName() + " " + getLastName() + " (" + getEmailAddress() + ")";
 	}
 
 }

@@ -4,25 +4,25 @@ public enum RoomType {
 
 	STANDARD("roomType.standard", 0), LABORATORY("roomType.laboratory", 0), COMPUTER_LAB("roomType.computer_lab", 15), AUDIMAX("roomType.audimax", 0);
 
-	private RoomType(String name, int minimalChangeTime) {
-		this.name = name;
-		this.minimalChangeTime = minimalChangeTime;
-	}
+	private String name;
+	private int minimalBreakTime;
 
-	public int getMinimalChangeTime() {
-		return minimalChangeTime;
+	private RoomType(String name, int minimalBreakTime) {
+		this.name = name;
+		this.minimalBreakTime = minimalBreakTime;
 	}
 
 	public String getName() {
 		return name;
 	}
 
+	public int getMinimalBreakTime() {
+		return minimalBreakTime;
+	}
+
 	@Override
 	public String toString() {
 		return name;
 	}
-
-	private int minimalChangeTime;
-	private String name;
 
 }

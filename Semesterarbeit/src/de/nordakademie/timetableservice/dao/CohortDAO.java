@@ -1,13 +1,13 @@
 package de.nordakademie.timetableservice.dao;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import de.nordakademie.timetableservice.model.Cohort;
+import de.nordakademie.timetableservice.model.FieldOfStudy;
 
 public class CohortDAO {
 
@@ -35,9 +35,16 @@ public class CohortDAO {
 	}
 
 	@SuppressWarnings("unchecked")
-	public Set<Cohort> loadAll() {
+	public List<Cohort> loadAll() {
 		Session session = sessionFactory.getCurrentSession();
-		return new HashSet<Cohort>(session.createQuery("from Cohort").list());
+		return session.createQuery("from Cohort").list();
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Cohort> findCohortsByFieldOfStudyAndYear(FieldOfStudy fieldOfStudy, int year) {
+		Session session = sessionFactory.getCurrentSession();
+		return session.createQuery("from Cohort cohort where cohort.fieldOfStudy = :fieldOfStudy and cohort.year = :year").setParameter("fieldOfStudy", fieldOfStudy)
+				.setParameter("year", year).list();
 	}
 
 }

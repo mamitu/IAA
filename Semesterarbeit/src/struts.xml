@@ -6,115 +6,118 @@
 
 <struts>
 	<package name="default" extends="tiles-default">
-	
-	<action name="Overview" 
+
+		<!-- Action der Ueberblickseite -->
+		<action name="Overview"
 			class="de.nordakademie.timetableservice.action.OverviewAction">
 			<result type="tiles">Overview</result>
 		</action>
-	
-	
-		<action name="ShowLecturerList" 
+
+		<!-- Actions fuer die Dozenten -->
+		<action name="ShowLecturerList"
 			class="de.nordakademie.timetableservice.action.lecturer.ShowLecturerListAction">
 			<result type="tiles">LecturerList</result>
 		</action>
 		<action name="CreateLecturer"
 			class="de.nordakademie.timetableservice.action.lecturer.CreateLecturerAction">
-			<result type="tiles">CreateLecturer</result>	
+			<result type="tiles">CreateLecturer</result>
 		</action>
 		<action name="SaveLecturer"
 			class="de.nordakademie.timetableservice.action.lecturer.SaveLecturerAction">
 			<result type="chain">ShowLecturerList</result>
-			<result name="input" type="tiles">CreateLecturer</result>	
+			<result name="input" type="tiles">CreateLecturer</result>
 		</action>
-		
-		
-		<action name="ShowCenturyList" 
+
+		<!-- Actions fuer die Zenturien -->
+		<action name="ShowCenturyList"
 			class="de.nordakademie.timetableservice.action.century.ShowCenturyListAction">
 			<result type="tiles">CenturyList</result>
 		</action>
 		<action name="CreateCentury"
 			class="de.nordakademie.timetableservice.action.century.CreateCenturyAction">
-			<result type="tiles">CreateCentury</result>	
+			<result type="tiles">CreateCentury</result>
 		</action>
 		<action name="SaveCentury"
 			class="de.nordakademie.timetableservice.action.century.SaveCenturyAction">
 			<result type="chain">ShowCenturyList</result>
-			<result name="input" type="tiles">CreateCentury</result>	
+			<result name="input" type="tiles">CreateCentury</result>
 		</action>
-		
-		
-		<action name="ShowCohortList" 
+
+		<!-- Actions fuer die Kohorten -->
+		<action name="ShowCohortList"
 			class="de.nordakademie.timetableservice.action.cohort.ShowCohortListAction">
 			<result type="tiles">CohortList</result>
 		</action>
 		<action name="CreateCohort"
 			class="de.nordakademie.timetableservice.action.cohort.CreateCohortAction">
-			<result type="tiles">CreateCohort</result>	
+			<result type="tiles">CreateCohort</result>
 		</action>
 		<action name="SaveCohort"
 			class="de.nordakademie.timetableservice.action.cohort.SaveCohortAction">
 			<result type="chain">ShowCohortList</result>
-			<result name="input" type="tiles">CreateCohort</result>	
+			<result name="input" type="tiles">CreateCohort</result>
 		</action>
-		
-		
-		
-		<action name="ShowRoomList" 
+
+		<!-- Actions fuer die Raeume -->
+		<action name="ShowRoomList"
 			class="de.nordakademie.timetableservice.action.room.ShowRoomListAction">
 			<result type="tiles">RoomList</result>
 		</action>
 		<action name="CreateRoom"
 			class="de.nordakademie.timetableservice.action.room.CreateRoomAction">
-			<result type="tiles">CreateRoom</result>	
+			<result type="tiles">CreateRoom</result>
 		</action>
 		<action name="SaveRoom"
 			class="de.nordakademie.timetableservice.action.room.SaveRoomAction">
 			<result type="chain">ShowRoomList</result>
-			<result name="input" type="tiles">CreateRoom</result>	
+			<result name="input" type="tiles">CreateRoom</result>
 		</action>
-		
-		<action name="SearchFreeRooms"
-			class="de.nordakademie.timetableservice.action.event.SearchFreeRoomsAction">
-			<result type="chain">CreateEvent</result>	
-			<result name="input" type="tiles">CreateEvent</result>
-		</action>
-		
-		<action name="ShowEventList" 
+
+		<!-- Actions fuer die Veranstaltungen -->
+		<action name="ShowEventList"
 			class="de.nordakademie.timetableservice.action.event.ShowEventListAction">
 			<result type="tiles">EventList</result>
 		</action>
-		
 		<action name="CreateEvent"
 			class="de.nordakademie.timetableservice.action.event.CreateEventAction">
-			<result type="tiles">CreateEvent</result>	
+			<result type="tiles">CreateEvent</result>
 		</action>
-		
 		<action name="EditExistingEvent"
 			class="de.nordakademie.timetableservice.action.event.EditExistingEventAction">
-			<result type="tiles">EditExistingEvent</result>	
+			<result type="tiles">EditExistingEvent</result>
 		</action>
-		
 		<action name="DeleteEvent"
 			class="de.nordakademie.timetableservice.action.event.DeleteEventAction">
-			<result type="tiles">EventList</result>	
+			<result type="tiles">EventList</result>
 		</action>
-		
-		<action name="SaveExistingEvent"
-			class="de.nordakademie.timetableservice.action.event.SaveExistingEventAction">
+		<action name="SearchFreeRooms"
+			class="de.nordakademie.timetableservice.action.event.SearchFreeRoomsAction">
+			<result name ="success" type="tiles">CreateEvent</result>
+			<result name="input" type="tiles">CreateEvent</result>
+		</action>
+		<action name="TrySaveExistingEvent"
+			class="de.nordakademie.timetableservice.action.event.TrySaveExistingEventAction">
 			<result type="chain">ShowEventList</result>
-			<result name="input" type="tiles">EditExistingEvent</result>	
+			<result name="input" type="tiles">EditExistingEvent</result>
+			<result name="error" type="tiles">ConfirmSaveExistingEvent</result>
 		</action>
-		
-		<action name="SaveNewEvent"
-			class="de.nordakademie.timetableservice.action.event.SaveNewEventAction">
+		<action name="TrySaveNewEvent"
+			class="de.nordakademie.timetableservice.action.event.TrySaveNewEventAction">
 			<result type="chain">ShowEventList</result>
-			<result name="input" type="tiles">CreateEvent</result>	
+			<result name="input" type="tiles">CreateEvent</result>
+			<result name="error" type="tiles">ConfirmSaveNewEvent</result>
 		</action>
-		
 		<action name="ShowTimetable"
 			class="de.nordakademie.timetableservice.action.ShowTimetable">
-			<result type="tiles">ShowTimetable</result>	
+			<result type="tiles">ShowTimetable</result>
 		</action>
-		
+		<action name="ConfirmSaveNewEvent"
+			class="de.nordakademie.timetableservice.action.event.ConfirmSaveNewEventAction">
+			<result type="tiles">EventList</result>
+		</action>
+		<action name="ConfirmSaveExistingEvent"
+			class="de.nordakademie.timetableservice.action.event.ConfirmSaveExistingEventAction">
+			<result type="tiles">EventList</result>
+		</action>
 	</package>
 </struts>

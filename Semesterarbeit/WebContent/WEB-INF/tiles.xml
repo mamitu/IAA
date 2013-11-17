@@ -5,57 +5,66 @@
 		"http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
 
 <tiles-definitions>
+	<!-- Grundlayout -->
 	<definition name="template" template="/template.jsp">
-		<put-attribute name="header" value="/header.jsp"/>
-		<put-attribute name="footer" value="/footer.jsp"/>
-	</definition>
-	
-	<definition name="Overview" extends="template">
-		<put-attribute name="content" value="/overview.jsp"/>
+		<put-attribute name="header" value="/header.jsp" />
+		<put-attribute name="footer" value="/footer.jsp" />
 	</definition>
 
-	
-	
+	<!-- Layout der Uebersichtsseite -->
+	<definition name="Overview" extends="template">
+		<put-attribute name="content" value="/overview.jsp" />
+	</definition>
+
+	<!-- Layouts der Seiten bezgl. Dozenten -->
 	<definition name="CreateLecturer" extends="template">
-		<put-attribute name="content" value="/createLecturer.jsp"/>
+		<put-attribute name="content" value="/createLecturer.jsp" />
 	</definition>
 	<definition name="LecturerList" extends="template">
-		<put-attribute name="content" value="/lecturerList.jsp"/>
+		<put-attribute name="content" value="/lecturerList.jsp" />
 	</definition>
-	
-		<definition name="CreateCentury" extends="template">
-		<put-attribute name="content" value="/createCentury.jsp"/>
+
+	<!-- Layouts der Seiten bezgl. Zenturien -->
+	<definition name="CreateCentury" extends="template">
+		<put-attribute name="content" value="/createCentury.jsp" />
 	</definition>
 	<definition name="CenturyList" extends="template">
-		<put-attribute name="content" value="/centuryList.jsp"/>
+		<put-attribute name="content" value="/centuryList.jsp" />
 	</definition>
-	
+
+	<!-- Layouts der Seiten bezgl. Kohorten -->
 	<definition name="CreateCohort" extends="template">
-		<put-attribute name="content" value="/createCohort.jsp"/>
+		<put-attribute name="content" value="/createCohort.jsp" />
 	</definition>
 	<definition name="CohortList" extends="template">
-		<put-attribute name="content" value="/cohortList.jsp"/>
+		<put-attribute name="content" value="/cohortList.jsp" />
 	</definition>
-	
-		<definition name="CreateRoom" extends="template">
-		<put-attribute name="content" value="/createRoom.jsp"/>
+
+	<!-- Layouts der Seiten bezgl. Raeume -->
+	<definition name="CreateRoom" extends="template">
+		<put-attribute name="content" value="/createRoom.jsp" />
 	</definition>
 	<definition name="RoomList" extends="template">
-		<put-attribute name="content" value="/roomList.jsp"/>
+		<put-attribute name="content" value="/roomList.jsp" />
 	</definition>
-	
-		<definition name="EditExistingEvent" extends="template">
-		<put-attribute name="content" value="/editEvent.jsp"/>
-	</definition>
+
+	<!-- Layouts der Seiten bezgl. Veranstaltungen -->
 	<definition name="CreateEvent" extends="template">
-		<put-attribute name="content" value="/createEvent.jsp"/>
+		<put-attribute name="content" value="/createEvent.jsp" />
 	</definition>
-	
+	<definition name="EditExistingEvent" extends="template">
+		<put-attribute name="content" value="/editEvent.jsp" />
+	</definition>
+	<definition name="ConfirmSaveNewEvent" extends="template">
+		<put-attribute name="content" value="/confirmSaveNewEvent.jsp" />
+	</definition>
+	<definition name="ConfirmSaveExistingEvent" extends="template">
+		<put-attribute name="content" value="/confirmSaveExistingEvent.jsp" />
+	</definition>
 	<definition name="EventList" extends="template">
-		<put-attribute name="content" value="/eventList.jsp"/>
+		<put-attribute name="content" value="/eventList.jsp" />
 	</definition>
 	<definition name="ShowTimetable" extends="template">
-		<put-attribute name="content" value="/showTimetable.jsp"/>
+		<put-attribute name="content" value="/showTimetable.jsp" />
 	</definition>
-	
 </tiles-definitions>

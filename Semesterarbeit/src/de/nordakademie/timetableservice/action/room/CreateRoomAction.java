@@ -7,37 +7,21 @@ import de.nordakademie.timetableservice.service.RoomService;
 
 public class CreateRoomAction extends ActionSupport {
 
+	private static final long serialVersionUID = -3597629136028462847L;
 	private RoomService roomService;
 	private Room room;
-	private Long roomId;
-
-	public Room getRoom() {
-		return room;
-	}
-
-	public void setRoom(Room room) {
-		this.room = room;
-	}
-
-	public Long getRoomId() {
-		return roomId;
-	}
-
-	public void setRoomId(Long roomId) {
-		this.roomId = roomId;
-	}
 
 	public void setRoomService(RoomService roomService) {
 		this.roomService = roomService;
 	}
 
+	public Room getRoom() {
+		return room;
+	}
+
 	@Override
 	public String execute() throws Exception {
-		if (roomId != null) {
-			room = roomService.load(roomId);
-		} else {
-			room = new Room();
-		}
+		room = roomService.createNewRoom();
 		return SUCCESS;
 	}
 

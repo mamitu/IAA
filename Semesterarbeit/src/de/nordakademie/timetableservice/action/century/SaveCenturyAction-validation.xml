@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+ <!DOCTYPE validators PUBLIC
+         "-//Apache Struts//XWork Validator 1.0.3//EN"
+           "http://struts.apache.org/dtds/xwork-validator-1.0.3.dtd">
+
+<validators>
+	<field name="suffix">
+		<field-validator type="requiredstring">
+			<message key="error.century.suffixRequired" />
+		</field-validator>
+		<field-validator type="regex">
+			<param name="expression"><![CDATA[^[-a-z\säöü]+$]]></param>
+			<message key="error.century.suffixWrongChars" />
+		</field-validator>
+	</field>
+	
+	<field name="century.numberOfStudents">
+		<field-validator type="int">
+			<param name="min">1</param>
+			<message key="error.century.numberOfStudentsRequired" />
+		</field-validator>
+	</field>
+</validators>

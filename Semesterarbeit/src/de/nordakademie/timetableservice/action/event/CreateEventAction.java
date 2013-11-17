@@ -1,13 +1,12 @@
 package de.nordakademie.timetableservice.action.event;
 
-import de.nordakademie.timetableservice.model.Event;
+public class CreateEventAction extends AbstractHandleEventAction {
 
-public class CreateEventAction extends HandleEventAction {
+	private static final long serialVersionUID = 86853074980435433L;
 
 	@Override
 	public String execute() throws Exception {
-		event = new Event();
+		event = eventService.createNewEvent();
 		return SUCCESS;
 	}
-
 }

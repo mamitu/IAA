@@ -9,31 +9,26 @@ import de.nordakademie.timetableservice.service.EventService;
 
 public class ShowTimetable extends ActionSupport {
 
+	private static final long serialVersionUID = -7940693926011624414L;
+	private EventService eventService;
+	private List<Event> events;
 	private String entity;
 	private Long entityId;
 
-	private EventService eventService;
+	public void setEventService(EventService eventService) {
+		this.eventService = eventService;
+	}
 
-	private List<Event> events;
-
-	public String getEntity() {
-		return entity;
+	public List<Event> getEvents() {
+		return events;
 	}
 
 	public void setEntity(String entity) {
 		this.entity = entity;
 	}
 
-	public Long getEntityId() {
-		return entityId;
-	}
-
 	public void setEntityId(Long entityId) {
 		this.entityId = entityId;
-	}
-
-	public void setEventService(EventService eventService) {
-		this.eventService = eventService;
 	}
 
 	@Override
@@ -57,14 +52,6 @@ public class ShowTimetable extends ActionSupport {
 		}
 		}
 		return SUCCESS;
-	}
-
-	public List<Event> getEvents() {
-		return events;
-	}
-
-	public void setEvents(List<Event> events) {
-		this.events = events;
 	}
 
 }

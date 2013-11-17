@@ -1,25 +1,27 @@
 package de.nordakademie.timetableservice.service;
 
-import java.util.Set;
+import java.util.List;
+import java.util.Map;
 
-import de.nordakademie.timetableservice.business.Collision;
 import de.nordakademie.timetableservice.model.Event;
 import de.nordakademie.timetableservice.model.Lecturer;
 
 public interface LecturerService {
 
-	public void saveLecturer(Lecturer lecturer);
+	public boolean checkEmailExists(String emailAddress);
+
+	public Lecturer createNewLecturer();
+
+	public List<Lecturer> findLecturersByEvent(Event event);
+
+	public Map<Long, String> getAvailableLecturers();
+
+	public List<Lecturer> load(List<Long> lecturerIds);
 
 	public Lecturer load(Long id);
 
-	public Set<Lecturer> loadAll();
+	public List<Lecturer> loadAll();
 
-	public Set<Lecturer> findLecturersByEvent(Event event);
-
-	public boolean checkEmailExists(String emailAddress);
-
-	public boolean checkEmailExistsForAnotherId(Long lecturerId, String emailAddress);
-
-	public void getCollisionsWithOtherEvents(Event event, Set<Lecturer> lecturersToCheck, Set<Collision> collisions);
+	public void saveLecturer(Lecturer lecturer);
 
 }

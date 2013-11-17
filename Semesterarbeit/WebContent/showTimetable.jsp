@@ -11,8 +11,10 @@
 	<s:iterator value="events" var="event">
 		<tr>
 			<td><s:property value="#event.name" /></td>
-			<td><s:property value="%{getText('format.date',{#event.startDate})}"/></td>
-			<td><s:property value="%{getText('format.date',{#event.endDate})}"/></td>
+			<td><s:property
+					value="%{getText('format.date',{#event.startDate})}" /></td>
+			<td><s:property
+					value="%{getText('format.date',{#event.endDate})}" /></td>
 		</tr>
 	</s:iterator>
 </table>

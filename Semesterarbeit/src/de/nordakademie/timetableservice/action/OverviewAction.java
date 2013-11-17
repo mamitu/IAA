@@ -4,9 +4,11 @@ import com.opensymphony.xwork2.ActionSupport;
 
 public class OverviewAction extends ActionSupport {
 
+	private static final long serialVersionUID = -7061632778141447980L;
+
 	@Override
 	public String execute() throws Exception {
-		return super.execute();
+		return SUCCESS;
 	}
 
 }

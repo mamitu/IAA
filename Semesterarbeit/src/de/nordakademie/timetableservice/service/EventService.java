@@ -1,37 +1,38 @@
 package de.nordakademie.timetableservice.service;
 
+import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
-import de.nordakademie.timetableservice.business.Collision;
 import de.nordakademie.timetableservice.model.Century;
 import de.nordakademie.timetableservice.model.Event;
+import de.nordakademie.timetableservice.model.EventType;
 import de.nordakademie.timetableservice.model.Lecturer;
 import de.nordakademie.timetableservice.model.Room;
 
 public interface EventService {
 
-	public void saveEvent(Event event);
+	public Event createNewEvent();
 
-	public Event load(Long id);
-
-	public List<Event> loadAll();
+	public Event createNewEvent(String name, Date startDate, Date endDate, EventType eventType, Long breakTime);
 
 	public void deleteEventWithId(Long id);
 
-	public void getCollisionBecauseOfChangeTime(Event event, Set<Lecturer> lecturersToCheck, Set<Room> roomsToCheck, Set<Century> centuriesToCheck, Set<Collision> collisions);
-
-	// public boolean checkNameExists(String eventName);
-	//
-	// public boolean checkNameExistsForAnotherId(Long eventId, String
-	// eventName);
-
 	public List<Event> findEventsForCentury(Long centuryId);
+
+	public List<Event> findEventsForCohort(Long cohortId);
 
 	public List<Event> findEventsForLecturer(Long lecturerId);
 
 	public List<Event> findEventsForRoom(Long roomId);
 
-	public List<Event> findEventsForCohort(Long cohortId);
+	public Event load(Long id);
+
+	public List<Event> loadAll();
+
+	public void saveEvent(Event event);
+
+	public void saveReferencesAndEvent(Event event, int numberOfWeeklyRepetitions, List<Room> roomsToUpdate, List<Lecturer> lecturersToUpdate, List<Century> centuriesToUpdate);
+
+	public Event updateEvent(Long eventId, Date startDate, Date endDate, Long breakTime);
 
 }

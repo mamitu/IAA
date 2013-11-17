@@ -1,9 +1,10 @@
 package de.nordakademie.timetableservice.service.impl;
 
-import java.util.Set;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
-import de.nordakademie.timetableservice.business.Collision;
-import de.nordakademie.timetableservice.business.CollisionType;
 import de.nordakademie.timetableservice.dao.LecturerDAO;
 import de.nordakademie.timetableservice.model.Event;
 import de.nordakademie.timetableservice.model.Lecturer;
@@ -14,8 +15,38 @@ public class LecturerServiceImpl implements LecturerService {
 	private LecturerDAO lecturerDAO;
 
 	@Override
-	public void saveLecturer(Lecturer lecturer) {
-		lecturerDAO.save(lecturer);
+	public boolean checkEmailExists(String emailAddress) {
+		return lecturerDAO.findLecturersByEmailAddress(emailAddress).isEmpty() ? false : true;
+	}
+
+	@Override
+	public Lecturer createNewLecturer() {
+		Lecturer lecturer = new Lecturer();
+		lecturer.setBreakTime(Lecturer.STANDARD_BREAKTIME);
+		return lecturer;
+	}
+
+	@Override
+	public List<Lecturer> findLecturersByEvent(Event event) {
+		return lecturerDAO.findLecturersByEvent(event.getId());
+	}
+
+	@Override
+	public Map<Long, String> getAvailableLecturers() {
+		Map<Long, String> availableLecturers = new HashMap<Long, String>();
+		for (Lecturer lecturer : loadAll()) {
+			availableLecturers.put(lecturer.getId(), lecturer.toString());
+		}
+		return availableLecturers;
+	}
+
+	@Override
+	public List<Lecturer> load(List<Long> lecturerIds) {
+		List<Lecturer> lecturers = new LinkedList<Lecturer>();
+		for (Long id : lecturerIds) {
+			lecturers.add(load(id));
+		}
+		return lecturers;
 	}
 
 	@Override
@@ -23,40 +54,18 @@ public class LecturerServiceImpl implements LecturerService {
 		return lecturerDAO.load(id);
 	}
 
-	public void setLecturerDAO(LecturerDAO lecturerDAO) {
-		this.lecturerDAO = lecturerDAO;
-	}
-
 	@Override
-	public Set<Lecturer> loadAll() {
+	public List<Lecturer> loadAll() {
 		return this.lecturerDAO.loadAll();
 	}
 
 	@Override
-	public Set<Lecturer> findLecturersByEvent(Event event) {
-		return lecturerDAO.findLecturersByEvent(event.getId());
+	public void saveLecturer(Lecturer lecturer) {
+		lecturerDAO.save(lecturer);
 	}
 
-	@Override
-	public boolean checkEmailExistsForAnotherId(Long lecturerId, String emailAddress) {
-		return lecturerDAO.findLecturersByEmailAddressWithoutId(emailAddress, lecturerId).isEmpty() ? false : true;
-	}
-
-	@Override
-	public boolean checkEmailExists(String emailAddress) {
-		return lecturerDAO.findLecturersByEmailAddress(emailAddress).isEmpty() ? false : true;
-	}
-
-	@Override
-	public void getCollisionsWithOtherEvents(Event event, Set<Lecturer> lecturersToCheck, Set<Collision> collisions) {
-		Set<Lecturer> lecturersWithExistingEvent = lecturerDAO.findLecturersWithDatesWithoutId(event.getStartDate(), event.getEndDate(), event.getId());
-		if (!lecturersWithExistingEvent.isEmpty()) {
-			for (Lecturer lecturer : lecturersToCheck) {
-				if (lecturersWithExistingEvent.contains(lecturer)) {
-					collisions.add(new Collision(CollisionType.ERROR, lecturer.toString(), "label.collision.existingEventForEntity"));
-				}
-			}
-		}
+	public void setLecturerDAO(LecturerDAO lecturerDAO) {
+		this.lecturerDAO = lecturerDAO;
 	}
 
 }

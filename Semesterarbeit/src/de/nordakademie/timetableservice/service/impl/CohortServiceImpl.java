@@ -1,6 +1,8 @@
 package de.nordakademie.timetableservice.service.impl;
 
-import java.util.Set;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import de.nordakademie.timetableservice.dao.CohortDAO;
 import de.nordakademie.timetableservice.model.Cohort;
@@ -16,8 +18,22 @@ public class CohortServiceImpl implements CohortService {
 	}
 
 	@Override
-	public void saveCohort(Cohort cohort) {
-		cohortDAO.save(cohort);
+	public boolean checkCohortExists(FieldOfStudy fieldOfStudy, int year) {
+		return cohortDAO.findCohortsByFieldOfStudyAndYear(fieldOfStudy, year).isEmpty() ? false : true;
+	}
+
+	@Override
+	public Cohort createCohort() {
+		return new Cohort();
+	}
+
+	@Override
+	public Map<Long, String> getAvailableCohorts() {
+		Map<Long, String> availableCohorts = new HashMap<Long, String>();
+		for (Cohort cohort : loadAll()) {
+			availableCohorts.put(cohort.getId(), cohort.toString());
+		}
+		return availableCohorts;
 	}
 
 	@Override
@@ -26,14 +42,19 @@ public class CohortServiceImpl implements CohortService {
 	}
 
 	@Override
-	public Set<Cohort> loadAll() {
+	public List<Cohort> loadAll() {
 		return cohortDAO.loadAll();
 	}
 
 	@Override
-	public boolean checkCohortExists(FieldOfStudy fieldOfStudy, int year) {
-		// TODO Auto-generated method stub
-		return false;
+	public void saveCohort(Cohort cohort) {
+		cohortDAO.save(cohort);
+	}
+
+	@Override
+	public void saveCohort(Cohort cohort, FieldOfStudy fieldOfStudy) {
+		cohort.setFieldOfStudy(fieldOfStudy);
+		saveCohort(cohort);
 	}
 
 }

@@ -8,9 +8,9 @@ import de.nordakademie.timetableservice.service.CohortService;
 
 public class SaveCohortAction extends ActionSupport {
 
+	private static final long serialVersionUID = -2138016758609585534L;
 	private CohortService cohortService;
 	private Cohort cohort;
-
 	private String fieldOfStudy;
 
 	public void setCohortService(CohortService cohortService) {
@@ -21,11 +21,30 @@ public class SaveCohortAction extends ActionSupport {
 		this.cohort = cohort;
 	}
 
+	public void setFieldOfStudy(String fieldOfStudy) {
+		this.fieldOfStudy = fieldOfStudy;
+	}
+
 	@Override
 	public String execute() throws Exception {
-		cohort.setFieldOfStudy(translateFieldOfStudy());
-		cohortService.saveCohort(cohort);
-		return super.execute();
+		cohortService.saveCohort(cohort, translateFieldOfStudy());
+		return SUCCESS;
+	}
+
+	@Override
+	public void validate() {
+		if (fieldOfStudy == null) {
+			addActionError("error.fieldOfStudyRequired");
+		}
+		if (cohort.getYear() == 0) {
+			addActionError("error.yearRequired");
+		}
+		if (getActionErrors().size() > 0) {
+			return;
+		}
+		if (cohortService.checkCohortExists(translateFieldOfStudy(), cohort.getYear())) {
+			addActionError(getText("error.existingCohort"));
+		}
 	}
 
 	private FieldOfStudy translateFieldOfStudy() {
@@ -41,24 +60,6 @@ public class SaveCohortAction extends ActionSupport {
 		}
 		}
 		return null;
-
 	}
 
-	@Override
-	public void validate() {
-		if (fieldOfStudy == null) {
-			addActionError("error.fieldOfStudyRequired");
-		}
-		if (cohort.getYear() == 0) {
-			addActionError("error.yearRequired");
-		}
-
-		if (cohortService.checkCohortExists(cohort.getFieldOfStudy(), cohort.getYear())) {
-			addActionError(getText("error.existingCohort"));
-		}
-	}
-
-	public void setFieldOfStudy(String fieldOfStudy) {
-		this.fieldOfStudy = fieldOfStudy;
-	}
 }

@@ -1,53 +1,28 @@
 package de.nordakademie.timetableservice.service.impl;
 
-import java.util.Set;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
-import de.nordakademie.timetableservice.business.Collision;
-import de.nordakademie.timetableservice.business.CollisionType;
 import de.nordakademie.timetableservice.dao.CenturyDAO;
 import de.nordakademie.timetableservice.model.Century;
 import de.nordakademie.timetableservice.model.Cohort;
 import de.nordakademie.timetableservice.model.Event;
 import de.nordakademie.timetableservice.service.CenturyService;
+import de.nordakademie.timetableservice.service.CohortService;
 
 public class CenturyServiceImpl implements CenturyService {
 
 	private CenturyDAO centuryDAO;
-
-	@Override
-	public void saveCentury(Century century) {
-		centuryDAO.save(century);
-	}
-
-	@Override
-	public Century load(Long id) {
-		return centuryDAO.load(id);
-	}
+	private CohortService cohortService;
 
 	public void setCenturyDAO(CenturyDAO centuryDAO) {
 		this.centuryDAO = centuryDAO;
 	}
 
-	@Override
-	public Set<Century> loadAll() {
-		return this.centuryDAO.loadAll();
-	}
-
-	@Override
-	public Set<Century> findCenturiesByEvent(Event event) {
-		return centuryDAO.findCenturiesByEvent(event.getId());
-	}
-
-	@Override
-	public void getCollisionsWithOtherEvents(Event event, Set<Century> centuriesToCheck, Set<Collision> collisions) {
-		Set<Century> centuriesWithExistingEvent = centuryDAO.findCenturiesWithDatesWithoutId(event.getStartDate(), event.getEndDate(), event.getId());
-		if (!centuriesWithExistingEvent.isEmpty()) {
-			for (Century century : centuriesToCheck) {
-				if (centuriesWithExistingEvent.contains(century)) {
-					collisions.add(new Collision(CollisionType.ERROR, century.toString(), "label.collision.existingEventForEntity"));
-				}
-			}
-		}
+	public void setCohortService(CohortService cohortService) {
+		this.cohortService = cohortService;
 	}
 
 	@Override
@@ -56,13 +31,61 @@ public class CenturyServiceImpl implements CenturyService {
 	}
 
 	@Override
-	public boolean checkNameExistsForAnotherId(Long centuryId, String centuryName) {
-		return centuryDAO.findCenturiesByNameWithoutId(centuryName, centuryId).isEmpty() ? false : true;
-	}
-
-	@Override
-	public Set<Century> findCenturiesByCohort(Cohort cohort) {
+	public List<Century> findCenturiesByCohort(Cohort cohort) {
 		return centuryDAO.findCenturiesByCohort(cohort.getId());
 	}
 
+	@Override
+	public List<Century> findCenturiesByEvent(Event event) {
+		return centuryDAO.findCenturiesByEvent(event.getId());
+	}
+
+	@Override
+	public Map<Long, String> getAvailableCenturies() {
+		Map<Long, String> availableCenturies = new HashMap<Long, String>();
+		for (Century century : loadAll()) {
+			availableCenturies.put(century.getId(), century.toString());
+		}
+		return availableCenturies;
+	}
+
+	@Override
+	public Century getNewCentury() {
+		Century century = new Century();
+		century.setBreakTime(Century.STANDARD_BREAKTIME);
+		return century;
+	}
+
+	@Override
+	public List<Century> load(List<Long> centuryIds) {
+		List<Century> centuries = new LinkedList<Century>();
+		for (Long id : centuryIds) {
+			centuries.add(load(id));
+		}
+		return centuries;
+	}
+
+	@Override
+	public Century load(Long id) {
+		return centuryDAO.load(id);
+	}
+
+	@Override
+	public List<Century> loadAll() {
+		return this.centuryDAO.loadAll();
+	}
+
+	@Override
+	public void saveCentury(Century century) {
+		centuryDAO.save(century);
+	}
+
+	@Override
+	public void saveCentury(Century century, String suffix, Long cohortId) {
+		Cohort cohort = cohortService.load(cohortId);
+		century.setName(cohort.toString() + suffix);
+		cohort.associateCentury(century);
+		cohortService.saveCohort(cohort);
+		saveCentury(century);
+	}
 }

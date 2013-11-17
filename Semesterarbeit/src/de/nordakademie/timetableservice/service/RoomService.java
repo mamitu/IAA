@@ -1,31 +1,35 @@
 package de.nordakademie.timetableservice.service;
 
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
+import java.util.Map;
 
-import de.nordakademie.timetableservice.business.Collision;
-import de.nordakademie.timetableservice.model.Century;
 import de.nordakademie.timetableservice.model.Event;
 import de.nordakademie.timetableservice.model.Room;
+import de.nordakademie.timetableservice.model.RoomType;
 
 public interface RoomService {
 
-	public void saveRoom(Room room);
+	public boolean checkNameExists(String roomName);
+
+	public Room createNewRoom();
+
+	public List<Room> findFreeRoomsWithOtherEventsByDates(Date startDate, Date endDate, Long eventId);
+
+	public List<Room> findRoomsByEvent(Event event);
+
+	public Map<Long, String> getAvailableRooms();
+
+	public Map<Long, String> getAvailableRoomsByDates(Date startDate, Date endDate, Long eventId);
+
+	public List<Room> load(List<Long> roomIds);
 
 	public Room load(Long id);
 
-	public Set<Room> loadAll();
+	public List<Room> loadAll();
 
-	public Set<Room> findRoomsByEvent(Event event);
+	public void saveRoom(Room room);
 
-	public void getCollisionsWithOtherEvents(Event event, Set<Room> roomsToCheck, Set<Collision> collisions);
-
-	public void checkRoomSize(Set<Room> roomsToCheck, Set<Century> selectedCenturies, Set<Collision> collisions);
-
-	public boolean checkNameExists(String roomName);
-
-	public boolean checkNameExistsForAnotherId(Long roomId, String roomName);
-
-	public Set<Room> findFreeRoomsWithOtherEventsByDates(Date startDate, Date endDate, Long eventId);
+	public void saveRoom(Room room, RoomType roomType);
 
 }

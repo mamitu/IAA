@@ -1,6 +1,8 @@
 package de.nordakademie.timetableservice.model;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -14,7 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
 @Entity
-public class Event {
+public class Event implements EventParticipant {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -29,33 +31,20 @@ public class Event {
 	@Column(length = 50, nullable = false)
 	private String name;
 
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE, mappedBy = "eventsOfLecturer")
-	private Set<Lecturer> lecturers;
-
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE, mappedBy = "eventsOfCentury")
-	private Set<Century> centuries;
-
-	@Column(name = "change_time", nullable = false)
-	private Long changeTime;
-
-	public Long getChangeTime() {
-		return changeTime;
-	}
-
-	public void setChangeTime(Long changeTime) {
-		this.changeTime = changeTime;
-	}
-
 	@Enumerated
 	private EventType eventType;
 
-	public EventType getEventType() {
-		return eventType;
-	}
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST, mappedBy = "events")
+	private Set<Century> centuries;
 
-	public void setEventType(EventType eventType) {
-		this.eventType = eventType;
-	}
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST, mappedBy = "events")
+	private Set<Lecturer> lecturers;
+
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST, mappedBy = "events")
+	private Set<Room> rooms;
+
+	@Column(name = "break_time", nullable = false)
+	private Long breakTime;
 
 	public Long getId() {
 		return id;
@@ -89,36 +78,49 @@ public class Event {
 		this.name = name;
 	}
 
-	public Set<Lecturer> getLecturers() {
-		return lecturers;
+	public EventType getEventType() {
+		return eventType;
 	}
 
-	public void setLecturers(Set<Lecturer> lecturers) {
-		this.lecturers = lecturers;
-	}
-
-	public Set<Room> getRooms() {
-		return rooms;
-	}
-
-	public void setRooms(Set<Room> rooms) {
-		this.rooms = rooms;
-	}
-
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST, mappedBy = "eventsOfRoom")
-	private Set<Room> rooms;
-
-	@Override
-	public String toString() {
-		return name + "(" + getId() + ")";
+	public void setEventType(EventType eventType) {
+		this.eventType = eventType;
 	}
 
 	public Set<Century> getCenturies() {
 		return centuries;
 	}
 
-	public void setCenturies(Set<Century> centuries) {
-		this.centuries = centuries;
+	public void setCenturies(List<Century> centuries) {
+		this.centuries = new HashSet<Century>(centuries);
+	}
+
+	public Set<Lecturer> getLecturers() {
+		return lecturers;
+	}
+
+	public void setLecturers(List<Lecturer> lecturers) {
+		this.lecturers = new HashSet<Lecturer>(lecturers);
+	}
+
+	public Set<Room> getRooms() {
+		return rooms;
+	}
+
+	public void setRooms(List<Room> rooms) {
+		this.rooms = new HashSet<Room>(rooms);
+	}
+
+	public Long getBreakTime() {
+		return breakTime;
+	}
+
+	public void setBreakTime(Long breakTime) {
+		this.breakTime = breakTime;
+	}
+
+	@Override
+	public String toString() {
+		return name + "(" + getId() + ")";
 	}
 
 }

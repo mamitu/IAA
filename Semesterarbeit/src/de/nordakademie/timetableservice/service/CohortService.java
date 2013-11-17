@@ -1,18 +1,25 @@
 package de.nordakademie.timetableservice.service;
 
-import java.util.Set;
+import java.util.List;
+import java.util.Map;
 
 import de.nordakademie.timetableservice.model.Cohort;
 import de.nordakademie.timetableservice.model.FieldOfStudy;
 
 public interface CohortService {
 
-	public void saveCohort(Cohort cohort);
+	public boolean checkCohortExists(FieldOfStudy fieldOfStudy, int year);
+
+	public Cohort createCohort();
+
+	public Map<Long, String> getAvailableCohorts();
 
 	public Cohort load(Long id);
 
-	public Set<Cohort> loadAll();
+	public List<Cohort> loadAll();
 
-	public boolean checkCohortExists(FieldOfStudy fieldOfStudy, int year);
+	public void saveCohort(Cohort cohort);
+
+	public void saveCohort(Cohort cohort, FieldOfStudy fieldOfStudy);
 
 }

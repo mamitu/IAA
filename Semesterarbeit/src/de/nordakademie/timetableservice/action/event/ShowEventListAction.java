@@ -9,25 +9,22 @@ import de.nordakademie.timetableservice.service.EventService;
 
 public class ShowEventListAction extends ActionSupport {
 
+	private static final long serialVersionUID = -5318259667593725287L;
 	private EventService eventService;
 	private List<Event> events;
 
-	@Override
-	public String execute() throws Exception {
-		events = eventService.loadAll();
-		return SUCCESS;
+	public void setEventService(EventService eventService) {
+		this.eventService = eventService;
 	}
 
 	public List<Event> getEvents() {
 		return events;
 	}
 
-	public void setEvents(List<Event> events) {
-		this.events = events;
-	}
-
-	public void setEventService(EventService eventService) {
-		this.eventService = eventService;
+	@Override
+	public String execute() throws Exception {
+		events = eventService.loadAll();
+		return SUCCESS;
 	}
 
 }
