@@ -4,13 +4,13 @@
 
 <s:actionerror />
 <div id="content">
-	<s:form action="SaveCohort">
+	<s:form>
 		<s:hidden name="cohort.id" />
 		<s:radio name="fieldOfStudy"
 			list="%{@de.nordakademie.timetableservice.model.FieldOfStudy@values()}"
-			key="label.fieldOfStudy" />
+			key="label.cohort.fieldOfStudy" />
 		<s:textfield name="cohort.year" key="label.cohort.year" maxlength="2" />
-		<s:submit value="Save" />
-		<s:submit value="Cancel" action="ShowCohortList" />
+		<s:submit action="SaveCohort" key="button.save.name"/>
+		<s:submit action="ShowCohortList" key="button.cancel.name"/>
 	</s:form>
 </div>

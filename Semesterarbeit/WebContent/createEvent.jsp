@@ -41,7 +41,7 @@
 		<s:textfield name="numberOfWeeklyRepetitions"
 			key="label.numberOfWeeklyRepetitions" />
 
-		<s:submit value="Save" action="TrySaveNewEvent" />
-		<s:submit value="Cancel" action="ShowEventList" />
+		<s:submit action="TrySaveNewEvent" key="button.save.name"/>
+		<s:submit action="ShowEventList" key="button.cancel.name"/>
 	</s:form>
 </div>

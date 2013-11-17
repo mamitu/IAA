@@ -36,7 +36,7 @@
 		<s:textfield name="breakTime" value="%{event.breakTime}"
 			key="label.event.breakTime" />
 
-		<s:submit value="Save" action="TrySaveExistingEvent" />
-		<s:submit value="Cancel" action="ShowEventList" />
+		<s:submit action="TrySaveExistingEvent" key="button.save.name"/>
+		<s:submit action="ShowEventList" key="button.cancel.name"/>
 	</s:form>
 </div>

@@ -7,18 +7,18 @@
 <validators>
 	<field name="room.name">
 		<field-validator type="requiredstring">
-			<message key="label.required.roomName" />
+			<message key="error.room.nameRequired" />
 		</field-validator>
 		<field-validator type="regex">
 			<param name="expression"><![CDATA[^[A-Z][0-9]{3}$]]></param>
-			<message key="label.error.roomName" />
+			<message key="error.room.inValidName" />
 		</field-validator>
 	</field>
 
 	<field name="room.numberOfSeats">
 		<field-validator type="int">
 			<param name="min">0</param>
-			<message key="label.required.numberOfSeats" />
+			<message key="error.room.numberOfSeatsRequired" />
 		</field-validator>
 	</field>
 </validators>

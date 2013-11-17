@@ -4,7 +4,7 @@
 
 <s:actionerror />
 <div id="content">
-	<s:form action="SaveCentury">
+	<s:form>
 		<s:hidden name="century.id" />
 
 		<s:select name="selectedCohortIds" size="5" listKey="key"
@@ -14,7 +14,7 @@
 		<s:textfield name="century.numberOfStudents"
 			key="label.century.numberOfStudents" />
 		<s:textfield name="century.breakTime" key="label.century.breakTime" />
-		<s:submit value="Save" />
-		<s:submit value="Cancel" action="ShowCenturyList" />
+		<s:submit action="SaveCentury" key="button.save.name" />
+		<s:submit action="ShowCenturyList" key="button.cancel.name"/>
 	</s:form>
 </div>

@@ -20,7 +20,7 @@ public class AbstractSaveEventAction extends AbstractHandleEventAction {
 	protected void checkCenturySelections() {
 		if (translateEventType().equals(EventType.SEMINAR)) {
 			if (selectedCenturyIds.size() != 0) {
-				addActionError(getText("error.seminarNoCenturies"));
+				addActionError(getText("error.event.seminarNoCenturies"));
 			}
 		} else {
 			if (isCenturySelected && selectedCenturyIds.size() == 0) {

@@ -5,8 +5,8 @@
 
 <s:text name="label.title.confirmSave" />
 <s:form>
-	<s:submit value="Save" action="ConfirmSaveNewEvent" />
-	<s:submit value="Cancel" action="CreateEvent" />
+	<s:submit action="ConfirmSaveNewEvent" key="button.save.name"/>
+	<s:submit action="CreateEvent" key="button.cancel.name"/>
 	<table>
 		<s:iterator value="collisions">
 			<tr>

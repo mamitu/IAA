@@ -8,7 +8,8 @@ import de.nordakademie.timetableservice.model.Cohort;
 import de.nordakademie.timetableservice.model.Event;
 
 public interface CenturyService {
-	public boolean checkNameExists(String centuryName);
+
+	public boolean checkNameExists(String suffix, Long cohortId);
 
 	public List<Century> findCenturiesByCohort(Cohort selectedCohort);
 

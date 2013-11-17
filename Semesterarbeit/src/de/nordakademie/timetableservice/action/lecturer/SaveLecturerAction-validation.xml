@@ -8,39 +8,38 @@
 
 	<field name="lecturer.firstName">
 		<field-validator type="requiredstring">
-			<message key="label.required.firstName" />
+			<message key="error.lecturer.firstNameRequired" />
 		</field-validator>
 		<field-validator type="regex">
 			<param name="expression"><![CDATA[^[-A-Za-z\säöü]+$]]></param>
-			<message key="label.error.name" />
+			<message key="error.lecturer.nameInvalid" />
 		</field-validator>
 	</field>
 
 	<field name="lecturer.lastName">
 		<field-validator type="requiredstring">
-			<message key="label.required.lastName" />
+			<message key="error.lecturer.lastNameRequired" />
 		</field-validator>
 		<field-validator type="regex">
 			<param name="expression"><![CDATA[^[-A-Za-z\säöü]+$]]></param>
-			<message key="label.error.name" />
+			<message key="error.lecturer.nameInvalid" />
 		</field-validator>
 	</field>
 
 	<field name="lecturer.emailAddress">
 		<field-validator type="requiredstring">
-			<message key="label.required.email" />
+			<message key="error.lecturer.emailRequired" />
 		</field-validator>
 		<field-validator type="email">
-			<message key="label.error.email" />
+			<message key="error.lecturer.emailInvalid" />
 		</field-validator>
 	</field>
 
 	<field name="lecturer.breakTime">
 		<field-validator type="long">
 			<param name="min">0</param>
-			<message key="label.required.breakTime" />
+			<message key="error.lecturer.breakTimeRequired" />
 		</field-validator>
 	</field>
 
 </validators>
-

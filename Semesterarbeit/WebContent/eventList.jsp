@@ -3,7 +3,7 @@
 <%@ taglib uri="/struts-tags" prefix="s"%>
 
 <s:form>
-	<s:submit key="label.button.registerEvent" action="CreateEvent" />
+	<s:submit key="button.register.event.name" action="CreateEvent" />
 	<table>
 		<tr>
 			<th><s:text name="label.event.name" /></th>

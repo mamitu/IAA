@@ -26,7 +26,8 @@ public class CenturyServiceImpl implements CenturyService {
 	}
 
 	@Override
-	public boolean checkNameExists(String centuryName) {
+	public boolean checkNameExists(String suffix, Long cohortId) {
+		String centuryName = cohortService.load(cohortId).toString() + suffix;
 		return centuryDAO.findCenturiesByName(centuryName).isEmpty() ? false : true;
 	}
 

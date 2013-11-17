@@ -16,11 +16,4 @@ public class SearchFreeRoomsAction extends AbstractHandleEventAction {
 		checkDates();
 	}
 
-	@Override
-	public void prepare() throws Exception {
-		availableLecturers = lecturerService.getAvailableLecturers();
-		availableCenturies = centuryService.getAvailableCenturies();
-		availableCohorts = cohortService.getAvailableCohorts();
-	}
-
 }

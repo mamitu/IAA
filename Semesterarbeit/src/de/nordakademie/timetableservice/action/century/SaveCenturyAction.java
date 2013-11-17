@@ -71,6 +71,12 @@ public class SaveCenturyAction extends ActionSupport implements Preparable {
 		if (century.getBreakTime() == null || century.getBreakTime() < 0) {
 			addActionError(getText("error.century.breakTimeRequired"));
 		}
+		if (getActionErrors().size() > 0) {
+			return;
+		}
+		if (centuryService.checkNameExists(suffix, selectedCohortIds.get(0))) {
+			addActionError(getText("error.century.existingCenturyName"));
+		}
 	}
 
 	@Override

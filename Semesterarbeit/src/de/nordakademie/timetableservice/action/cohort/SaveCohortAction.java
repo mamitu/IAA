@@ -17,6 +17,10 @@ public class SaveCohortAction extends ActionSupport {
 		this.cohortService = cohortService;
 	}
 
+	public Cohort getCohort() {
+		return this.cohort;
+	}
+
 	public void setCohort(Cohort cohort) {
 		this.cohort = cohort;
 	}
@@ -36,14 +40,8 @@ public class SaveCohortAction extends ActionSupport {
 		if (fieldOfStudy == null) {
 			addActionError("error.fieldOfStudyRequired");
 		}
-		if (cohort.getYear() == 0) {
-			addActionError("error.yearRequired");
-		}
-		if (getActionErrors().size() > 0) {
-			return;
-		}
 		if (cohortService.checkCohortExists(translateFieldOfStudy(), cohort.getYear())) {
-			addActionError(getText("error.existingCohort"));
+			addActionError(getText("error.cohort.existingCohort"));
 		}
 	}
 

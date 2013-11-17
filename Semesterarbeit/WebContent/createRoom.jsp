@@ -4,7 +4,7 @@
 
 <s:actionerror />
 <div id="content">
-	<s:form action="SaveRoom">
+	<s:form>
 		<s:hidden name="room.id" />
 		<s:textfield name="room.name" key="label.room.name" />
 		<s:textfield name="room.numberOfSeats" key="label.room.numberOfSeats" />
@@ -13,7 +13,7 @@
 			list="%{@de.nordakademie.timetableservice.model.RoomType@values()}"
 			listValue="%{getText(name)}" key="label.room.roomType" />
 
-		<s:submit value="Save" />
-		<s:submit value="Cancel" action="ShowRoomList" />
+		<s:submit action="SaveRoom" key="button.save.name" />
+		<s:submit action="ShowRoomList" key="button.cancel.name"/>
 	</s:form>
 </div>
