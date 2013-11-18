@@ -11,9 +11,22 @@ import de.nordakademie.timetableservice.model.Cohort;
 import de.nordakademie.timetableservice.service.CenturyService;
 import de.nordakademie.timetableservice.service.CohortService;
 
+/**
+ * Implementation des Zenturien-Services
+ * 
+ * @author
+ * 
+ */
 public class CenturyServiceImpl implements CenturyService {
 
+	/**
+	 * Data Access Object fuer Zenturien
+	 */
 	private CenturyDAO centuryDAO;
+
+	/**
+	 * Service-Klasse fuer Kohorten.
+	 */
 	private CohortService cohortService;
 
 	public void setCenturyDAO(CenturyDAO centuryDAO) {

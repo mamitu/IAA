@@ -9,8 +9,17 @@ import de.nordakademie.timetableservice.dao.LecturerDAO;
 import de.nordakademie.timetableservice.model.Lecturer;
 import de.nordakademie.timetableservice.service.LecturerService;
 
+/**
+ * Implementation des Dozenten-Services
+ * 
+ * @author
+ * 
+ */
 public class LecturerServiceImpl implements LecturerService {
 
+	/**
+	 * Data Access Object der Dozenten
+	 */
 	private LecturerDAO lecturerDAO;
 
 	@Override

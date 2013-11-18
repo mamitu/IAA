@@ -11,6 +11,12 @@ import de.nordakademie.timetableservice.model.Room;
 import de.nordakademie.timetableservice.model.RoomType;
 import de.nordakademie.timetableservice.service.RoomService;
 
+/**
+ * Implementation des Raum-Services
+ * 
+ * @author
+ * 
+ */
 public class RoomServiceImpl implements RoomService {
 
 	private RoomDAO roomDAO;
@@ -23,13 +29,6 @@ public class RoomServiceImpl implements RoomService {
 	@Override
 	public Room createNewRoom() {
 		return new Room();
-	}
-
-	@Override
-	public List<Room> findFreeRoomsWithOtherEventsByDates(Date startDate, Date endDate, Long eventId) {
-		List<Room> resultSet = roomDAO.loadAll();
-		resultSet.removeAll(roomDAO.findEntitiesWithDatesWithoutId(startDate, endDate, eventId));
-		return resultSet;
 	}
 
 	@Override
@@ -83,5 +82,11 @@ public class RoomServiceImpl implements RoomService {
 
 	public void setRoomDAO(RoomDAO roomDAO) {
 		this.roomDAO = roomDAO;
+	}
+
+	private List<Room> findFreeRoomsWithOtherEventsByDates(Date startDate, Date endDate, Long eventId) {
+		List<Room> resultSet = roomDAO.loadAll();
+		resultSet.removeAll(roomDAO.findEntitiesWithDatesWithoutId(startDate, endDate, eventId));
+		return resultSet;
 	}
 }

@@ -9,8 +9,17 @@ import de.nordakademie.timetableservice.model.Cohort;
 import de.nordakademie.timetableservice.model.FieldOfStudy;
 import de.nordakademie.timetableservice.service.CohortService;
 
+/**
+ * Implementation des Kohorten-Services
+ * 
+ * @author
+ * 
+ */
 public class CohortServiceImpl implements CohortService {
 
+	/**
+	 * Data Access Object fuer Kohorten
+	 */
 	private CohortDAO cohortDAO;
 
 	public void setCohortDAO(CohortDAO cohortDAO) {

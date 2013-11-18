@@ -16,11 +16,32 @@ import de.nordakademie.timetableservice.service.EventService;
 import de.nordakademie.timetableservice.service.LecturerService;
 import de.nordakademie.timetableservice.service.RoomService;
 
+/**
+ * Implementation des Veranstaltungs-Services
+ * 
+ * @author
+ * 
+ */
 public class EventServiceImpl implements EventService {
 
+	/**
+	 * Data Access Object fuer Veranstaltungen
+	 */
 	private EventDAO eventDAO;
+
+	/**
+	 * Service-Klasse fuer Dozenten.
+	 */
 	private LecturerService lecturerService;
+
+	/**
+	 * Service-Klasse fuer Raeume.
+	 */
 	private RoomService roomService;
+
+	/**
+	 * Service-Klasse fuer Zenturien.
+	 */
 	private CenturyService centuryService;
 
 	public void setEventDAO(EventDAO eventDAO) {
@@ -113,7 +134,8 @@ public class EventServiceImpl implements EventService {
 	}
 
 	@Override
-	public void saveReferencesAndEvent(Event event, int numberOfWeeklyRepetitions, List<Room> roomsToUpdate, List<Lecturer> lecturersToUpdate, List<Century> centuriesToUpdate) {
+	public void saveReferencesAndEvent(Event event, int numberOfWeeklyRepetitions, List<Room> roomsToUpdate,
+			List<Lecturer> lecturersToUpdate, List<Century> centuriesToUpdate) {
 		updateLecturers(event, lecturersToUpdate);
 		updateRooms(event, roomsToUpdate);
 		updateCenturies(event, centuriesToUpdate);
@@ -153,6 +175,16 @@ public class EventServiceImpl implements EventService {
 		return event;
 	}
 
+	/**
+	 * Setzt die Referenzen zwischen Veranstaltung und teilnehmenden Dozenten.
+	 * Entfernt alte Referenzen, falls diese beim Editieren einer Veranstaltung
+	 * entfallen
+	 * 
+	 * @param eventToSave
+	 *            die anzulegende Veranstaltung
+	 * @param lecturersToUpdate
+	 *            die teilnehmenden Dozenten
+	 */
 	private void updateLecturers(Event eventToSave, List<Lecturer> lecturersToUpdate) {
 		List<Lecturer> lecturersToRemove = new LinkedList<Lecturer>(eventToSave.getLecturers());
 		lecturersToRemove.removeAll(lecturersToUpdate);
@@ -168,6 +200,16 @@ public class EventServiceImpl implements EventService {
 		}
 	}
 
+	/**
+	 * Setzt die Referenzen zwischen Veranstaltung und teilnehmenden Raeume.
+	 * Entfernt alte Referenzen, falls diese beim Editieren einer Veranstaltung
+	 * entfallen
+	 * 
+	 * @param eventToSave
+	 *            die anzulegende Veranstaltung
+	 * @param roomsToUpdate
+	 *            die teilnehmenden Raeume
+	 */
 	private void updateRooms(Event eventToSave, List<Room> roomsToUpdate) {
 		List<Room> roomsToRemove = new LinkedList<Room>(eventToSave.getRooms());
 		roomsToRemove.removeAll(roomsToUpdate);
@@ -183,6 +225,16 @@ public class EventServiceImpl implements EventService {
 		}
 	}
 
+	/**
+	 * Setzt die Referenzen zwischen Veranstaltung und teilnehmenden Zenturien.
+	 * Entfernt alte Referenzen, falls diese beim Editieren einer Veranstaltung
+	 * entfallen
+	 * 
+	 * @param eventToSave
+	 *            die anzulegende Veranstaltung
+	 * @param centuriesToUpdate
+	 *            die teilnehmenden Zenturien
+	 */
 	private void updateCenturies(Event eventToSave, List<Century> centuriesToUpdate) {
 		List<Century> centuriesToRemove = new LinkedList<Century>(eventToSave.getCenturies());
 		centuriesToRemove.removeAll(centuriesToUpdate);
