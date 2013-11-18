@@ -9,7 +9,7 @@ import de.nordakademie.timetableservice.model.Lecturer;
  * Interface fuer den Dozenten-Service, das alle Methoden bereitstellt, um mit
  * Dozenten zu arbeiten.
  * 
- * @author
+ * @author mm
  */
 public interface LecturerService {
 

@@ -11,7 +11,7 @@ import de.nordakademie.timetableservice.model.Lecturer;
 /**
  * Data Access Object fuer Dozenten.
  * 
- * @author
+ * @author mm, rs
  * 
  */
 public class LecturerDAO extends EventParticipantDAO {

@@ -9,7 +9,7 @@ import de.nordakademie.timetableservice.model.EventType;
  * Abstrakte Struts-Action, die fuer das Speichern einer Veranstaltung
  * Funktionen und Attribute bereitstellt.
  * 
- * @author
+ * @author rs
  * 
  */
 public class AbstractSaveEventAction extends AbstractHandleEventAction {

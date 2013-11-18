@@ -14,7 +14,7 @@ import de.nordakademie.timetableservice.service.RoomService;
 /**
  * Implementation des Raum-Services
  * 
- * @author
+ * @author mm
  * 
  */
 public class RoomServiceImpl implements RoomService {

@@ -14,7 +14,7 @@ import de.nordakademie.timetableservice.service.CohortService;
 /**
  * Implementation des Zenturien-Services
  * 
- * @author
+ * @author rs
  * 
  */
 public class CenturyServiceImpl implements CenturyService {

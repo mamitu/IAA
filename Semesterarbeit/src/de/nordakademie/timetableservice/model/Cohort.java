@@ -15,7 +15,7 @@ import org.hibernate.annotations.NaturalId;
 /**
  * Entitaet, die eine Kohorte repraesentiert
  * 
- * @author
+ * @author mm, rs
  * 
  */
 @Entity

@@ -3,6 +3,7 @@
 <%@ taglib uri="/struts-tags" prefix="s"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 
+<!-- author: mm, rs -->
 <s:actionerror />
 <div id="content">
 	<s:form acceptcharset="utf-8">

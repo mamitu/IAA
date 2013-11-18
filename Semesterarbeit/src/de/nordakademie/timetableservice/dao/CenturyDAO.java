@@ -11,7 +11,7 @@ import de.nordakademie.timetableservice.model.Century;
 /**
  * Data Access Object fuer Zenturien.
  * 
- * @author
+ * @author mm
  * 
  */
 public class CenturyDAO extends EventParticipantDAO {

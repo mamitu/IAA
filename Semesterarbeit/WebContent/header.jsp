@@ -2,6 +2,7 @@
 	pageEncoding="US-ASCII"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
 
+<!-- author: rs -->
 <div id="header">
 	<s:text name="label.title"></s:text>
 </div>

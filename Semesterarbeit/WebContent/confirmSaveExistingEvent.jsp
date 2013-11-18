@@ -3,6 +3,7 @@
 <%@ taglib uri="/struts-tags" prefix="s"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 
+<!-- author: mm, rs -->
 <s:text name="label.title.confirmSave" />
 <s:form>
 	<s:submit action="ConfirmSaveExistingEvent" key="button.save.name" />

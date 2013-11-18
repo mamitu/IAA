@@ -3,7 +3,7 @@ package de.nordakademie.timetableservice.action.event;
 /**
  * Struts-Action zum Speichern einer bereits existierenden Veranstalung
  * 
- * @author
+ * @author mm, rs
  * 
  */
 public class TrySaveExistingEventAction extends AbstractSaveEventAction {

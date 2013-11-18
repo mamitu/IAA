@@ -11,7 +11,7 @@ import de.nordakademie.timetableservice.model.Room;
 /**
  * Data Access Object fuer Raeume.
  * 
- * @author
+ * @author mm, rs
  * 
  */
 public class RoomDAO extends EventParticipantDAO {

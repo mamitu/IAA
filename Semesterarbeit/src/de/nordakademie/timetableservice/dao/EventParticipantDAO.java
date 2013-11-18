@@ -12,7 +12,7 @@ import de.nordakademie.timetableservice.model.EventParticipant;
  * Abstraktes Data Access Object, dass Methoden fuer die konkreten Unterklassen
  * der Teilnehmer einer Veranstaltung bereitstellt.
  * 
- * @author
+ * @author mm
  * 
  */
 public abstract class EventParticipantDAO {

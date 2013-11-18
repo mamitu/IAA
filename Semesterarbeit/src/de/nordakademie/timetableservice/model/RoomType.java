@@ -3,7 +3,7 @@ package de.nordakademie.timetableservice.model;
 /**
  * Enum fuer die Art des Raumes
  * 
- * @author
+ * @author mm
  * 
  */
 public enum RoomType {

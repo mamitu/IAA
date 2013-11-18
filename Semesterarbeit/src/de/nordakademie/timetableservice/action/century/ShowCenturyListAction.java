@@ -10,7 +10,7 @@ import de.nordakademie.timetableservice.service.CenturyService;
 /**
  * Struts-Action zum Anzeigen aller angelegten Zenturien.
  * 
- * @author
+ * @author rs
  * 
  */
 public class ShowCenturyListAction extends ActionSupport {

@@ -12,7 +12,7 @@ import de.nordakademie.timetableservice.service.LecturerService;
 /**
  * Implementation des Dozenten-Services
  * 
- * @author
+ * @author mm
  * 
  */
 public class LecturerServiceImpl implements LecturerService {

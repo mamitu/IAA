@@ -11,7 +11,7 @@ import de.nordakademie.timetableservice.model.Room;
  * Interface fuer den Kollisionen-Service, das alle Methoden bereitstellt, um
  * mit Kohorten zu arbeiten.
  * 
- * @author
+ * @author rs
  */
 public interface CollisionService {
 

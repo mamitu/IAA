@@ -18,7 +18,7 @@ import org.hibernate.annotations.NaturalId;
 /**
  * Entitaet, die eine Zenturie repraesentiert
  * 
- * @author
+ * @author mm, rs
  * 
  */
 @Entity

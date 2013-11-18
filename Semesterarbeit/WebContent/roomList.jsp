@@ -2,6 +2,7 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="/struts-tags" prefix="s"%>
 
+<!-- author: rs -->
 <s:form action="CreateRoom">
 	<s:submit key="button.register.room.name" />
 	<table>

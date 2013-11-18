@@ -9,7 +9,7 @@ import de.nordakademie.timetableservice.model.Century;
  * Interface fuer den Zenturien-Service, das alle Methoden bereitstellt, um mit
  * Zenturien zu arbeiten.
  * 
- * @author
+ * @author rs
  */
 public interface CenturyService {
 

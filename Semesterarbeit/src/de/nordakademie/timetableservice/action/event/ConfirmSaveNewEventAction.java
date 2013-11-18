@@ -8,7 +8,7 @@ import de.nordakademie.timetableservice.model.Event;
  * Struts-Action zum Anzeigen der Kollisionen und zum Erzwingen des Speicherns
  * der Veranstaltung, die neu angelegt wird.
  * 
- * @author
+ * @author mm, rs
  * 
  */
 public class ConfirmSaveNewEventAction extends AbstractSaveEventAction {

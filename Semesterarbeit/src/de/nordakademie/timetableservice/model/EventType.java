@@ -3,7 +3,7 @@ package de.nordakademie.timetableservice.model;
 /**
  * Enum fuer den Veranstaltungstyp
  * 
- * @author
+ * @author mm
  * 
  */
 public enum EventType {

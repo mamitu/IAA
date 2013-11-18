@@ -10,7 +10,7 @@ import de.nordakademie.timetableservice.service.EventService;
 /**
  * Struts-Action zum Loeschen einer Veranstaltung.
  * 
- * @author
+ * @author mm
  * 
  */
 public class DeleteEventAction extends ActionSupport {

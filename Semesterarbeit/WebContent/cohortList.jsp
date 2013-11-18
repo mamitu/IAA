@@ -2,6 +2,7 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="/struts-tags" prefix="s"%>
 
+<!-- author: mm, rs -->
 <s:form action="CreateCohort">
 	<s:submit key="button.register.cohort.name" />
 	<table>

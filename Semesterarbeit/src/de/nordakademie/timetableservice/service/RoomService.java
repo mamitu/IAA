@@ -11,7 +11,7 @@ import de.nordakademie.timetableservice.model.RoomType;
  * Interface fuer den Raum-Service, das alle Methoden bereitstellt, um mit
  * Raeumen zu arbeiten.
  * 
- * @author
+ * @author mm
  */
 public interface RoomService {
 

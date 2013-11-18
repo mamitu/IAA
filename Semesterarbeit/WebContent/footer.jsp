@@ -3,7 +3,7 @@
 <%@ taglib prefix="s" uri="/struts-tags"%>
 
 
-
+<!-- author: mm -->
 <br />
 
 <div id="shadow2"></div>

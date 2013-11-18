@@ -2,6 +2,7 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="/struts-tags" prefix="s"%>
 
+<!-- author: mm -->
 <s:form action="CreateLecturer">
 	<s:submit key="button.register.lecturer.name" />
 

@@ -3,7 +3,7 @@ package de.nordakademie.timetableservice.action.event;
 /**
  * Struts-Action zum Anlegen einer neuen Veranstaltung.
  * 
- * @author
+ * @author mm
  * 
  */
 public class CreateEventAction extends AbstractHandleEventAction {

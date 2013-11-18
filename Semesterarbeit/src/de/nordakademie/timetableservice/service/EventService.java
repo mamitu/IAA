@@ -13,7 +13,7 @@ import de.nordakademie.timetableservice.model.Room;
  * Interface fuer den Veranstaltungen-Service, das alle Methoden bereitstellt,
  * um mit Veranstaltungen zu arbeiten.
  * 
- * @author
+ * @author mm, rs
  */
 public interface EventService {
 

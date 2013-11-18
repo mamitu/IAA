@@ -8,7 +8,7 @@ import de.nordakademie.timetableservice.service.LecturerService;
 /**
  * Struts-Action zum Anlegen eines neuen Dozenten.
  * 
- * @author
+ * @author mm
  * 
  */
 public class CreateLecturerAction extends ActionSupport {

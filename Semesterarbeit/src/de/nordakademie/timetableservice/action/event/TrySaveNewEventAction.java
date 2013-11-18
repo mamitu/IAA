@@ -6,7 +6,7 @@ import java.util.Date;
 /**
  * Struts-Action zum Speichern einer neuen Veranstalung
  * 
- * @author
+ * @author mm, rs
  * 
  */
 public class TrySaveNewEventAction extends AbstractSaveEventAction {

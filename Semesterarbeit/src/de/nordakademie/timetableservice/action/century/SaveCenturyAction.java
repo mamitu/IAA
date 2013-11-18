@@ -16,7 +16,7 @@ import de.nordakademie.timetableservice.service.CohortService;
  * eingegebenen Werte und zeigt eventuelle Fehlermeldungen an. Sind keine Fehler
  * aufgetreten wird die Zenturie gespeichert.
  * 
- * @author
+ * @author rs
  */
 public class SaveCenturyAction extends ActionSupport implements Preparable {
 

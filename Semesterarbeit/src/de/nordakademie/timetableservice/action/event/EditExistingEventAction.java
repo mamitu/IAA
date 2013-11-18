@@ -7,7 +7,7 @@ import de.nordakademie.timetableservice.model.Room;
 /**
  * Struts-Action zum Editieren einer bereits existierenden Veranstaltung.
  * 
- * @author
+ * @author mm, rs
  * 
  */
 public class EditExistingEventAction extends AbstractHandleEventAction {

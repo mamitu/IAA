@@ -12,7 +12,7 @@ import de.nordakademie.timetableservice.model.FieldOfStudy;
 /**
  * Data Access Object fuer Kohorten.
  * 
- * @author
+ * @author rs
  * 
  */
 public class CohortDAO {

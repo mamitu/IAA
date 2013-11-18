@@ -2,6 +2,7 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="/struts-tags" prefix="s"%>
 
+<!-- author: mm -->
 <table>
 	<tr>
 		<th><s:text name="label.event.name" /></th>

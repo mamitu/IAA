@@ -5,7 +5,7 @@ import com.opensymphony.xwork2.ActionSupport;
 /**
  * Struts-Action zum Anzeigen der Ueberblicksseite
  * 
- * @author
+ * @author mm
  * 
  */
 public class OverviewAction extends ActionSupport {

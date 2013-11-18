@@ -10,7 +10,7 @@ import de.nordakademie.timetableservice.service.LecturerService;
  * eingegebenen Werte und zeigt eventuelle Fehlermeldungen an. Sind keine Fehler
  * aufgetreten wird der Dozent gespeichert.
  * 
- * @author
+ * @author mm
  */
 public class SaveLecturerAction extends ActionSupport {
 

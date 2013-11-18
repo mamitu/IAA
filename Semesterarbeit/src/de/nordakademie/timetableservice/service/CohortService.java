@@ -10,7 +10,7 @@ import de.nordakademie.timetableservice.model.FieldOfStudy;
  * Interface fuer den Kohorten-Service, das alle Methoden bereitstellt, um mit
  * Kohorten zu arbeiten.
  * 
- * @author
+ * @author rs
  */
 public interface CohortService {
 

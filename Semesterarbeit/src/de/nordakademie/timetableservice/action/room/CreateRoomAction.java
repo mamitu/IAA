@@ -8,7 +8,7 @@ import de.nordakademie.timetableservice.service.RoomService;
 /**
  * Struts-Action zum Anlegen eines neuen Raumes.
  * 
- * @author
+ * @author rs
  * 
  */
 public class CreateRoomAction extends ActionSupport {

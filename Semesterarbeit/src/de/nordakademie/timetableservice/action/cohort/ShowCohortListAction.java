@@ -10,7 +10,7 @@ import de.nordakademie.timetableservice.service.CohortService;
 /**
  * Struts-Action zum Anzeigen aller angelegten Kohorten.
  * 
- * @author
+ * @author mm, rs
  * 
  */
 public class ShowCohortListAction extends ActionSupport {

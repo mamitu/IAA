@@ -12,7 +12,7 @@ import de.nordakademie.timetableservice.service.CohortService;
 /**
  * Implementation des Kohorten-Services
  * 
- * @author
+ * @author rs
  * 
  */
 public class CohortServiceImpl implements CohortService {

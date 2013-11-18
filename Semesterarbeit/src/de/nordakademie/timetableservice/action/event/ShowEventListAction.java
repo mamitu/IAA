@@ -10,7 +10,7 @@ import de.nordakademie.timetableservice.service.EventService;
 /**
  * Struts-Action zum Anzeigen aller angelegten Veranstaltungen.
  * 
- * @author
+ * @author rs
  * 
  */
 public class ShowEventListAction extends ActionSupport {

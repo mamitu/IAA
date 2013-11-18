@@ -3,7 +3,7 @@ package de.nordakademie.timetableservice.model;
 /**
  * Enum fuer den Studiengang
  * 
- * @author
+ * @author mm
  * 
  */
 public enum FieldOfStudy {

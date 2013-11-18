@@ -17,7 +17,7 @@ import org.hibernate.annotations.NaturalId;
 /**
  * Entitaet, die einen Raum repraesentiert
  * 
- * @author
+ * @author mm, rs
  * 
  */
 @Entity

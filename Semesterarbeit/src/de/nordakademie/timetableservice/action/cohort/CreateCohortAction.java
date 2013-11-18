@@ -8,7 +8,7 @@ import de.nordakademie.timetableservice.service.CohortService;
 /**
  * Struts-Action zum Anlegen einer neuen Kohorte.
  * 
- * @author
+ * @author mm, rs
  * 
  */
 public class CreateCohortAction extends ActionSupport {

@@ -18,7 +18,7 @@ import javax.persistence.ManyToMany;
 /**
  * Entitaet, die eine Veranstaltung repraesentiert
  * 
- * @author
+ * @author mm, rs
  * 
  */
 @Entity

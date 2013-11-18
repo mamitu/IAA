@@ -11,7 +11,7 @@ import de.nordakademie.timetableservice.service.RoomService;
  * eingegebenen Werte und zeigt eventuelle Fehlermeldungen an. Sind keine Fehler
  * aufgetreten wird der Raum gespeichert.
  * 
- * @author
+ * @author rs
  */
 public class SaveRoomAction extends ActionSupport {
 

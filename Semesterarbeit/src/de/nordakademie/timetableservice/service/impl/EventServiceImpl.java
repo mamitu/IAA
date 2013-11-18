@@ -19,7 +19,7 @@ import de.nordakademie.timetableservice.service.RoomService;
 /**
  * Implementation des Veranstaltungs-Services
  * 
- * @author
+ * @author mm, rs
  * 
  */
 public class EventServiceImpl implements EventService {

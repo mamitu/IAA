@@ -10,7 +10,7 @@ import de.nordakademie.timetableservice.service.EventService;
 /**
  * Struts-Action zum Anzeigen des Stundenplanes
  * 
- * @author
+ * @author mm
  * 
  */
 public class ShowTimetable extends ActionSupport {

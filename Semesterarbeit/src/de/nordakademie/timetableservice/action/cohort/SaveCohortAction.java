@@ -11,7 +11,7 @@ import de.nordakademie.timetableservice.service.CohortService;
  * eingegebenen Werte und zeigt eventuelle Fehlermeldungen an. Sind keine Fehler
  * aufgetreten wird die Kohorte gespeichert.
  * 
- * @author
+ * @author mm, rs
  */
 public class SaveCohortAction extends ActionSupport {
 

@@ -12,7 +12,7 @@ import de.nordakademie.timetableservice.model.Event;
 /**
  * Data Access Object fuer Veranstaltungen.
  * 
- * @author
+ * @author rs
  * 
  */
 public class EventDAO {

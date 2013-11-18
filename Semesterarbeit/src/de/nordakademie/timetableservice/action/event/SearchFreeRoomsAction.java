@@ -3,7 +3,7 @@ package de.nordakademie.timetableservice.action.event;
 /**
  * Struts-Action zum Suchen freier Raeume zum eingegebenen Start- und Enddatum.
  * 
- * @author
+ * @author rs
  * 
  */
 public class SearchFreeRoomsAction extends AbstractHandleEventAction {

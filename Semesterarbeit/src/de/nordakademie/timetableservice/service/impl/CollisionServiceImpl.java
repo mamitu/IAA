@@ -23,7 +23,7 @@ import de.nordakademie.timetableservice.service.CollisionService;
 /**
  * Implementation des Kollisionen-Services
  * 
- * @author
+ * @author rs
  * 
  */
 public class CollisionServiceImpl implements CollisionService {

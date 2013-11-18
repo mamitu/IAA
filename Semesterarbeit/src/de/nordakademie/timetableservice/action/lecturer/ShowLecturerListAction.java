@@ -10,7 +10,7 @@ import de.nordakademie.timetableservice.service.LecturerService;
 /**
  * Struts-Action zum Anzeigen aller angelegten Dozenten.
  * 
- * @author
+ * @author mm
  * 
  */
 public class ShowLecturerListAction extends ActionSupport {

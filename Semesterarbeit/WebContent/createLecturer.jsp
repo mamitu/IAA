@@ -2,6 +2,7 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="/struts-tags" prefix="s"%>
 
+<!-- author: mm -->
 <s:actionerror />
 <div id="content">
 	<s:form acceptcharset="utf-8">

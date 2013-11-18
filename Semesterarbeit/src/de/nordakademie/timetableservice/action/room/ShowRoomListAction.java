@@ -10,7 +10,7 @@ import de.nordakademie.timetableservice.service.RoomService;
 /**
  * Struts-Action zum Anzeigen aller angelegten Raeume.
  * 
- * @author
+ * @author rs
  * 
  */
 public class ShowRoomListAction extends ActionSupport {

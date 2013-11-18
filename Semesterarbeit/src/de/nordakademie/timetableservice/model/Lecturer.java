@@ -16,7 +16,7 @@ import org.hibernate.annotations.NaturalId;
 /**
  * Entitaet, die einen Dozenten repraesentiert
  * 
- * @author
+ * @author mm, rs
  * 
  */
 @Entity

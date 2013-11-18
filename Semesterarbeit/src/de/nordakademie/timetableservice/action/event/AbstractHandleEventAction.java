@@ -23,7 +23,7 @@ import de.nordakademie.timetableservice.service.RoomService;
  * Abstrakte Struts Action, die Funktionen und Attribute zum Anlegen, Editieren
  * und Speichern von Veranstaltungen fuer die konkreten Klassen bereitstellt.
  * 
- * @author
+ * @author rs
  * 
  */
 public abstract class AbstractHandleEventAction extends ActionSupport implements Preparable {

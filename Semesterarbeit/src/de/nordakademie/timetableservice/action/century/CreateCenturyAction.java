@@ -14,7 +14,7 @@ import de.nordakademie.timetableservice.service.CohortService;
  * angelegten Kohorten, um sie dem User zum Zuordnen zur Zenturie zur Verfuegung
  * zu stellen.
  * 
- * @author
+ * @author rs
  * 
  */
 public class CreateCenturyAction extends ActionSupport implements Preparable {
