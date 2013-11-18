@@ -335,7 +335,7 @@ public abstract class AbstractHandleEventAction extends ActionSupport implements
 	protected void checkDates() {
 		if (startDate == null || endDate == null) {
 			addActionError(getText("error.event.invalidDate"));
-		} else if (startDate.getTime() > endDate.getTime()) {
+		} else if (endDate.getTime() <= startDate.getTime()) {
 			addActionError(getText("error.event.startDateLaterThanEndDate"));
 		}
 	}
