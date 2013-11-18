@@ -15,29 +15,53 @@ import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.NaturalId;
 
+/**
+ * Entitaet, die eine Zenturie repraesentiert
+ * 
+ * @author
+ * 
+ */
 @Entity
 public class Century implements EventParticipant {
 
 	public static Long STANDARD_BREAKTIME = Long.valueOf(15l);
 
+	/**
+	 * Die ID
+	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
+	/**
+	 * Der Name
+	 */
 	@NaturalId
 	@Column(length = 50, nullable = false)
 	private String name;
 
+	/**
+	 * Die Kohorte
+	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "cohort_id")
 	private Cohort cohort;
 
+	/**
+	 * Die Anzahl der Studenten
+	 */
 	@Column(name = "number_of_students", nullable = false)
 	private int numberOfStudents;
 
+	/**
+	 * Die Pausenzeit
+	 */
 	@Column(nullable = false)
 	private Long breakTime;
 
+	/**
+	 * Liste mit den Veranstaltungen, an die die Zenturie teilnimmt
+	 */
 	@ManyToMany
 	@JoinTable(joinColumns = { @JoinColumn(name = "century_id") }, inverseJoinColumns = { @JoinColumn(name = "event_id") })
 	private List<Event> events;

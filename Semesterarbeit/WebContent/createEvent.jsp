@@ -3,8 +3,8 @@
 <%@ taglib uri="/struts-tags" prefix="s"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 
-<s:actionerror />
 <div id="content">
+<s:actionerror />
 	<s:form acceptcharset="utf-8">
 		<s:hidden name="eventId" />
 		<s:textfield name="name" key="label.event.name" />

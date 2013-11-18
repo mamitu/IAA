@@ -3,7 +3,7 @@
 <%@ taglib prefix="s" uri="/struts-tags"%>
 
 <div id="header">
-	<p>RoMa-Stundenplan Datenbank</p>
+	<s:text name="label.title"></s:text>
 </div>
 
 <div id="navigation">

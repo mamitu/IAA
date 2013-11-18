@@ -12,21 +12,39 @@ import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.NaturalId;
 
+/**
+ * Entitaet, die eine Kohorte repraesentiert
+ * 
+ * @author
+ * 
+ */
 @Entity
 public class Cohort {
 
+	/**
+	 * Die ID
+	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
+	/**
+	 * Der Jahrgang
+	 */
 	@NaturalId
 	@Column(nullable = false)
 	private int year;
 
+	/**
+	 * Die Studienrichtung
+	 */
 	@NaturalId
 	@Enumerated
 	private FieldOfStudy fieldOfStudy;
 
+	/**
+	 * Liste der Zenturien, die zur Kohorte gehoeren
+	 */
 	@OneToMany(mappedBy = "cohort")
 	private List<Century> centuries;
 

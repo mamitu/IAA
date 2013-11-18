@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import de.nordakademie.timetableservice.dao.LecturerDAO;
-import de.nordakademie.timetableservice.model.Event;
 import de.nordakademie.timetableservice.model.Lecturer;
 import de.nordakademie.timetableservice.service.LecturerService;
 
@@ -24,11 +23,6 @@ public class LecturerServiceImpl implements LecturerService {
 		Lecturer lecturer = new Lecturer();
 		lecturer.setBreakTime(Lecturer.STANDARD_BREAKTIME);
 		return lecturer;
-	}
-
-	@Override
-	public List<Lecturer> findLecturersByEvent(Event event) {
-		return lecturerDAO.findLecturersByEvent(event.getId());
 	}
 
 	@Override

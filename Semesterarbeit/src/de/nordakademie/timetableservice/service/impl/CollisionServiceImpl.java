@@ -47,26 +47,31 @@ public class CollisionServiceImpl implements CollisionService {
 	}
 
 	@Override
-	public List<String> getCollisions(Long eventId, String eventName, Date startDate, Date endDate, Long breakTime, List<Century> centuriesToCheck,
-			List<Lecturer> lecturersToCheck, List<Room> roomsToCheck) {
+	public List<String> getCollisions(Long eventId, String eventName, Date startDate, Date endDate, Long breakTime,
+			List<Century> centuriesToCheck, List<Lecturer> lecturersToCheck, List<Room> roomsToCheck) {
 		List<String> collisions = new LinkedList<String>();
-		getCollisionsWithOtherEventsForEntities(eventId, startDate, endDate, centuriesToCheck, collisions);
+		if (centuriesToCheck.size() > 0) {
+			getCollisionsWithOtherEventsForEntities(eventId, startDate, endDate, centuriesToCheck, collisions);
+			getCollisionBecauseOfBreakTime(eventId, eventName, startDate, endDate, breakTime, centuriesToCheck,
+					collisions);
+		}
 		getCollisionsWithOtherEventsForEntities(eventId, startDate, endDate, lecturersToCheck, collisions);
 		getCollisionsWithOtherEventsForEntities(eventId, startDate, endDate, roomsToCheck, collisions);
 		getCollisionCausedByRoomSize(roomsToCheck, centuriesToCheck, collisions);
-		getCollisionBecauseOfBreakTime(eventId, eventName, startDate, endDate, breakTime, centuriesToCheck, collisions);
 		getCollisionBecauseOfBreakTime(eventId, eventName, startDate, endDate, breakTime, lecturersToCheck, collisions);
 		getCollisionBecauseOfBreakTime(eventId, eventName, startDate, endDate, breakTime, roomsToCheck, collisions);
 		return collisions;
 	}
 
-	private void getCollisionsWithOtherEventsForEntities(Long eventId, Date startDate, Date endDate, List<? extends EventParticipant> entitiesToCheck, List<String> collisions) {
+	private void getCollisionsWithOtherEventsForEntities(Long eventId, Date startDate, Date endDate,
+			List<? extends EventParticipant> entitiesToCheck, List<String> collisions) {
 		List<? extends EventParticipant> entitiesWithExistingEvent = getDAO(entitiesToCheck.get(0).getClass().getName())
 				.findEntitiesWithDatesWithoutId(startDate, endDate, eventId);
 		if (!entitiesWithExistingEvent.isEmpty()) {
 			for (EventParticipant eventParticipant : entitiesToCheck) {
 				if (entitiesWithExistingEvent.contains(eventParticipant)) {
-					String collision = LocalizedTextUtil.findDefaultText("collision.existingEventForEntity", ActionContext.getContext().getLocale());
+					String collision = LocalizedTextUtil.findDefaultText("collision.existingEventForEntity",
+							ActionContext.getContext().getLocale());
 					collision = collision.replace("$entity", eventParticipant.toString());
 					SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
 					Date date = (Date) endDate.clone();
@@ -77,62 +82,73 @@ public class CollisionServiceImpl implements CollisionService {
 		}
 	}
 
-	private void getCollisionCausedByRoomSize(List<Room> roomsToCheck, List<Century> selectedCenturies, List<String> collisions) {
+	private void getCollisionCausedByRoomSize(List<Room> roomsToCheck, List<Century> selectedCenturies,
+			List<String> collisions) {
 		int numberOfSeatsRequired = 0;
 		for (Century century : selectedCenturies) {
 			numberOfSeatsRequired += century.getNumberOfStudents();
 		}
 		for (Room room : roomsToCheck) {
 			if (room.getNumberOfSeats() < numberOfSeatsRequired) {
-				collisions.add(room.toString() + LocalizedTextUtil.findDefaultText("collision.roomNotEnoughSeats", ActionContext.getContext().getLocale()));
+				collisions.add(room.toString()
+						+ LocalizedTextUtil.findDefaultText("collision.roomNotEnoughSeats", ActionContext.getContext()
+								.getLocale()));
 			}
 		}
 	}
 
-	private void getCollisionBecauseOfBreakTime(Long eventId, String name, Date startDate, Date endDate, Long breakTime, List<? extends EventParticipant> participantsToCheck,
-			List<String> collisions) {
+	private void getCollisionBecauseOfBreakTime(Long eventId, String name, Date startDate, Date endDate,
+			Long breakTime, List<? extends EventParticipant> participantsToCheck, List<String> collisions) {
 		for (EventParticipant entity : participantsToCheck) {
 			// Mindest-Pausenzeit des Dozenten/der Zenturie/des Raumes
 			long breakTimeForEntity = entity.getBreakTime() * 1000 * 60;
 
 			// Die Veranstaltung vor der anzulegenden Veranstaltung fuer den
 			// Dozenten/der Zenturie/den Raum
-			Event eventBefore = eventDAO.findClosestEventBeforeDateForCentury(entity.getId(), startDate, eventId);
+			Event eventBefore = eventDAO.findClosestEventBeforeDateForCentury(entity.getId(), startDate);
 
 			// Die Veranstaltung nach der anzulegenden Veranstaltung fuer den
 			// Dozent/der Zenturie/den Raum
-			Event eventAfter = eventDAO.findClosestEventAfterDateForCentury(entity.getId(), endDate, eventId);
+			Event eventAfter = eventDAO.findClosestEventAfterDateForCentury(entity.getId(), endDate);
 
 			if (eventBefore != null) {
-				checkCollisionsBetweenEvents(eventBefore.getId(), eventBefore.getName(), eventBefore.getStartDate(), eventBefore.getEndDate(), eventBefore.getBreakTime(), eventId,
-						name, startDate, endDate, breakTime, entity.toString(), breakTimeForEntity, POSITION_AFTER, collisions);
+				checkCollisionsBetweenEvents(eventBefore.getId(), eventBefore.getName(), eventBefore.getStartDate(),
+						eventBefore.getEndDate(), eventBefore.getBreakTime(), eventId, name, startDate, endDate,
+						breakTime, entity.toString(), breakTimeForEntity, POSITION_AFTER, collisions);
 			}
 			if (eventAfter != null) {
-				checkCollisionsBetweenEvents(eventId, name, startDate, endDate, breakTime, eventAfter.getId(), eventAfter.getName(), eventAfter.getStartDate(),
-						eventAfter.getEndDate(), eventAfter.getBreakTime(), entity.toString(), breakTimeForEntity, POSITION_BEFORE, collisions);
+				checkCollisionsBetweenEvents(eventId, name, startDate, endDate, breakTime, eventAfter.getId(),
+						eventAfter.getName(), eventAfter.getStartDate(), eventAfter.getEndDate(),
+						eventAfter.getBreakTime(), entity.toString(), breakTimeForEntity, POSITION_BEFORE, collisions);
 			}
 		}
 	}
 
-	private void checkCollisionsBetweenEvents(Long thisEventId, String thisEventName, Date thisEventStartDate, Date thisEventEndDate, Long thisEventBreakTime, Long nextEventId,
-			String nextEventName, Date nextEventStartDate, Date nextEventEndDate, Long nextEventBreakTime, String entityName, long breakTimeForEntity,
-			String positionOfEventToCheck, List<String> collisions) {
+	private void checkCollisionsBetweenEvents(Long thisEventId, String thisEventName, Date thisEventStartDate,
+			Date thisEventEndDate, Long thisEventBreakTime, Long nextEventId, String nextEventName,
+			Date nextEventStartDate, Date nextEventEndDate, Long nextEventBreakTime, String entityName,
+			long breakTimeForEntity, String positionOfEventToCheck, List<String> collisions) {
 		long timeBetweenEvents = nextEventStartDate.getTime() - thisEventEndDate.getTime();
 		long breakTimeForThisEvent = thisEventBreakTime * 1000 * 60;
 		long breakTimeForNextEvent = nextEventBreakTime * 1000 * 60;
 
 		if (timeBetweenEvents < breakTimeForEntity) {
-			String collision = LocalizedTextUtil.findDefaultText("collision.breakTimeForEntityTooShort", ActionContext.getContext().getLocale());
-			String translatedPosition = LocalizedTextUtil.findDefaultText(positionOfEventToCheck, ActionContext.getContext().getLocale());
-			collision = collision.replace("$date", getDate(thisEventEndDate, nextEventStartDate, positionOfEventToCheck));
+			String collision = LocalizedTextUtil.findDefaultText("collision.breakTimeForEntityTooShort", ActionContext
+					.getContext().getLocale());
+			String translatedPosition = LocalizedTextUtil.findDefaultText(positionOfEventToCheck, ActionContext
+					.getContext().getLocale());
+			collision = collision.replace("$date",
+					getDate(thisEventEndDate, nextEventStartDate, positionOfEventToCheck));
 			collision = collision.replace("$entity", entityName);
 			collision = collision.replace("$position", translatedPosition);
 			collisions.add(collision);
 		}
 
 		if (timeBetweenEvents < breakTimeForThisEvent) {
-			String collision = LocalizedTextUtil.findDefaultText("collision.breakTimeForThisEventTooShort", ActionContext.getContext().getLocale());
-			collision = collision.replace("$date", getDate(thisEventEndDate, nextEventStartDate, positionOfEventToCheck));
+			String collision = LocalizedTextUtil.findDefaultText("collision.breakTimeForThisEventTooShort",
+					ActionContext.getContext().getLocale());
+			collision = collision.replace("$date",
+					getDate(thisEventEndDate, nextEventStartDate, positionOfEventToCheck));
 			collision = collision.replace("$thisEvent", thisEventName);
 			collision = collision.replace("$nextEvent", nextEventName);
 			collision = collision.replace("$breakTime", thisEventBreakTime.toString());
@@ -141,8 +157,10 @@ public class CollisionServiceImpl implements CollisionService {
 		}
 
 		if (timeBetweenEvents < breakTimeForNextEvent) {
-			String collision = LocalizedTextUtil.findDefaultText("collision.breakTimeForNextEventTooShort", ActionContext.getContext().getLocale());
-			collision = collision.replace("$date", getDate(thisEventEndDate, nextEventStartDate, positionOfEventToCheck));
+			String collision = LocalizedTextUtil.findDefaultText("collision.breakTimeForNextEventTooShort",
+					ActionContext.getContext().getLocale());
+			collision = collision.replace("$date",
+					getDate(thisEventEndDate, nextEventStartDate, positionOfEventToCheck));
 			collision = collision.replace("$thisEvent", thisEventName);
 			collision = collision.replace("$nextEvent", nextEventName);
 			collision = collision.replace("$breakTime", thisEventBreakTime.toString());

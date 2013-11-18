@@ -7,10 +7,24 @@ import com.opensymphony.xwork2.ActionSupport;
 import de.nordakademie.timetableservice.model.Cohort;
 import de.nordakademie.timetableservice.service.CohortService;
 
+/**
+ * Struts-Action zum Anzeigen aller angelegten Kohorten.
+ * 
+ * @author
+ * 
+ */
 public class ShowCohortListAction extends ActionSupport {
 
 	private static final long serialVersionUID = -2761910095892820938L;
+
+	/**
+	 * Service-Klasse fuer Kohorten.
+	 */
 	private CohortService cohortService;
+
+	/**
+	 * Liste aller angelegten Kohorten.
+	 */
 	private List<Cohort> cohorts;
 
 	public void setCohortService(CohortService cohortService) {
@@ -21,6 +35,9 @@ public class ShowCohortListAction extends ActionSupport {
 		return cohorts;
 	}
 
+	/**
+	 * Ermittelt alle angelegten Kohorten und stellt sie bereit.
+	 */
 	@Override
 	public String execute() throws Exception {
 		cohorts = cohortService.loadAll();

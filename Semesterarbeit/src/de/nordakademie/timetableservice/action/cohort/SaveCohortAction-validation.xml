@@ -5,6 +5,7 @@
            "http://struts.apache.org/dtds/xwork-validator-1.0.3.dtd">
 
 <validators>
+	<!-- Validierung des Jahrganges -->
 	<field name="cohort.year">
 		<field-validator type="int">
 			<param name="min">1</param>

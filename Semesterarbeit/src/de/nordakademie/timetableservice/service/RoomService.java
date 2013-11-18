@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import de.nordakademie.timetableservice.model.Event;
 import de.nordakademie.timetableservice.model.Room;
 import de.nordakademie.timetableservice.model.RoomType;
 
@@ -15,8 +14,6 @@ public interface RoomService {
 	public Room createNewRoom();
 
 	public List<Room> findFreeRoomsWithOtherEventsByDates(Date startDate, Date endDate, Long eventId);
-
-	public List<Room> findRoomsByEvent(Event event);
 
 	public Map<Long, String> getAvailableRooms();
 

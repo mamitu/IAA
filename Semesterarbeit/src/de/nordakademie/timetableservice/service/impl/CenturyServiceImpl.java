@@ -8,7 +8,6 @@ import java.util.Map;
 import de.nordakademie.timetableservice.dao.CenturyDAO;
 import de.nordakademie.timetableservice.model.Century;
 import de.nordakademie.timetableservice.model.Cohort;
-import de.nordakademie.timetableservice.model.Event;
 import de.nordakademie.timetableservice.service.CenturyService;
 import de.nordakademie.timetableservice.service.CohortService;
 
@@ -32,13 +31,8 @@ public class CenturyServiceImpl implements CenturyService {
 	}
 
 	@Override
-	public List<Century> findCenturiesByCohort(Cohort cohort) {
-		return centuryDAO.findCenturiesByCohort(cohort.getId());
-	}
-
-	@Override
-	public List<Century> findCenturiesByEvent(Event event) {
-		return centuryDAO.findCenturiesByEvent(event.getId());
+	public List<Century> findCenturiesByCohortId(Long cohortId) {
+		return centuryDAO.findCenturiesByCohort(cohortId);
 	}
 
 	@Override

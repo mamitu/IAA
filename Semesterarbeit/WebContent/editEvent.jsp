@@ -7,14 +7,14 @@
 <div id="content">
 	<s:form acceptcharset="utf-8">
 		<s:hidden name="eventId" />
-		<s:textfield name="event.name" key="label.event.name" readonly="true" />
+		<s:textfield name="name" key="label.event.name" readonly="true" />
 		<s:textfield value="%{getText(eventType)}"
 			key="label.event.eventType" readonly="true" />
-			<s:hidden value="%{event.eventType}" name="eventType"/>
+			<s:hidden value="%{eventType}" name="eventType"/>
 		<s:textfield name="startDate" key="label.event.startDate"
-			value="%{getText('format.date',{event.startDate})}" />
+			value="%{getText('format.date',{startDate})}" />
 		<s:textfield name="endDate" key="label.event.endDate"
-			value="%{getText('format.date',{event.endDate})}" />
+			value="%{getText('format.date',{endDate})}" />
 
 		<s:select name="selectedRoomIds" multiple="true" size="5"
 			listKey="key" listValue="value" list="availableRooms"
@@ -33,7 +33,7 @@
 
 		<s:select name="selectedCohortIds" size="5" listKey="key"
 			listValue="value" list="availableCohorts" key="label.cohort.name" />
-		<s:textfield name="breakTime" value="%{event.breakTime}"
+		<s:textfield name="breakTime" value="%{breakTime}"
 			key="label.event.breakTime" />
 
 		<s:submit action="TrySaveExistingEvent" key="button.save.name"/>

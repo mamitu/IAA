@@ -14,26 +14,50 @@ import javax.persistence.ManyToMany;
 
 import org.hibernate.annotations.NaturalId;
 
+/**
+ * Entitaet, die einen Raum repraesentiert
+ * 
+ * @author
+ * 
+ */
 @Entity
 public class Room implements EventParticipant {
 
+	/**
+	 * Die ID
+	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
+	/**
+	 * Der Name
+	 */
 	@NaturalId
 	@Column(length = 50, nullable = false)
 	private String name;
 
+	/**
+	 * Die Typ des Raumes
+	 */
 	@Enumerated
 	private RoomType roomType;
 
+	/**
+	 * Die Anzahl der Sitzplaetze
+	 */
 	@Column(name = "number_of_seats", nullable = false)
 	private int numberOfSeats;
 
+	/**
+	 * Die Pausenzeit
+	 */
 	@Column(nullable = false)
 	private Long breakTime;
 
+	/**
+	 * Liste mit den Veranstaltungen, an die der Raum teilnimmt
+	 */
 	@ManyToMany
 	@JoinTable(joinColumns = { @JoinColumn(name = "room_id") }, inverseJoinColumns = { @JoinColumn(name = "event_id") })
 	private List<Event> events;

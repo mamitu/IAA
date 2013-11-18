@@ -1,10 +1,24 @@
 package de.nordakademie.timetableservice.model;
 
+/**
+ * Enum fuer den Veranstaltungstyp
+ * 
+ * @author
+ * 
+ */
 public enum EventType {
 
-	SEMINAR("eventType.seminar", 0), EXAM("eventType.exam", 30), LECTURE("eventType.lecture", 0), ELECTIVE("eventType.elective", 0);
+	SEMINAR("eventType.seminar", 0), EXAM("eventType.exam", 30), LECTURE("eventType.lecture", 0), ELECTIVE(
+			"eventType.elective", 0);
 
+	/**
+	 * Der i18n Eintrag, um spaeter die richtige Uebersetzung zu laden
+	 */
 	private String name;
+
+	/**
+	 * Minimale Pausenzeit den Veranstaltungstyp
+	 */
 	private int minimalBreakTime;
 
 	private EventType(String name, int minimalBreakTime) {

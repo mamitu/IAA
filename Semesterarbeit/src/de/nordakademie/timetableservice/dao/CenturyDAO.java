@@ -7,21 +7,43 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import de.nordakademie.timetableservice.model.Century;
-import de.nordakademie.timetableservice.model.Event;
 
+/**
+ * Data Access Object fuer Zenturien.
+ * 
+ * @author
+ * 
+ */
 public class CenturyDAO extends EventParticipantDAO {
 
+	/**
+	 * Die Hibernate Session Factory
+	 */
 	private SessionFactory sessionFactory;
 
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
 
+	/**
+	 * Persistiert (erzeugt oder aktualisiert) eine Zenturie
+	 * 
+	 * @param century
+	 *            Zenturie, die persitiert werden soll
+	 */
 	public void save(Century century) {
 		Session session = sessionFactory.getCurrentSession();
 		session.saveOrUpdate(century);
 	}
 
+	/**
+	 * Laedt die Zenturie mit der uebergebenen ID aus der Datenbank
+	 * 
+	 * @param id
+	 *            ID der Zenturie
+	 * @return Zenturie mit der uebergebenen ID oder null, falls keine Zenturie
+	 *         zu der ID gefunden werden konnte
+	 */
 	public Century load(Long id) {
 		Session session = sessionFactory.getCurrentSession();
 		Century century = (Century) session.get(Century.class, id);
@@ -33,45 +55,59 @@ public class CenturyDAO extends EventParticipantDAO {
 		return century;
 	}
 
+	/**
+	 * Laedt eine Liste mit allen in der Datenbank vorhandenen Zenturien
+	 * 
+	 * @return Liste aller angelegten Zenturien
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Century> loadAll() {
 		Session session = sessionFactory.getCurrentSession();
 		return session.createQuery("from Century").list();
 	}
 
-	@SuppressWarnings("unchecked")
-	public List<Century> findCenturiesByEvent(Long eventId) {
-		Session session = sessionFactory.getCurrentSession();
-		List<Century> centuries = session.createQuery("select century from Century century join century.events event where event.id = :eventId").setParameter("eventId", eventId)
-				.list();
-		return centuries;
-	}
-
+	/**
+	 * Laedt die Zenturien mit dem uebergebenen Namen aus der Datenbank
+	 * 
+	 * @param centuryName
+	 *            Name der Zenturie
+	 * @return Liste mit Zenturien, die den uebergebenen Namen haben
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Century> findCenturiesByName(String centuryName) {
 		Session session = sessionFactory.getCurrentSession();
-		return session.createQuery("select century from Century as century where century.name = :centuryName").setString("centuryName", centuryName).list();
+		return session.createQuery("select century from Century as century where century.name = :centuryName")
+				.setString("centuryName", centuryName).list();
 	}
 
-	@SuppressWarnings("unchecked")
-	public List<Event> findEventsForCentury(Long centuryId) {
-		Session session = sessionFactory.getCurrentSession();
-		return session.createQuery("select event from Century century join century.events event where century.id = :centuryId").setParameter("centuryId", centuryId).list();
-	}
-
+	/**
+	 * Laedt alle Zenturien, die der Kohorte mit der uebergebenen ID angehoeren
+	 * 
+	 * @param cohortId
+	 *            ID der Kohorte
+	 * @return Liste mit Zenturien der Kohorte
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Century> findCenturiesByCohort(Long cohortId) {
 		Session session = sessionFactory.getCurrentSession();
-		List<Century> centuries = session.createQuery("select century from Century century join century.cohort cohort where cohort.id = :cohortId")
+		List<Century> centuries = session
+				.createQuery(
+						"select century from Century as century left join fetch century.events as event join century.cohort as cohort where cohort.id = :cohortId")
 				.setParameter("cohortId", cohortId).list();
 		return centuries;
 	}
 
+	/**
+	 * Gibt den Tabellennamen der Zenturie zurueck
+	 */
 	@Override
 	protected String getTableName() {
 		return Century.class.getName();
 	}
 
+	/**
+	 * Gibt die Session zurueck
+	 */
 	@Override
 	protected Session getSession() {
 		return sessionFactory.getCurrentSession();

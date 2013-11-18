@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import de.nordakademie.timetableservice.dao.RoomDAO;
-import de.nordakademie.timetableservice.model.Event;
 import de.nordakademie.timetableservice.model.Room;
 import de.nordakademie.timetableservice.model.RoomType;
 import de.nordakademie.timetableservice.service.RoomService;
@@ -31,11 +30,6 @@ public class RoomServiceImpl implements RoomService {
 		List<Room> resultSet = roomDAO.loadAll();
 		resultSet.removeAll(roomDAO.findEntitiesWithDatesWithoutId(startDate, endDate, eventId));
 		return resultSet;
-	}
-
-	@Override
-	public List<Room> findRoomsByEvent(Event event) {
-		return roomDAO.findRoomsByEvent(event.getId());
 	}
 
 	@Override

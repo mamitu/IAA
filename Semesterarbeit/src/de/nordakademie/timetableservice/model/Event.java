@@ -15,34 +15,67 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
+/**
+ * Entitaet, die eine Veranstaltung repraesentiert
+ * 
+ * @author
+ * 
+ */
 @Entity
 public class Event implements EventParticipant {
 
+	/**
+	 * Die ID
+	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
+	/**
+	 * Das Startdatum
+	 */
 	@Column(name = "start_date", nullable = false)
 	private Date startDate;
 
+	/**
+	 * Das Enddatum
+	 */
 	@Column(name = "end_date", nullable = false)
 	private Date endDate;
 
+	/**
+	 * Der Name
+	 */
 	@Column(length = 50, nullable = false)
 	private String name;
 
+	/**
+	 * Der Typ der Veranstaltung
+	 */
 	@Enumerated
 	private EventType eventType;
 
+	/**
+	 * Liste mit den Zenturien, die an der Veranstaltung teilnehmen
+	 */
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST, mappedBy = "events")
 	private Set<Century> centuries;
 
+	/**
+	 * Liste mit den Dozenten, die an der Veranstaltung teilnehmen
+	 */
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST, mappedBy = "events")
 	private Set<Lecturer> lecturers;
 
+	/**
+	 * Liste mit den Raeumen, die an der Veranstaltung teilnehmen
+	 */
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST, mappedBy = "events")
 	private Set<Room> rooms;
 
+	/**
+	 * Die Pausenzeit
+	 */
 	@Column(name = "break_time", nullable = false)
 	private Long breakTime;
 

@@ -92,7 +92,7 @@
 		</action>
 		<action name="SearchFreeRooms"
 			class="de.nordakademie.timetableservice.action.event.SearchFreeRoomsAction">
-			<result name ="success" type="tiles">CreateEvent</result>
+			<result name="success" type="tiles">CreateEvent</result>
 			<result name="input" type="tiles">CreateEvent</result>
 		</action>
 		<action name="TrySaveExistingEvent"

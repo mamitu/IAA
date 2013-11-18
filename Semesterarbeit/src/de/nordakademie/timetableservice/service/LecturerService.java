@@ -3,7 +3,6 @@ package de.nordakademie.timetableservice.service;
 import java.util.List;
 import java.util.Map;
 
-import de.nordakademie.timetableservice.model.Event;
 import de.nordakademie.timetableservice.model.Lecturer;
 
 public interface LecturerService {
@@ -11,8 +10,6 @@ public interface LecturerService {
 	public boolean checkEmailExists(String emailAddress);
 
 	public Lecturer createNewLecturer();
-
-	public List<Lecturer> findLecturersByEvent(Event event);
 
 	public Map<Long, String> getAvailableLecturers();
 

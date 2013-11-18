@@ -5,6 +5,7 @@
            "http://struts.apache.org/dtds/xwork-validator-1.0.3.dtd">
 
 <validators>
+	<!-- Validierung des Raumnamens -->
 	<field name="room.name">
 		<field-validator type="requiredstring">
 			<message key="error.room.nameRequired" />
@@ -15,6 +16,7 @@
 		</field-validator>
 	</field>
 
+	<!-- Validierung der Anzahl der Sitzplätze -->
 	<field name="room.numberOfSeats">
 		<field-validator type="int">
 			<param name="min">0</param>

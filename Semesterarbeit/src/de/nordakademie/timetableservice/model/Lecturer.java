@@ -13,28 +13,52 @@ import javax.persistence.ManyToMany;
 
 import org.hibernate.annotations.NaturalId;
 
+/**
+ * Entitaet, die einen Dozenten repraesentiert
+ * 
+ * @author
+ * 
+ */
 @Entity
 public class Lecturer implements EventParticipant {
 
 	public static Long STANDARD_BREAKTIME = Long.valueOf(15l);
 
+	/**
+	 * Die ID
+	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
+	/**
+	 * Der Vorname
+	 */
 	@Column(name = "first_name", length = 50, nullable = false)
 	private String firstName;
 
+	/**
+	 * Der Nachname
+	 */
 	@Column(name = "last_name", length = 50, nullable = false)
 	private String lastName;
 
+	/**
+	 * Die email Adresse
+	 */
 	@NaturalId
 	@Column(nullable = false, length = 50)
 	private String emailAddress;
 
+	/**
+	 * Die Pausenzeit
+	 */
 	@Column(nullable = false)
 	private Long breakTime;
 
+	/**
+	 * Liste mit den Veranstaltungen, an die der Dozent teilnimmt
+	 */
 	@ManyToMany
 	@JoinTable(joinColumns = { @JoinColumn(name = "lecturer_id") }, inverseJoinColumns = { @JoinColumn(name = "event_id") })
 	private List<Event> events;

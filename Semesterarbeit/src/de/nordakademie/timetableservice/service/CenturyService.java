@@ -4,16 +4,12 @@ import java.util.List;
 import java.util.Map;
 
 import de.nordakademie.timetableservice.model.Century;
-import de.nordakademie.timetableservice.model.Cohort;
-import de.nordakademie.timetableservice.model.Event;
 
 public interface CenturyService {
 
 	public boolean checkNameExists(String suffix, Long cohortId);
 
-	public List<Century> findCenturiesByCohort(Cohort selectedCohort);
-
-	public List<Century> findCenturiesByEvent(Event event);
+	public List<Century> findCenturiesByCohortId(Long cohortId);
 
 	public Map<Long, String> getAvailableCenturies();
 

@@ -5,7 +5,7 @@
            "http://struts.apache.org/dtds/xwork-validator-1.0.3.dtd">
 
 <validators>
-
+	<!-- Validierung des Vornamens -->
 	<field name="lecturer.firstName">
 		<field-validator type="requiredstring">
 			<message key="error.lecturer.firstNameRequired" />
@@ -16,6 +16,7 @@
 		</field-validator>
 	</field>
 
+	<!-- Validierung des Nachnamens -->
 	<field name="lecturer.lastName">
 		<field-validator type="requiredstring">
 			<message key="error.lecturer.lastNameRequired" />
@@ -26,6 +27,7 @@
 		</field-validator>
 	</field>
 
+	<!-- Validierung der email-Adresse -->
 	<field name="lecturer.emailAddress">
 		<field-validator type="requiredstring">
 			<message key="error.lecturer.emailRequired" />
@@ -35,6 +37,7 @@
 		</field-validator>
 	</field>
 
+	<!-- Validierung der Pausenzeit -->
 	<field name="lecturer.breakTime">
 		<field-validator type="long">
 			<param name="min">0</param>

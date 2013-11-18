@@ -9,7 +9,6 @@ import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.Preparable;
 
 import de.nordakademie.timetableservice.model.Century;
-import de.nordakademie.timetableservice.model.Cohort;
 import de.nordakademie.timetableservice.model.Event;
 import de.nordakademie.timetableservice.model.Lecturer;
 import de.nordakademie.timetableservice.model.Room;
@@ -20,41 +19,157 @@ import de.nordakademie.timetableservice.service.EventService;
 import de.nordakademie.timetableservice.service.LecturerService;
 import de.nordakademie.timetableservice.service.RoomService;
 
+/**
+ * Abstrakte Struts Action, die Funktionen und Attribute zum Anlegen, Editieren
+ * und Speichern von Veranstaltungen fuer die konkreten Klassen bereitstellt.
+ * 
+ * @author
+ * 
+ */
 public abstract class AbstractHandleEventAction extends ActionSupport implements Preparable {
 
 	private static final long serialVersionUID = 7140640720058299778L;
+
+	/**
+	 * Service-Klasse fuer Zenturien.
+	 */
 	protected CenturyService centuryService;
+
+	/**
+	 * Service-Klasse fuer Kohorten.
+	 */
 	protected CohortService cohortService;
+
+	/**
+	 * Service-Klasse fuer Kollisionen.
+	 */
 	protected CollisionService collisionService;
+
+	/**
+	 * Service-Klasse fuer Veranstaltungen.
+	 */
 	protected EventService eventService;
+
+	/**
+	 * Service-Klasse fuer Dozenten.
+	 */
 	protected LecturerService lecturerService;
+
+	/**
+	 * Service-Klasse fuer Raeume.
+	 */
 	protected RoomService roomService;
 
+	/**
+	 * Map der bereits angelegten Zenturien.<br>
+	 * Key: ID der Zenturie<br>
+	 * Value: Name der Zenturie
+	 */
 	protected Map<Long, String> availableCenturies;
+
+	/**
+	 * Map der bereits angelegten Kohorten.<br>
+	 * Key: ID der Kohorte<br>
+	 * Value: Name der Kohorte
+	 */
 	protected Map<Long, String> availableCohorts;
+
+	/**
+	 * Map der bereits angelegten Dozenten.<br>
+	 * Key: ID des Dozenten<br>
+	 * Value: Name des Dozenten
+	 */
 	protected Map<Long, String> availableLecturers;
+
+	/**
+	 * Map der bereits angelegten Raeume.<br>
+	 * Key: ID des Raumes<br>
+	 * Value: Name des Raumes
+	 */
 	protected Map<Long, String> availableRooms;
 
+	/**
+	 * Liste mit den Zenturien-IDs, die der Nutzer in der Maske selektiert hat.
+	 */
 	protected List<Long> selectedCenturyIds = new LinkedList<Long>();
+
+	/**
+	 * Liste mit den Dozenten-IDs, die der Nutzer in der Maske selektiert hat.
+	 */
 	protected List<Long> selectedLecturerIds = new LinkedList<Long>();
+
+	/**
+	 * Liste mit den Raum-IDs, die der Nutzer in der Maske selektiert hat.
+	 */
 	protected List<Long> selectedRoomIds = new LinkedList<Long>();
+
+	/**
+	 * Liste mit den Kohorten-IDs, die der Nutzer in der Maske selektiert hat.
+	 */
 	protected List<Long> selectedCohortIds = new LinkedList<Long>();
 
+	/**
+	 * Liste mit den selektierten Zenturien
+	 */
 	protected List<Century> selectedCenturies = new LinkedList<Century>();
+
+	/**
+	 * Liste mit den selektierten Dozenten
+	 */
 	protected List<Lecturer> selectedLecturers = new LinkedList<Lecturer>();
+
+	/**
+	 * Liste mit den selektierten Raeumen
+	 */
 	protected List<Room> selectedRooms = new LinkedList<Room>();
-	protected Cohort selectedCohort;
 
-	protected List<String> collisions = new LinkedList<String>();
-
+	/**
+	 * Veranstaltung, die erzeugt, editiert oder gespeichert wird
+	 */
 	protected Event event;
+
+	/**
+	 * ID der Veranstaltung, die erzeugt, editiert oder gespeichert wird
+	 */
 	protected Long eventId;
+
+	/**
+	 * Name der Veranstaltung, die erzeugt, editiert oder gespeichert wird
+	 */
 	protected String name;
+
+	/**
+	 * Typ der Veranstaltung, die erzeugt, editiert oder gespeichert werden soll
+	 */
 	protected String eventType;
+
+	/**
+	 * Startdatum der Veranstaltung, die erzeugt, editiert oder gespeichert
+	 * werden soll
+	 */
 	protected Date startDate;
+
+	/**
+	 * Enddatum der Veranstaltung, die erzeugt, editiert oder gespeichert werden
+	 * soll
+	 */
 	protected Date endDate;
+
+	/**
+	 * Wahrheitswert, ob das Feld mit den zur Verfuegung stehenden Zenturien
+	 * oder Kohorten ausgelesen werden soll
+	 */
 	protected boolean isCenturySelected;
+
+	/**
+	 * Pausenzeit der Veranstaltung, die erzeugt, editiert oder gespeichert
+	 * werden soll
+	 */
 	protected Long breakTime;
+
+	/**
+	 * Anzahl der Wiederholungen, die die Veranstaltung wiederholt wird
+	 */
 	protected int numberOfWeeklyRepetitions;
 
 	public void setCenturyService(CenturyService centuryService) {
@@ -129,22 +244,6 @@ public abstract class AbstractHandleEventAction extends ActionSupport implements
 		this.selectedCohortIds = selectedCohortIds;
 	}
 
-	public Cohort getSelectedCohort() {
-		return selectedCohort;
-	}
-
-	public void setSelectedCohort(Cohort selectedCohort) {
-		this.selectedCohort = selectedCohort;
-	}
-
-	public List<String> getCollisions() {
-		return collisions;
-	}
-
-	public void setCollisions(List<String> collisions) {
-		this.collisions = collisions;
-	}
-
 	public Event getEvent() {
 		return event;
 	}
@@ -217,6 +316,10 @@ public abstract class AbstractHandleEventAction extends ActionSupport implements
 		this.numberOfWeeklyRepetitions = numberOfWeeklyRepetitions;
 	}
 
+	/**
+	 * Ermittelt die bereits angelegten Dozenten, Raeume, Zenturien und Kohorten
+	 * und stellt sie bereit.
+	 */
 	@Override
 	public void prepare() throws Exception {
 		availableLecturers = lecturerService.getAvailableLecturers();
@@ -225,6 +328,10 @@ public abstract class AbstractHandleEventAction extends ActionSupport implements
 		availableCohorts = cohortService.getAvailableCohorts();
 	}
 
+	/**
+	 * Validierung, ob Start- und Enddatum valide sind. Erzeugt entsprechende
+	 * Fehlermeldungen.
+	 */
 	protected void checkDates() {
 		if (startDate == null || endDate == null) {
 			addActionError(getText("error.event.invalidDate"));

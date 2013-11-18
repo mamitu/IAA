@@ -9,9 +9,6 @@
 			<th><s:text name="label.event.name" /></th>
 			<th><s:text name="label.event.startDate" /></th>
 			<th><s:text name="label.event.endDate" /></th>
-			<th><s:text name="label.event.rooms" /></th>
-			<th><s:text name="label.event.lecturers" /></th>
-			<th><s:text name="label.event.centuries" /></th>
 			<th>&nbsp;</th>
 			<th>&nbsp;</th>
 		</tr>
@@ -20,7 +17,6 @@
 				<td><s:property value="#event.name" /></td>
 				<td><s:property value="%{getText('format.date',{startDate})}" /></td>
 				<td><s:property value="%{getText('format.date',{endDate})}" /></td>
-				<td><s:property value="#event.lecturers.{name}" /></td>
 				<s:url id="detailURL" action="EditExistingEvent">
 					<s:param name="eventId" value="id" />
 				</s:url>
