@@ -18,7 +18,7 @@ html,body {
 }
 
 #greenstripe {
-	height: 1em;
+
 	background-color: #00b25c;
 }
 
@@ -78,6 +78,36 @@ a:link,a:visited {
 
 a:hover,a:active {
 	background-color: #a64c00;
+}
+
+a#top:link,a#top:visited {
+	display: block;
+	width: 120px;
+	font-weight: bold;
+	color: #FFFFFF;
+	background-color: #00B25C;
+	text-align: center;
+	padding: 4px;
+	text-decoration: none;
+}
+
+a#top:hover,a#top:active {
+	background-color: #00733C;
+}
+
+a#ttLink:link,a#ttLink:visited {
+	display: block;
+	width: 120px;
+	font-weight: bold;
+	color: #FFFFFF;
+	background-color: #e1004c;
+	text-align: center;
+	padding: 4px;
+	text-decoration: none;
+}
+
+a#ttLink:hover,a#ttLink:active {
+	background-color: #920031;
 }
 
 table {

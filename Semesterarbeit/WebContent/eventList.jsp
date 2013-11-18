@@ -20,14 +20,14 @@
 				<s:url id="detailURL" action="EditExistingEvent">
 					<s:param name="eventId" value="id" />
 				</s:url>
-				<td><s:a href="%{detailURL}">
+				<td><s:a id="ttLink" href="%{detailURL}">
 						<s:text name="label.list.detail" />
 					</s:a></td>
 
 				<s:url id="deleteURL" action="DeleteEvent">
 					<s:param name="eventId" value="id" />
 				</s:url>
-				<td><s:a href="%{deleteURL}">
+				<td><s:a id="ttLink" href="%{deleteURL}">
 						<s:text name="label.list.delete" />
 					</s:a></td>
 			</tr>

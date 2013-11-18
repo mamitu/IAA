@@ -22,7 +22,7 @@
 					<s:param name="entityId" value="id" />
 					<s:param name="entity" value="'room'" />
 				</s:url>
-				<td><s:a href="%{timetableURL}">
+				<td><s:a id="ttLink" href="%{timetableURL}">
 						<s:text name="label.list.timetable" />
 					</s:a></td>
 

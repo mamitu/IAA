@@ -10,6 +10,11 @@
 
 <div id="orangestripe"></div>
 
-<div id="greenstripe"></div>
+<div id="greenstripe">
+	<ul>
+		<li><a id="top" href="#"> <s:text name="label.menu.toTop" />
+		</a></li>
+	</ul>
+</div>
 
 
