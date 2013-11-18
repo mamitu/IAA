@@ -8,8 +8,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <link rel="stylesheet" type="style/css" href="Style/style.css">
-<link rel="icon" href="Style/favicon.ico" type="image/x-icon" />
-<link rel="shortcut icon" href="Style/favicon.ico" type="image/x-icon" />
+<link rel="icon" href="Style/favicon32.jpg" type="image/jpg" />
+<link rel="shortcut icon" href="Style/favicon32.jpg" type="image/jpg" />
 <title><s:text name="label.title" /></title>
 </head>
 <body>

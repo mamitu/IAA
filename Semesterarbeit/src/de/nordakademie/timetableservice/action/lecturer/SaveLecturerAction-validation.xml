@@ -11,7 +11,7 @@
 			<message key="error.lecturer.firstNameRequired" />
 		</field-validator>
 		<field-validator type="regex">
-			<param name="expression"><![CDATA[^[-A-Za-z\säöü]+$]]></param>
+			<param name="expression"><![CDATA[^[-A-Za-z\sÄÖÜäöü]+$]]></param>
 			<message key="error.lecturer.nameInvalid" />
 		</field-validator>
 	</field>
